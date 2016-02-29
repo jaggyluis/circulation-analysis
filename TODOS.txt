@@ -1,0 +1,9 @@
+
+- fix points not on mesh
+- freezes when agent does not have a node type that it is on
+- all entities should habe an environment variable
+- components need an internalized "name"
+- barriers should be recogized with resolution too small
+- agents need a floor property
+- fix bound on desnity maps for output
+- nodes need wait times
