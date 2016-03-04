@@ -48,10 +48,10 @@
             <chunk name="Projection">
               <items count="2">
                 <item name="Target" type_name="gh_drawing_point" type_code="30">
-                  <X>-2299</X>
-                  <Y>-1047</Y>
+                  <X>-414</X>
+                  <Y>-314</Y>
                 </item>
-                <item name="Zoom" type_name="gh_single" type_code="5">0.8</item>
+                <item name="Zoom" type_name="gh_single" type_code="5">0.26214394</item>
               </items>
             </chunk>
             <chunk name="Views">
@@ -107,9 +107,9 @@
         </chunk>
         <chunk name="DefinitionObjects">
           <items count="1">
-            <item name="ObjectCount" type_name="gh_int32" type_code="3">152</item>
+            <item name="ObjectCount" type_name="gh_int32" type_code="3">156</item>
           </items>
-          <chunks count="152">
+          <chunks count="156">
             <chunk name="Object" index="0">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">c552a431-af5b-46a9-a8a4-0fcbc27ef596</item>
@@ -673,8 +673,8 @@ if len(profile) != 0 and boundary != None:
                     <chunk name="Attributes">
                       <items count="5">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>3042</X>
-                          <Y>1116</Y>
+                          <X>2922</X>
+                          <Y>1012</Y>
                           <W>912</W>
                           <H>953</H>
                         </item>
@@ -682,8 +682,8 @@ if len(profile) != 0 and boundary != None:
                         <item name="MarginRight" type_name="gh_int32" type_code="3">0</item>
                         <item name="MarginTop" type_name="gh_int32" type_code="3">0</item>
                         <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                          <X>3042.94</X>
-                          <Y>1116.841</Y>
+                          <X>2922.628</X>
+                          <Y>1012.154</Y>
                         </item>
                       </items>
                     </chunk>
@@ -4149,7 +4149,7 @@ if len(profile) != 0 and position!= None:
                   </items>
                   <chunks count="2">
                     <chunk name="Attributes">
-                      <items count="3">
+                      <items count="2">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
                           <X>3338</X>
                           <Y>2145</Y>
@@ -4160,7 +4160,6 @@ if len(profile) != 0 and position!= None:
                           <X>3357</X>
                           <Y>2147</Y>
                         </item>
-                        <item name="Selected" type_name="gh_bool" type_code="1">true</item>
                       </items>
                     </chunk>
                     <chunk name="ParameterData">
@@ -4184,7 +4183,7 @@ if len(profile) != 0 and position!= None:
                           </items>
                           <chunks count="1">
                             <chunk name="Attributes">
-                              <items count="3">
+                              <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
                                   <X>3340</X>
                                   <Y>2147</Y>
@@ -4195,7 +4194,6 @@ if len(profile) != 0 and position!= None:
                                   <X>3348.5</X>
                                   <Y>2163</Y>
                                 </item>
-                                <item name="Selected" type_name="gh_bool" type_code="1">true</item>
                               </items>
                             </chunk>
                           </chunks>
@@ -4213,7 +4211,7 @@ if len(profile) != 0 and position!= None:
                           </items>
                           <chunks count="1">
                             <chunk name="Attributes">
-                              <items count="3">
+                              <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
                                   <X>3392</X>
                                   <Y>2147</Y>
@@ -4224,7 +4222,6 @@ if len(profile) != 0 and position!= None:
                                   <X>3400.5</X>
                                   <Y>2163</Y>
                                 </item>
-                                <item name="Selected" type_name="gh_bool" type_code="1">true</item>
                               </items>
                             </chunk>
                           </chunks>
@@ -6123,8 +6120,9 @@ if env != None and run:
               </items>
               <chunks count="1">
                 <chunk name="Container">
-                  <items count="5">
+                  <items count="6">
                     <item name="Description" type_name="gh_string" type_code="10">Custom Preview with Lineweights</item>
+                    <item name="Hidden" type_name="gh_bool" type_code="1">true</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">01fc567c-4b96-409e-8ee2-9d0021da2e26</item>
                     <item name="Name" type_name="gh_string" type_code="10">Custom Preview Lineweights</item>
                     <item name="NickName" type_name="gh_string" type_code="10">PreviewLW</item>
@@ -10519,7 +10517,7 @@ if env != None and run:
                     <item name="Description" type_name="gh_string" type_code="10">Receives the output value from the Flux data key.</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">495f172c-a6b2-48f9-8b02-98b1f8608219</item>
                     <item name="keyId" type_name="gh_string" type_code="10">40cb3cd726665aea6aff065b945d8271</item>
-                    <item name="lastTransfer" type_name="gh_date" type_code="8">635921091105006790</item>
+                    <item name="lastTransfer" type_name="gh_date" type_code="8">635926926664605112</item>
                     <item name="mode" type_name="gh_string" type_code="10">Constantly</item>
                     <item name="Name" type_name="gh_string" type_code="10">From Flux</item>
                     <item name="NickName" type_name="gh_string" type_code="10">From Flux</item>
@@ -10850,7 +10848,7 @@ if env != None and run:
                     <item name="Description" type_name="gh_string" type_code="10">Receives the output value from the Flux data key.</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">770791df-617c-44a5-bb67-5ec41fbe1971</item>
                     <item name="keyId" type_name="gh_string" type_code="10">4012e5098a2acc3bb59e6201ecf9dd56</item>
-                    <item name="lastTransfer" type_name="gh_date" type_code="8">635921091103290768</item>
+                    <item name="lastTransfer" type_name="gh_date" type_code="8">635926926667413112</item>
                     <item name="mode" type_name="gh_string" type_code="10">Constantly</item>
                     <item name="Name" type_name="gh_string" type_code="10">From Flux</item>
                     <item name="NickName" type_name="gh_string" type_code="10">From Flux</item>
@@ -14102,10 +14100,9 @@ class Agent(Entity):
                     lst.sort(key = lambda tup: len(tup[1]))
                     lst.reverse()
                     ncount=0
-                    while len(lst) and ncount &lt; 1000 :
+                    while len(lst):
                         
                         ncount+=1
-                        if ncount ==100: print "&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; broke inner while loop"
                         tup = lst.pop()
                         n_choice = tup[0]
                         
@@ -14615,1086 +14612,6 @@ if len(entities) != 0 and res != None:
               </chunks>
             </chunk>
             <chunk name="Object" index="121">
-              <items count="3">
-                <item name="GUID" type_name="gh_guid" type_code="9">410755b1-224a-4c1e-a407-bf32fb45ea7e</item>
-                <item name="Lib" type_name="gh_guid" type_code="9">16cf80bc-9018-cbdb-2238-976eb17fd30d</item>
-                <item name="Name" type_name="gh_string" type_code="10">Python Script</item>
-              </items>
-              <chunks count="1">
-                <chunk name="Container">
-                  <items count="10">
-                    <item name="CodeInput" type_name="gh_string" type_code="10">from collections import defaultdict
-import rhinoscriptsyntax as rs
-import Rhino as rc
-import scriptcontext as sc
-import random, copy
-from itertools import permutations
-import math as m
-
-import ghpythonlib.parallel
-
-class Graph(object):
-    
-    def __init__(self, nodes=set(), edges=defaultdict(set), distances={}):
-        """
-            currently resource allocation between graphs is broken
-            multiple graphs share the same node set
-        """
-        self.nodes = nodes
-        self.edges = edges
-        self.distances = distances 
-
-    def __repr__(self):
-        return "Graph: {0} nodes, {1} edges".format(len(self.nodes), len(self.edges))
-    
-    def add_node(self, value):
-        self.nodes.add(value)
-        
-    def add_edge(self, from_node, to_node, distance):
-        self.add_node(from_node)
-        self.add_node(to_node)
-        
-        self.edges[from_node].add(to_node)
-        self.edges[to_node].add(from_node)
-        self.distances[(from_node, to_node)] = distance
-        self.distances[(to_node, from_node)] = distance
-    
-    
-    def get_distance(self, key, gen=0):
-        return self.distances[key]
-    
-    def get_step(self, initial, goal, route):
-        return
-    
-    """
-        dijsktra from:
-        https://gist.github.com/econchick/4666413
-    """
-    def dijsktra(self, initial, goal=None, start_idx=0):
-
-        visited = {initial: 0}
-        path = {}
-        nodes = set(self.nodes)
-
-        while nodes:
-            min_node = None
-            for node in nodes:
-                if node in visited:
-                    if min_node is None:
-                        min_node = node
-                    elif visited[node] &lt; visited[min_node]:
-                        min_node = node
-            if min_node is None:
-                break
-            nodes.remove(min_node)
-            current_weight = visited[min_node]
-
-            gen = self.get_step(min_node, initial, path)
-
-            for edge in self.edges[min_node]:
-                distance = self.get_distance((min_node, edge), gen+start_idx)
-                weight = current_weight + distance
-                if edge not in visited or weight &lt; visited[edge]:
-                    
-                    visited[edge] = weight
-                    path[edge] = min_node
-                    
-                if goal != None and edge == goal: return visited, path
-                        
-        return visited, path
-
-    def shortest_path(self, initial_node, goal_node, start_idx=0, paths=None):
-        
-        if paths == None:
-            distances, paths = self.dijsktra(initial_node, goal_node, start_idx)
-            
-        route = [goal_node]
-        while goal_node != initial_node:
-            route.append(paths[goal_node])
-            goal_node = paths[goal_node]
-        route.reverse()
-        return route
-
-class Map(Graph):
-    
-    def __init__(self, floor):
-        super(Map, self).__init__()
-        self._floor = floor
-        self._barrier_map = defaultdict(float)
-        self._density_map = defaultdict(lambda : defaultdict(int))
-        
-    @property
-    def barrier_map(self):
-        return self._barrier_map
-    
-    def set_barrier(self, key, val):
-        self.barrier_map[key] += val
-   
-    def get_barrier_map(self):
-        return [self.barrier_map[k] for k in self.barrier_map.keys()]
-    
-    
-    @property
-    def density_map(self):
-        return self._density_map
-    
-    def get_density(self, key, gen):
-        denom = (self.floor.grid_size / 3.28084) **2
-        return self.density_map[gen][key] / denom
-    
-    def get_density_map_at(self, gen):
-        return [self.get_density(k, gen) for k in range(len(self.floor.grid))]
-    
-    def add_density(self, key, gen):
-        self.density_map[gen][key] += 1
-    
-        
-    @property
-    def floor(self):
-        return self._floor
-    
-    def filter(self, key):
-        return self.barrier_map[key]
-    
-    def get_step(self, initial, goal, route):
-        path = [initial]
-        while initial != goal:
-            path.append(route[initial])
-            initial = route[initial]
-        curr_gen = len(path)
-        return curr_gen
-    
-    def get_distance(self, key, gen):
-        dist = self.distances[key]
-        density  = self.get_density(key[1], gen)
-        overlays = self.filter(key[1])
-        
-        return dist + overlays + density
-
-class Bounds2d():
-    
-    def __init__(self, geo):
-        self.geo_pts = rs.CurvePoints(geo)
-        self._bds = [self.bds_x(self.geo_pts), self.bds_y(self.geo_pts)]
-        self._origin = rc.Geometry.Point3d(self.bds[0][0], self.bds[1][0], 0)
-        
-        self._dim_x = self._bds[0][1] - self._bds[0][0]
-        self._dim_y = self._bds[1][1] - self._bds[1][0]
-        
-    
-    @property
-    def pts(self):
-        return [ rc.Geometry.Point3d(self.bds[0][0], self.bds[1][0], 0),
-            rc.Geometry.Point3d(self.bds[0][1], self.bds[1][0], 0),
-            rc.Geometry.Point3d(self.bds[0][1], self.bds[1][1], 0),
-            rc.Geometry.Point3d(self.bds[0][0], self.bds[1][1], 0)]
-    
-    @property
-    def bds(self):
-        return self._bds
-    
-    @property
-    def origin(self):
-        return self._origin
-    
-    def set_origin(self, pt):
-        self._origin = pt
-    
-    @property
-    def plane(self):
-        return rc.Geometry.Plane(self.origin, rc.Geometry.Vector3d(0,0,1))
-    
-    @property
-    def x(self):
-        return self.bds[0][0]
-    
-    @property
-    def y(self):
-        return self.bds[1][0]
-    
-    def bds_x(self, pts):
-        pts.sort(key = lambda pt: pt.X)
-        return (pts[0].X, pts[-1].X)
-    
-    def bds_y(self, pts):
-        pts.sort(key = lambda pt: pt.Y)
-        return (pts[0].Y, pts[-1].Y)
-   
-    @property
-    def dim_x(self):
-        return self._dim_x
-    
-    @property
-    def dim_y(self):
-        return self._dim_y
-    
-    @property
-    def centroid(self):
-        x_average = self.x + self.dim_x/2
-        y_average = self.y + self.dim_y/2
-        return rc.Geometry.Point3d(x_average, y_average, 0)
-    
-    def to_rect(self):
-        return rc.Geometry.Rectangle3d(self.plane, self.dim_x, self.dim_y)
-    
-    def to_grid(self, grid_size):
-        
-        def mesh_from_rect(rect, grid_size):
-
-            mesh_params = rc.Geometry.MeshingParameters.Default
-            mesh_params.MaximumEdgeLength = grid_size
-            mesh_params.MinimumEdgeLength = grid_size
-            mesh_params.GridAspectRatio = 1
-
-            rect = rc.Geometry.Rectangle3d.ToNurbsCurve(rect)
-            return rc.Geometry.Mesh.CreateFromPlanarBoundary(rect, mesh_params)
-        
-        return mesh_from_rect(self.to_rect(), grid_size)
-    
-    def contains_pt(self, pt):
-        pt = rs.coerce3dpoint(pt)
-        if pt.X &lt; self.x or pt.X &gt; (self.x + self.dim_x) or pt.Y &lt; self.y or pt.Y &gt; (self.y + self.dim_y):
-            return False
-        return True
-
-
-class Entity(object):
-    
-    def __init__(self, attr):
-        self._pos = defaultdict(lambda: None)
-        self._attr = attr
-        self._type = 'entity'
-    
-    def __repr__(self):
-        return "Environment Entity: {0} : {1} ".format(self.type, self.get_attribute('name'))
-
-    @property
-    def position(self):
-        return self._pos[0]
-    
-    def set_position(self, pos, gen=0):
-        self._pos[gen] = pos
-    
-    def get_position(self, gen=0):
-        return self._pos[gen]
-    
-    @property
-    def type(self):
-        return self._type
-    
-    def set_type(self, type):
-        self._type = type
-    
-    @property
-    def attributes(self): return self._attr
-    
-    def set_attribute(self, key, value):
-        self._attr[key] = value
-    
-    def get_attribute(self, key):
-        
-        def _finditem(obj, key):
-            if key in obj: return obj[key]
-            for k, v in obj.items():
-                if isinstance(v,dict):
-                    item = _finditem(v, key)
-                    if item is not None:
-                        return item
-                        
-        return _finditem(self.attributes, key)
-    
-    def has_attribute_value(self, val):
-        
-        def _findvalue(obj, val):
-            if val in obj.values(): return True
-            for k,v in obj.items():
-                if isinstance(v,dict):
-                    value = _findvalue(v, val)
-                    if value is not None:
-                        return True
-            return False
-        
-        return _findvalue(self.attributes, val)
-
-
-class Node(Entity):
-    
-    def __init__(self, pos, attr={}):
-        super(Node, self).__init__(attr)
-        self.set_position(pos)
-        self.set_type('node')
-
-        
-class Template(Entity):
-    
-    def __init__(self, attr={}):
-        super(Template, self).__init__(attr)
-        self.set_type('template')
-    
-    @property
-    def edges(self):
-        return self.get_attribute('edges')
-
-class Floor(Entity):
-    
-    def __init__(self, geo, attr={}):
-        super(Floor, self).__init__(attr)
-        self._geo = rs.coercecurve(geo)
-        self._bds = Bounds2d(geo)
-        self._map = None
-        self._msh = None
-        self._grid = None
-        self._grid_size = None
-        self._coords = {}
-        
-        self.set_position(self.bounds.origin)
-        self.set_type('floor')
-        
-    @property
-    def geo(self):
-        return self._geo
-    
-    @property
-    def bounds(self):
-        return self._bds
-    
-    @property
-    def mesh(self):
-        return self._msh
-        
-    @property
-    def map(self):
-        return self._map
-    
-    
-    @property
-    def grid(self):
-        return self._grid
-        
-    def set_grid(self, grid_size):
-        
-        indexes = []
-        denom = m.sqrt(2*(grid_size**2))
-        t_mesh = rs.coercemesh(rs.AddPlanarMesh(self.geo))
-        self._msh = self.bounds.to_grid(grid_size)
-        self._map = Map(self)
-        self._grid_size = grid_size
-        
-        for i, cpt in enumerate(rs.MeshFaceCenters(self.mesh)):
-            line = rc.Geometry.Line(cpt, rc.Geometry.Vector3d(0,0,1))
-            if not rc.Geometry.Intersect.Intersection.MeshLine(t_mesh, line)[1]:
-                indexes.append(i)
-
-        self.mesh.Faces.DeleteFaces(indexes)
-        self._grid = rs.MeshFaceCenters(self.mesh)
-        
-        for i, pt in enumerate(self.grid):
-            self.set_coord(self.to_grid_coord(pt), i)
-        
-        for i, vertex in enumerate(self.mesh.Vertices):
-
-            edges = self.mesh.TopologyVertices.ConnectedFaces(i)
-            for e1 in edges:
-                for e2 in edges:
-                    if not e1 == e2:
-                        weight = rs.Distance(self._grid[e1], self._grid[e2])/denom
-                        self.map.add_edge(e1,e2, weight)
-                        
-        self.add_edge_map()
-    
-    @property
-    def grid_size(self):
-        return self._grid_size
-    
-    @property
-    def coords(self):
-        return self._coords
-    
-    def set_coord(self, key, val):
-        self._coords[key] = val
-    
-    def get_index_at_coord(self, key):
-        return self._coords[key]
-    
-    def to_grid_coord(self, pt):
-        
-        grid_x = self.bounds.dim_x / m.floor(self.bounds.dim_x / self.grid_size)
-        grid_y = self.bounds.dim_y / m.floor(self.bounds.dim_y / self.grid_size)
-        
-        cs_x = m.floor(self.bounds.dim_x / grid_x)
-        cs_y = m.floor(self.bounds.dim_y / grid_y)
-
-        pt_x = m.floor((pt.X - self.position.X)/ grid_x)
-        pt_y = m.floor((pt.Y - self.position.Y)/ grid_y)
-        
-        return (pt_x, pt_y)
-    
-    def to_grid_index(self, pt):
-        
-        coord = self.to_grid_coord(pt)
-        return self.get_index_at_coord(coord)
-    
-    
-    def add_edge_map(self):
-        
-        def _func(num):
-            if num == 8: return 0
-            else: return 0.5
-            
-        for i, pt in enumerate(self.grid):
-            edges = self.map.edges[i]
-            self.map.set_barrier(i, _func(len(edges)))
-    
-    def add_barrier_map(self, barrier):
-        for i, pt in enumerate(self.grid):
-            if barrier.bounds.contains_pt(pt):
-                if rs.PointInPlanarClosedCurve(pt, barrier.geo):
-                    self.map.set_barrier(i, float('inf'))
-                    for e in self.map.edges[i]:
-                        self.map.set_barrier(e, 0.5)
-
-        
-class Barrier(Entity):
-    
-    def __init__(self, geo, attr={}):
-        super(Barrier, self).__init__(attr)
-        self._geo = rs.coercecurve(geo)
-        self._bds = Bounds2d(geo)
-        
-        self.set_position(self.bounds.origin)
-        self.set_type('barrier')
-        
-    @property
-    def geo(self):
-        return self._geo
-    
-    @property
-    def bounds(self):
-        return self._bds
-        
-
-class Agent(Entity):
-    
-    def __init__(self, pos=None, attr={}, env=None):
-        super(Agent, self).__init__(attr)
-        self._attr = attr
-        self._env = env
-        self._state = None
-        self._history = []
-        self._path = []
-        
-        self.set_position(pos)
-        self.set_type('agent')
-        
-        self.age = 0
-        self.__hold = None
-        self.is_active = True
-        self.is_complete = False
-                
-    
-    @property
-    def position(self):
-        return self.get_position(self.age)
-        
-    @property
-    def grid_index(self):
-        return self.environment.floors[0].to_grid_index(self.position.position)
-    
-    @property
-    def state(self):
-        return self._state
-    
-    def set_state(self, state):
-        self._state = state
-    
-    @property
-    def destination(self):
-        val = self.get_attribute('destination')
-        return random.choice(self.environment.get_nodes_with_value(val))
-    
-    
-    
-    @property
-    def path(self):
-        return sum([p for p in self._path], [])
-    
-    def add_path(self, path):
-        self._path.append(path)
-    
-    
-    
-    @property
-    def history(self):
-        return self._history
-    
-    @property
-    def visited(self):
-        """
-            TODO - this needs to become more standard - maybe a property of the node?
-        """
-        return [n.get_attribute('name') for n in self.history if not type(n) == int]
-    
-    
-    @property
-    def environment(self):
-        return self._env
-    
-    def set_environment(self, env):
-        self._env = env
-        
-    def toggle_active(self):
-        self.is_active = not self.is_active
-        
-    def toggle_complete(self):
-        self.is_complete = not self.is_complete
-    
-    def step(self):        
-        
-       
-        def wait(time):
-            print 'waiting...'
-            return self.position, [self.position] * time
-    
-    
-        def move(lst):
-            
-            lst = [l for l in lst if not l.get_attribute('name') in self.visited]
-            
-            if len(lst):
-            
-                properties = self.get_attribute('properties')
-                keys = properties.keys()
-                n_percs = [k for k in keys if random.randint(0,100) &lt;= properties[k]]
-                
-                lst = [(l, self.environment.graph.get_distance((self.position, l))) for l in lst if l.get_attribute('name') in n_percs]
-            
-                if len(lst):
-                    
-                    lst.sort(key = lambda tup: len(tup[1]))
-                    lst.reverse()
-                    
-                    while len(lst):
-    
-                        tup = lst.pop()
-                        n_choice = tup[0]
-                        
-                        """
-                            TODO - switch agents_at_position to consider generation
-                                 this currently looks at the amount of people with the same destination
-                        """
-                        #num_people = len(self.environment.agents_at_position(n_choice, self.age))
-                        num_people = len([a for a in self.environment.agents if self.__hold == a.__hold and a != self])
-                        capacity = n_choice.get_attribute('capacity')
-
-                        
-                        if capacity != None:
-                            
-                            if num_people &lt; float(capacity):
-                                
-                                print 'no line ', n_choice, num_people, 'ppl', 'capacity', capacity
-                                break
-                                
-                            else:
-                                
-                                if random.randint(0,100) &lt; self.get_attribute('queuing'):
-                                    
-                                    print 'queuing', n_choice, num_people, 'ppl', ', capacity: ', capacity
-                                    break
-                                    
-                                else: 
-                                    print 'too many people in line', n_choice, num_people, 'ppl'
-                        else:
-                            break
-                else:
-                    n_choice = self.destination
-                    print 'no option chosen: go to final destination', n_choice
-            else:
-                n_choice = self.destination
-                print 'all options visited: go to final destination', n_choice
-                self.toggle_complete()
-            
-            """
-                TODO - replace with entity.to_grid_index(environment)
-            """
-            n_index = self.environment.floors[0].to_grid_index(n_choice.position)
-            n_path = self.environment.floors[0].map.shortest_path(self.grid_index, n_index, start_idx=self.age)
-            
-            return n_choice, n_path
-
-
-        if not len(self.history):
-
-            start_node = self.get_attribute('origin')
-            start_positions = self.environment.get_nodes_with_value(start_node)
-            start_position = random.choice(start_positions)
-            
-            self.set_position(start_position)
-            self.set_state('waiting')
-            print 'agent init'
-            
-        else:
-
-            if self.is_active:
-                
-                print 'state: ', self.state
-                print 'age: ', self.age
-                print 'position: ', self.position, 'currently', len(self.environment.agents_at_position(self.position, self.age)), 'ppl'
-                
-                #print 'other agent positions: '
-                #for p in [a.position for a in self.environment.agents if not a == self]:
-                    #print '     ', p
-                    
-                if self.state == 'ready':
-                    
-                    self.__hold, path = move(self.environment.graph.edges[self.position])
-                    self.add_path([self.environment.floors[0].grid[i] for i in path])
-                    
-                    for pi in range(len(path)):
-                        self.environment.floors[0].map.add_density(path[pi], self.age+pi)
-                        self.set_position(path[pi], self.age+pi)
-                    
-                    path.reverse()
-                    self.set_state(path)
-                    
-                    print 'chose new goal: ', self.__hold, 'currenty', len(self.environment.agents_at_position(self.__hold, self.age)), 'ppl'
-               
-                if self.state == 'waiting':
-                    
-                    num_people = len(self.environment.agents_at_position(self.__hold, self.age))+1
-                    """
-                        Wait time set to random for now
-                    """
-                    wait_time = random.randint(1,10) * num_people
-                    
-                    self.__hold, path = wait(wait_time)
-                    self.add_path([self.grid_index] * wait_time)
-                    
-                    for pi in range(len(path)):
-                        self.environment.floors[0].map.add_density(self.grid_index, self.age+pi)
-                        self.set_position(path[pi], self.age+pi)
-                    
-                    path.reverse()
-                    self.set_state(path)
-               
-                elif len(self.state) == 1:
-                    
-                    self.set_position(self.__hold, self.age)
-                    
-                    if self.is_complete:
-                        self.set_state('complete')
-                        print 'final position:', self.position, len(self.environment.agents_at_position(self.position, self.age)), 'ppl'
-                        self.toggle_active()
-                    else:
-                        if self.position == self.state[0]:
-                            self.set_state('ready')
-                            print 'ready position:', self.position, len(self.environment.agents_at_position(self.position, self.age)), 'ppl'
-                        else:
-                            self.set_state('waiting')
-                            print 'waiting position:', self.position, len(self.environment.agents_at_position(self.position, self.age)), 'ppl'
-                else:
-                    self.age+=1
-                    self.state.pop()
-                    print 'walking to: ', self.__hold, len(self.environment.agents_at_position(self.__hold, self.age)), 'ppl'
-
-        self.history.append(self.position)
-        
-        
-        
-class Environment():
-    
-    def __init__(self, resolution=30):
-        self._entities = defaultdict(list)
-        self._agents = []
-        self._graph = copy.deepcopy(Graph()) # bad - fix later
-        self._graph_paths = {}
-        self._resolution = resolution
-    
-    def __repr__(self):
-        return 'Environment: {0} agents, {1} nodes, {2} floors'.format(len(self.agents), len(self.graph.nodes), len(self.floors))
-    
-    @property
-    def resolution(self):
-        return self._resolution
-    
-    
-    @property
-    def entities(self):
-        return self._entities
-     
-    def add_entity(self, entity):
-        self.entities[entity.type].append(entity)
-    
-    def add_entities(self, entities):
-        
-        def _add_floor(entity):
-            entity = Floor(entity['geometry'], entity['profile'])
-            self.add_floor(entity)
-            self.add_entity(entity)
-        
-        def _add_node(entity):
-            entity = Node(entity['position'], entity['profile'])
-            self.add_node(entity)
-            self.add_entity(entity)
-            
-        def _add_template(entity):
-            entity = Template(entity['profile'])
-            self.add_template(entity)
-            self.add_entity(entity)
-        
-        def _add_barrier(entity):
-            entity = Barrier(entity['geometry'], entity['profile'])
-            self.add_barrier(entity)
-            self.add_entity(entity)
-        
-        def _add_agent(entity):
-            entity = Agent(attr=entity['profile'])
-            self.add_agent(entity)
-            self.add_entity(entity)
-        
-        
-        dict = defaultdict(list)
-        for entity in entities:
-            dict[entity['type']].append(entity)
-        
-        if len(dict['floor']):
-            for  floor in dict['floor']:
-                _add_floor(floor)
-        else:
-            """
-                TODO - return a warning
-            """
-            print 'environment needs at least one floor to run'
-            
-        if len(dict['node']):
-            ghpythonlib.parallel.run(_add_node, dict['node'], False)
-            #for node in dict['node']:
-            #    _add_node(node)
-        else:
-            """
-                TODO - return a warning
-            """
-            print 'environment needs at least two nodes to run'
-        
-        if len(dict['template']):
-            for template in dict['template']:
-                _add_template(template)
-        else: self.add_default_template()
-
-        if len(dict['barrier']):
-            for barrier in dict['barrier']:
-                _add_barrier(barrier)
-            
-        if len(dict['agent']):
-            for agent in dict['agent']:
-                _add_agent(agent)
-        else:
-            """
-                TODO - return a warning
-            """
-            print 'environment needs at least one agent to run'
-
-
-    @property
-    def graph(self):
-        return self._graph
-    
-    @property
-    def graph_paths(self):
-        return self._graph_paths
-    
-    def get_graph_path(self, n1, n2):
-        
-        floor = self.floors[0] # bad - fix later
-        idx1 = floor.to_grid_index(n1.position)
-        idx2 = floor.to_grid_index(n2.position)
-        return floor.map.shortest_path(idx1, idx2, paths=self.graph_paths[n1])
-    
-    def set_graph_path(self, key, val):
-        self._graph_paths[key] = val
-    
-    
-    @property
-    def templates(self):
-        return [n for n in self.entities['template']]
-    
-    def add_template(self, template):
-        if template.get_attribute('directed') == False:
-            for edge in template.edges:
-                nodes = [n for n in self.nodes if n.position in edge]
-                if len(nodes) == 2:
-                    path = self.get_graph_path(nodes[0], nodes[1])
-                    self.graph.add_edge(nodes[0], nodes[1], path)
-    
-    def add_default_template(self):
-        for n1 in self.graph.nodes:
-            for n2 in self.graph.nodes:
-                if not n1 == n2: 
-                    path = self.get_graph_path(n1, n2)
-                    self.graph.add_edge(n1, n2, path)
-    
-    
-    @property
-    def agents(self):
-        return self._agents
-        
-    def add_agent(self, agent, other=None):
-        agent.set_environment(self)
-        self.agents.append(agent)
-    
-    def agents_at_position(self, position, gen=0):
-        return [a for a in self.agents if a.get_position(gen) == position]
-        #return [a for a in self.agents if a.position == position]
-    
-    
-    @property
-    def nodes(self):
-        return [n for n in self.entities['node']]
-    
-    def add_node(self, node):
-        self.graph.add_node(node)
-        """
-            TODO - floors need to be referenced better
-        """
-        djk = self.floors[0].map.dijsktra(self.floors[0].to_grid_index(node.position))
-        self.set_graph_path(node, djk[1])
-    
-    def get_nodes_with_value(self, val):
-        return [n for n in self.nodes if n.has_attribute_value(val)]
-    
-    
-    @property
-    def floors(self):
-        return [n for n in self.entities['floor']]
-    
-    def add_floor(self, floor):
-        floor.set_grid(self.resolution)
-    
-    def set_grid(self, grid_size):
-        
-        """
-            TODO - implement more complexity
-            grids will need to match up between floors
-               - maybe 1 unified graph to hold graphs?
-        """
-        for floor in self.floors: floor.set_grid(grid_size)
-    
-    
-    @property
-    def paths(self):
-        return [a.path for a in self.agents]
-    
-    def add_barrier(self, barrier):
-        
-        """
-            TODO - implement multiple floors: barriers should be declared with
-            their floor identifier.
-            single floor use only for now
-        """
-        for floor in self.floors:
-            floor.add_barrier_map(barrier)
-    
-    
-    def generation(self, gen):
-        return [a.get_position(gen) for a in self.agents]
-
-    def step(self):
-        
-        def _func(agent):
-            if agent.is_active:
-                agent.step()
-        
-        print '#####################################'
-        print 'NEW STEP'
-        #ghpythonlib.parallel.run(_func, self.agents, False)
-        for i, agent in enumerate(self.agents):
-            print 'agent', i
-            _func(agent)
-    
-    def run(self):
-        while len([a for a in self.agents if a.is_active]):
-            self.step()
-        
-
-if len(entities) != 0 and res != None:
-    environment = Environment(resolution=res)
-    environment.add_entities(entities)
-    
-    a = environment
-</item>
-                    <item name="Description" type_name="gh_string" type_code="10">A python scriptable component</item>
-                    <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
-                      <X>1912</X>
-                      <Y>-728</Y>
-                    </item>
-                    <item name="EditorSize" type_name="gh_drawing_size" type_code="32">
-                      <W>791</W>
-                      <H>1662</H>
-                    </item>
-                    <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
-                    <item name="HideOutput" type_name="gh_bool" type_code="1">false</item>
-                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">6a67c26e-f3e5-4a1a-afc3-deaa4ab2e931</item>
-                    <item name="Locked" type_name="gh_bool" type_code="1">true</item>
-                    <item name="Name" type_name="gh_string" type_code="10">Python Script</item>
-                    <item name="NickName" type_name="gh_string" type_code="10">+ENV</item>
-                  </items>
-                  <chunks count="2">
-                    <chunk name="Attributes">
-                      <items count="2">
-                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>2921</X>
-                          <Y>2029</Y>
-                          <W>118</W>
-                          <H>51</H>
-                        </item>
-                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                          <X>2996</X>
-                          <Y>2055</Y>
-                        </item>
-                      </items>
-                    </chunk>
-                    <chunk name="ParameterData">
-                      <items count="6">
-                        <item name="InputCount" type_name="gh_int32" type_code="3">2</item>
-                        <item name="InputId" index="0" type_name="gh_guid" type_code="9">84fa917c-1ed8-4db3-8be1-7bdc4a6495a2</item>
-                        <item name="InputId" index="1" type_name="gh_guid" type_code="9">84fa917c-1ed8-4db3-8be1-7bdc4a6495a2</item>
-                        <item name="OutputCount" type_name="gh_int32" type_code="3">2</item>
-                        <item name="OutputId" index="0" type_name="gh_guid" type_code="9">3ede854e-c753-40eb-84cb-b48008f14fd4</item>
-                        <item name="OutputId" index="1" type_name="gh_guid" type_code="9">8ec86459-bf01-4409-baee-174d0d2b13d0</item>
-                      </items>
-                      <chunks count="4">
-                        <chunk name="InputParam" index="0">
-                          <items count="21">
-                            <item name="Access" type_name="gh_int32" type_code="3">1</item>
-                            <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Description" type_name="gh_string" type_code="10">Script input entities.</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">1da3fc97-7adf-4da0-a20e-a65084cda58d</item>
-                            <item name="Locked" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Mapping" type_name="gh_int32" type_code="3">1</item>
-                            <item name="Name" type_name="gh_string" type_code="10">entities</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">entities</item>
-                            <item name="Optional" type_name="gh_bool" type_code="1">true</item>
-                            <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">1</item>
-                            <item name="ShowTypeHints" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Source" index="0" type_name="gh_guid" type_code="9">8d6365d3-a807-44b5-b63d-d8277b71106c</item>
-                            <item name="Source" index="1" type_name="gh_guid" type_code="9">17ad29d0-7812-4f2f-a7c9-089ee59e6198</item>
-                            <item name="Source" index="2" type_name="gh_guid" type_code="9">22bf05af-1237-4c55-bcab-6dba79ff280d</item>
-                            <item name="Source" index="3" type_name="gh_guid" type_code="9">ed7d8bca-4429-4275-9947-19c667fd052e</item>
-                            <item name="Source" index="4" type_name="gh_guid" type_code="9">b8e6894c-77b9-4ed6-95af-8920927a53c6</item>
-                            <item name="Source" index="5" type_name="gh_guid" type_code="9">abf6facc-4195-465e-976f-47afa9951285</item>
-                            <item name="Source" index="6" type_name="gh_guid" type_code="9">729ec0a8-3039-4ce5-8816-4f43eb64e9ce</item>
-                            <item name="Source" index="7" type_name="gh_guid" type_code="9">afe7f55e-1c6a-49bb-9bed-1d1ee3c82a81</item>
-                            <item name="SourceCount" type_name="gh_int32" type_code="3">8</item>
-                            <item name="TypeHintID" type_name="gh_guid" type_code="9">87f87f55-5b71-41f4-8aea-21d494016f81</item>
-                          </items>
-                          <chunks count="1">
-                            <chunk name="Attributes">
-                              <items count="2">
-                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>2923</X>
-                                  <Y>2031</Y>
-                                  <W>58</W>
-                                  <H>23</H>
-                                </item>
-                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>2961.5</X>
-                                  <Y>2042.75</Y>
-                                </item>
-                              </items>
-                            </chunk>
-                          </chunks>
-                        </chunk>
-                        <chunk name="InputParam" index="1">
-                          <items count="11">
-                            <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Description" type_name="gh_string" type_code="10">Script input res.</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">c15249ac-31ea-485d-8b28-f95cc80b1b8b</item>
-                            <item name="Locked" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Name" type_name="gh_string" type_code="10">res</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">res</item>
-                            <item name="Optional" type_name="gh_bool" type_code="1">true</item>
-                            <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">0</item>
-                            <item name="ShowTypeHints" type_name="gh_bool" type_code="1">true</item>
-                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
-                            <item name="TypeHintID" type_name="gh_guid" type_code="9">39fbc626-7a01-46ab-a18e-ec1c0c41685b</item>
-                          </items>
-                          <chunks count="1">
-                            <chunk name="Attributes">
-                              <items count="2">
-                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>2923</X>
-                                  <Y>2054</Y>
-                                  <W>58</W>
-                                  <H>24</H>
-                                </item>
-                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>2961.5</X>
-                                  <Y>2066.25</Y>
-                                </item>
-                              </items>
-                            </chunk>
-                          </chunks>
-                        </chunk>
-                        <chunk name="OutputParam" index="0">
-                          <items count="7">
-                            <item name="Description" type_name="gh_string" type_code="10">The execution information, as output and error streams</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">aa32daa5-16ee-48be-b01f-ffb2fcf6c778</item>
-                            <item name="Locked" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Name" type_name="gh_string" type_code="10">out</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">out</item>
-                            <item name="Optional" type_name="gh_bool" type_code="1">false</item>
-                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
-                          </items>
-                          <chunks count="1">
-                            <chunk name="Attributes">
-                              <items count="2">
-                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>3011</X>
-                                  <Y>2031</Y>
-                                  <W>26</W>
-                                  <H>23</H>
-                                </item>
-                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>3024</X>
-                                  <Y>2042.75</Y>
-                                </item>
-                              </items>
-                            </chunk>
-                          </chunks>
-                        </chunk>
-                        <chunk name="OutputParam" index="1">
-                          <items count="7">
-                            <item name="Description" type_name="gh_string" type_code="10">Script output a.</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">04e07917-548d-4aec-af0e-9d429900b480</item>
-                            <item name="Locked" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Name" type_name="gh_string" type_code="10">a</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">a</item>
-                            <item name="Optional" type_name="gh_bool" type_code="1">false</item>
-                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
-                          </items>
-                          <chunks count="1">
-                            <chunk name="Attributes">
-                              <items count="2">
-                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>3011</X>
-                                  <Y>2054</Y>
-                                  <W>26</W>
-                                  <H>24</H>
-                                </item>
-                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>3024</X>
-                                  <Y>2066.25</Y>
-                                </item>
-                              </items>
-                            </chunk>
-                          </chunks>
-                        </chunk>
-                      </chunks>
-                    </chunk>
-                  </chunks>
-                </chunk>
-              </chunks>
-            </chunk>
-            <chunk name="Object" index="122">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">57da07bd-ecab-415d-9d86-af36d7073abc</item>
                 <item name="Name" type_name="gh_string" type_code="10">Number Slider</item>
@@ -15739,7 +14656,7 @@ if len(entities) != 0 and res != None:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="123">
+            <chunk name="Object" index="122">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">c552a431-af5b-46a9-a8a4-0fcbc27ef596</item>
                 <item name="Name" type_name="gh_string" type_code="10">Group</item>
@@ -15769,7 +14686,7 @@ if len(entities) != 0 and res != None:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="124">
+            <chunk name="Object" index="123">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">cb4ca22c-3419-4962-a078-ad4ff7f1f929</item>
                 <item name="Name" type_name="gh_string" type_code="10">Face Normals</item>
@@ -15883,7 +14800,7 @@ if len(entities) != 0 and res != None:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="125">
+            <chunk name="Object" index="124">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">e64c5fb1-845c-4ab1-8911-5f338516ba67</item>
                 <item name="Name" type_name="gh_string" type_code="10">Series</item>
@@ -16081,7 +14998,7 @@ if len(entities) != 0 and res != None:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="126">
+            <chunk name="Object" index="125">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">1817fd29-20ae-4503-b542-f0fb651e67d7</item>
                 <item name="Name" type_name="gh_string" type_code="10">List Length</item>
@@ -16167,7 +15084,7 @@ if len(entities) != 0 and res != None:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="127">
+            <chunk name="Object" index="126">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">5a41528b-12b9-40dc-a3f2-842034d267c4</item>
                 <item name="Name" type_name="gh_string" type_code="10">Text Tag 3D</item>
@@ -16373,7 +15290,7 @@ if len(entities) != 0 and res != None:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="128">
+            <chunk name="Object" index="127">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">2e3ab970-8545-46bb-836c-1c11e5610bce</item>
                 <item name="Name" type_name="gh_string" type_code="10">Integer</item>
@@ -16408,7 +15325,7 @@ if len(entities) != 0 and res != None:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="129">
+            <chunk name="Object" index="128">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">57da07bd-ecab-415d-9d86-af36d7073abc</item>
                 <item name="Name" type_name="gh_string" type_code="10">Number Slider</item>
@@ -16453,7 +15370,7 @@ if len(entities) != 0 and res != None:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="130">
+            <chunk name="Object" index="129">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">c552a431-af5b-46a9-a8a4-0fcbc27ef596</item>
                 <item name="Name" type_name="gh_string" type_code="10">Group</item>
@@ -16484,7 +15401,7 @@ if len(entities) != 0 and res != None:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="131">
+            <chunk name="Object" index="130">
               <items count="3">
                 <item name="GUID" type_name="gh_guid" type_code="9">410755b1-224a-4c1e-a407-bf32fb45ea7e</item>
                 <item name="Lib" type_name="gh_guid" type_code="9">16cf80bc-9018-cbdb-2238-976eb17fd30d</item>
@@ -16801,7 +15718,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="132">
+            <chunk name="Object" index="131">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">2e78987b-9dfb-42a2-8b76-3923ac8bd91a</item>
                 <item name="Name" type_name="gh_string" type_code="10">Boolean Toggle</item>
@@ -16832,7 +15749,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="133">
+            <chunk name="Object" index="132">
               <items count="3">
                 <item name="GUID" type_name="gh_guid" type_code="9">4373a3f7-7b9a-4379-bb16-a760ba0dde4f</item>
                 <item name="Lib" type_name="gh_guid" type_code="9">14601aeb-b64f-9304-459d-d5d06df91218</item>
@@ -16966,7 +15883,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="134">
+            <chunk name="Object" index="133">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">e9eb1dcf-92f6-4d4d-84ae-96222d60f56b</item>
                 <item name="Name" type_name="gh_string" type_code="10">Move</item>
@@ -17129,7 +16046,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="135">
+            <chunk name="Object" index="134">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">9103c240-a6a9-4223-9b42-dbd19bf38e2b</item>
                 <item name="Name" type_name="gh_string" type_code="10">Unit Z</item>
@@ -17233,7 +16150,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="136">
+            <chunk name="Object" index="135">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">6da9f120-3ad0-4b6e-9fe0-f8cde3a649b7</item>
                 <item name="Name" type_name="gh_string" type_code="10">Gradient</item>
@@ -17437,7 +16354,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="137">
+            <chunk name="Object" index="136">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">59e0b89a-e487-49f8-bab8-b5bab16be14c</item>
                 <item name="Name" type_name="gh_string" type_code="10">Panel</item>
@@ -17488,7 +16405,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="138">
+            <chunk name="Object" index="137">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">59e0b89a-e487-49f8-bab8-b5bab16be14c</item>
                 <item name="Name" type_name="gh_string" type_code="10">Panel</item>
@@ -17539,7 +16456,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="139">
+            <chunk name="Object" index="138">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">537b0419-bbc2-4ff4-bf08-afe526367b2c</item>
                 <item name="Name" type_name="gh_string" type_code="10">Custom Preview</item>
@@ -17662,7 +16579,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="140">
+            <chunk name="Object" index="139">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">c552a431-af5b-46a9-a8a4-0fcbc27ef596</item>
                 <item name="Name" type_name="gh_string" type_code="10">Group</item>
@@ -17692,7 +16609,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="141">
+            <chunk name="Object" index="140">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">cb4ca22c-3419-4962-a078-ad4ff7f1f929</item>
                 <item name="Name" type_name="gh_string" type_code="10">Face Normals</item>
@@ -17806,7 +16723,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="142">
+            <chunk name="Object" index="141">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">e64c5fb1-845c-4ab1-8911-5f338516ba67</item>
                 <item name="Name" type_name="gh_string" type_code="10">Series</item>
@@ -18004,7 +16921,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="143">
+            <chunk name="Object" index="142">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">1817fd29-20ae-4503-b542-f0fb651e67d7</item>
                 <item name="Name" type_name="gh_string" type_code="10">List Length</item>
@@ -18090,7 +17007,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="144">
+            <chunk name="Object" index="143">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">5a41528b-12b9-40dc-a3f2-842034d267c4</item>
                 <item name="Name" type_name="gh_string" type_code="10">Text Tag 3D</item>
@@ -18296,7 +17213,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="145">
+            <chunk name="Object" index="144">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">2e3ab970-8545-46bb-836c-1c11e5610bce</item>
                 <item name="Name" type_name="gh_string" type_code="10">Integer</item>
@@ -18331,7 +17248,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="146">
+            <chunk name="Object" index="145">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">57da07bd-ecab-415d-9d86-af36d7073abc</item>
                 <item name="Name" type_name="gh_string" type_code="10">Number Slider</item>
@@ -18376,7 +17293,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="147">
+            <chunk name="Object" index="146">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">59daf374-bc21-4a5e-8282-5504fb7ae9ae</item>
                 <item name="Name" type_name="gh_string" type_code="10">List Item</item>
@@ -18394,14 +17311,14 @@ if env != None and run:
                     <chunk name="Attributes">
                       <items count="2">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>4372</X>
-                          <Y>1672</Y>
+                          <X>4274</X>
+                          <Y>1431</Y>
                           <W>64</W>
                           <H>64</H>
                         </item>
                         <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                          <X>4406</X>
-                          <Y>1704</Y>
+                          <X>4308</X>
+                          <Y>1463</Y>
                         </item>
                       </items>
                     </chunk>
@@ -18430,14 +17347,14 @@ if env != None and run:
                             <chunk name="Attributes">
                               <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>4374</X>
-                                  <Y>1674</Y>
+                                  <X>4276</X>
+                                  <Y>1433</Y>
                                   <W>17</W>
                                   <H>20</H>
                                 </item>
                                 <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>4384</X>
-                                  <Y>1684</Y>
+                                  <X>4286</X>
+                                  <Y>1443</Y>
                                 </item>
                               </items>
                             </chunk>
@@ -18450,21 +17367,21 @@ if env != None and run:
                             <item name="Name" type_name="gh_string" type_code="10">Index</item>
                             <item name="NickName" type_name="gh_string" type_code="10">i</item>
                             <item name="Optional" type_name="gh_bool" type_code="1">false</item>
-                            <item name="Source" index="0" type_name="gh_guid" type_code="9">438935c7-6b24-43dd-869a-14237c8f78b2</item>
+                            <item name="Source" index="0" type_name="gh_guid" type_code="9">b5954f67-6dfa-434c-adad-5f81af25246a</item>
                             <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
                           </items>
                           <chunks count="2">
                             <chunk name="Attributes">
                               <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>4374</X>
-                                  <Y>1694</Y>
+                                  <X>4276</X>
+                                  <Y>1453</Y>
                                   <W>17</W>
                                   <H>20</H>
                                 </item>
                                 <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>4384</X>
-                                  <Y>1704</Y>
+                                  <X>4286</X>
+                                  <Y>1463</Y>
                                 </item>
                               </items>
                             </chunk>
@@ -18504,14 +17421,14 @@ if env != None and run:
                             <chunk name="Attributes">
                               <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>4374</X>
-                                  <Y>1714</Y>
+                                  <X>4276</X>
+                                  <Y>1473</Y>
                                   <W>17</W>
                                   <H>20</H>
                                 </item>
                                 <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>4384</X>
-                                  <Y>1724</Y>
+                                  <X>4286</X>
+                                  <Y>1483</Y>
                                 </item>
                               </items>
                             </chunk>
@@ -18551,14 +17468,14 @@ if env != None and run:
                             <chunk name="Attributes">
                               <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>4421</X>
-                                  <Y>1674</Y>
+                                  <X>4323</X>
+                                  <Y>1433</Y>
                                   <W>13</W>
                                   <H>60</H>
                                 </item>
                                 <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>4427.5</X>
-                                  <Y>1704</Y>
+                                  <X>4329.5</X>
+                                  <Y>1463</Y>
                                 </item>
                               </items>
                             </chunk>
@@ -18570,48 +17487,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="148">
-              <items count="2">
-                <item name="GUID" type_name="gh_guid" type_code="9">57da07bd-ecab-415d-9d86-af36d7073abc</item>
-                <item name="Name" type_name="gh_string" type_code="10">Number Slider</item>
-              </items>
-              <chunks count="1">
-                <chunk name="Container">
-                  <items count="6">
-                    <item name="Description" type_name="gh_string" type_code="10">Numeric slider for single values</item>
-                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">438935c7-6b24-43dd-869a-14237c8f78b2</item>
-                    <item name="Name" type_name="gh_string" type_code="10">Number Slider</item>
-                    <item name="NickName" type_name="gh_string" type_code="10"></item>
-                    <item name="Optional" type_name="gh_bool" type_code="1">false</item>
-                    <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
-                  </items>
-                  <chunks count="2">
-                    <chunk name="Attributes">
-                      <items count="1">
-                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>3996</X>
-                          <Y>1737</Y>
-                          <W>160</W>
-                          <H>20</H>
-                        </item>
-                      </items>
-                    </chunk>
-                    <chunk name="Slider">
-                      <items count="7">
-                        <item name="Digits" type_name="gh_int32" type_code="3">3</item>
-                        <item name="GripDisplay" type_name="gh_int32" type_code="3">1</item>
-                        <item name="Interval" type_name="gh_int32" type_code="3">1</item>
-                        <item name="Max" type_name="gh_double" type_code="6">1000</item>
-                        <item name="Min" type_name="gh_double" type_code="6">0</item>
-                        <item name="SnapCount" type_name="gh_int32" type_code="3">0</item>
-                        <item name="Value" type_name="gh_double" type_code="6">0</item>
-                      </items>
-                    </chunk>
-                  </chunks>
-                </chunk>
-              </chunks>
-            </chunk>
-            <chunk name="Object" index="149">
+            <chunk name="Object" index="147">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">2e78987b-9dfb-42a2-8b76-3923ac8bd91a</item>
                 <item name="Name" type_name="gh_string" type_code="10">Boolean Toggle</item>
@@ -18632,7 +17508,7 @@ if env != None and run:
                       <items count="1">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
                           <X>4078</X>
-                          <Y>1781</Y>
+                          <Y>1497</Y>
                           <W>104</W>
                           <H>22</H>
                         </item>
@@ -18642,7 +17518,7 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="150">
+            <chunk name="Object" index="148">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">57da07bd-ecab-415d-9d86-af36d7073abc</item>
                 <item name="Name" type_name="gh_string" type_code="10">Number Slider</item>
@@ -18662,13 +17538,13 @@ if env != None and run:
                       <items count="2">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
                           <X>4014</X>
-                          <Y>1694</Y>
+                          <Y>1410</Y>
                           <W>160</W>
                           <H>20</H>
                         </item>
                         <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
                           <X>4014.96</X>
-                          <Y>1694.6</Y>
+                          <Y>1410.85</Y>
                         </item>
                       </items>
                     </chunk>
@@ -18680,6 +17556,421 @@ if env != None and run:
                         <item name="Max" type_name="gh_double" type_code="6">10</item>
                         <item name="Min" type_name="gh_double" type_code="6">0</item>
                         <item name="SnapCount" type_name="gh_int32" type_code="3">0</item>
+                        <item name="Value" type_name="gh_double" type_code="6">9</item>
+                      </items>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="149">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">807b86e3-be8d-4970-92b5-f8cdcb45b06b</item>
+                <item name="Name" type_name="gh_string" type_code="10">Circle</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="4">
+                    <item name="Description" type_name="gh_string" type_code="10">Create a circle defined by base plane and radius.</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">19654d70-f6ce-4ebc-bec0-ed6152bd5029</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Circle</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">Cir</item>
+                  </items>
+                  <chunks count="4">
+                    <chunk name="Attributes">
+                      <items count="2">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>4551</X>
+                          <Y>1448</Y>
+                          <W>81</W>
+                          <H>44</H>
+                        </item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>4582</X>
+                          <Y>1470</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                    <chunk name="param_input" index="0">
+                      <items count="7">
+                        <item name="Description" type_name="gh_string" type_code="10">Base plane of circle</item>
+                        <item name="InstanceGuid" type_name="gh_guid" type_code="9">55b4a0a8-915a-4992-8473-15f8d4d6e9f4</item>
+                        <item name="Name" type_name="gh_string" type_code="10">Plane</item>
+                        <item name="NickName" type_name="gh_string" type_code="10">P</item>
+                        <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                        <item name="Source" index="0" type_name="gh_guid" type_code="9">d66b5374-185d-4be8-9f03-0f208341661c</item>
+                        <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
+                      </items>
+                      <chunks count="2">
+                        <chunk name="Attributes">
+                          <items count="2">
+                            <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                              <X>4553</X>
+                              <Y>1450</Y>
+                              <W>14</W>
+                              <H>20</H>
+                            </item>
+                            <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                              <X>4561.5</X>
+                              <Y>1460</Y>
+                            </item>
+                          </items>
+                        </chunk>
+                        <chunk name="PersistentData">
+                          <items count="1">
+                            <item name="Count" type_name="gh_int32" type_code="3">1</item>
+                          </items>
+                          <chunks count="1">
+                            <chunk name="Branch" index="0">
+                              <items count="2">
+                                <item name="Count" type_name="gh_int32" type_code="3">1</item>
+                                <item name="Path" type_name="gh_string" type_code="10">{0}</item>
+                              </items>
+                              <chunks count="1">
+                                <chunk name="Item" index="0">
+                                  <items count="1">
+                                    <item name="plane" type_name="gh_plane" type_code="72">
+                                      <Ox>0</Ox>
+                                      <Oy>0</Oy>
+                                      <Oz>0</Oz>
+                                      <Xx>1</Xx>
+                                      <Xy>0</Xy>
+                                      <Xz>0</Xz>
+                                      <Yx>0</Yx>
+                                      <Yy>1</Yy>
+                                      <Yz>0</Yz>
+                                    </item>
+                                  </items>
+                                </chunk>
+                              </chunks>
+                            </chunk>
+                          </chunks>
+                        </chunk>
+                      </chunks>
+                    </chunk>
+                    <chunk name="param_input" index="1">
+                      <items count="6">
+                        <item name="Description" type_name="gh_string" type_code="10">Radius of circle</item>
+                        <item name="InstanceGuid" type_name="gh_guid" type_code="9">54bbf29e-fb65-4628-a082-2af61c4ba0f5</item>
+                        <item name="Name" type_name="gh_string" type_code="10">Radius</item>
+                        <item name="NickName" type_name="gh_string" type_code="10">R</item>
+                        <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                        <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                      </items>
+                      <chunks count="2">
+                        <chunk name="Attributes">
+                          <items count="2">
+                            <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                              <X>4553</X>
+                              <Y>1470</Y>
+                              <W>14</W>
+                              <H>20</H>
+                            </item>
+                            <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                              <X>4561.5</X>
+                              <Y>1480</Y>
+                            </item>
+                          </items>
+                        </chunk>
+                        <chunk name="PersistentData">
+                          <items count="1">
+                            <item name="Count" type_name="gh_int32" type_code="3">1</item>
+                          </items>
+                          <chunks count="1">
+                            <chunk name="Branch" index="0">
+                              <items count="2">
+                                <item name="Count" type_name="gh_int32" type_code="3">1</item>
+                                <item name="Path" type_name="gh_string" type_code="10">{0}</item>
+                              </items>
+                              <chunks count="1">
+                                <chunk name="Item" index="0">
+                                  <items count="1">
+                                    <item name="number" type_name="gh_double" type_code="6">1</item>
+                                  </items>
+                                </chunk>
+                              </chunks>
+                            </chunk>
+                          </chunks>
+                        </chunk>
+                      </chunks>
+                    </chunk>
+                    <chunk name="param_output" index="0">
+                      <items count="7">
+                        <item name="Description" type_name="gh_string" type_code="10">Resulting circle</item>
+                        <item name="InstanceGuid" type_name="gh_guid" type_code="9">d16df6e7-b09b-4190-b70c-8ba036803168</item>
+                        <item name="Mapping" type_name="gh_int32" type_code="3">1</item>
+                        <item name="Name" type_name="gh_string" type_code="10">Circle</item>
+                        <item name="NickName" type_name="gh_string" type_code="10">C</item>
+                        <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                        <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                      </items>
+                      <chunks count="1">
+                        <chunk name="Attributes">
+                          <items count="2">
+                            <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                              <X>4597</X>
+                              <Y>1450</Y>
+                              <W>33</W>
+                              <H>40</H>
+                            </item>
+                            <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                              <X>4605.5</X>
+                              <Y>1470</Y>
+                            </item>
+                          </items>
+                        </chunk>
+                      </chunks>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="150">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">d51e9b65-aa4e-4fd6-976c-cef35d421d05</item>
+                <item name="Name" type_name="gh_string" type_code="10">Boundary Surfaces</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="4">
+                    <item name="Description" type_name="gh_string" type_code="10">Create planar surfaces from a collection of boundary edge curves.</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">9f05fe9e-2106-49e9-a9f5-9ec625c4ebfc</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Boundary Surfaces</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">Boundary</item>
+                  </items>
+                  <chunks count="3">
+                    <chunk name="Attributes">
+                      <items count="2">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>4669</X>
+                          <Y>1432</Y>
+                          <W>63</W>
+                          <H>77</H>
+                        </item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>4699</X>
+                          <Y>1471</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                    <chunk name="param_input" index="0">
+                      <items count="8">
+                        <item name="Access" type_name="gh_int32" type_code="3">1</item>
+                        <item name="Description" type_name="gh_string" type_code="10">Boundary curves</item>
+                        <item name="InstanceGuid" type_name="gh_guid" type_code="9">58b7f759-caf2-4ec7-900e-f087d8e7aa5e</item>
+                        <item name="Name" type_name="gh_string" type_code="10">Edges</item>
+                        <item name="NickName" type_name="gh_string" type_code="10">E</item>
+                        <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                        <item name="Source" index="0" type_name="gh_guid" type_code="9">d16df6e7-b09b-4190-b70c-8ba036803168</item>
+                        <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
+                      </items>
+                      <chunks count="1">
+                        <chunk name="Attributes">
+                          <items count="2">
+                            <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                              <X>4671</X>
+                              <Y>1434</Y>
+                              <W>13</W>
+                              <H>73</H>
+                            </item>
+                            <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                              <X>4679</X>
+                              <Y>1470.5</Y>
+                            </item>
+                          </items>
+                        </chunk>
+                      </chunks>
+                    </chunk>
+                    <chunk name="param_output" index="0">
+                      <items count="7">
+                        <item name="Access" type_name="gh_int32" type_code="3">1</item>
+                        <item name="Description" type_name="gh_string" type_code="10">Resulting boundary surfaces</item>
+                        <item name="InstanceGuid" type_name="gh_guid" type_code="9">3619e7cf-2523-4a3e-ba37-c49147c07293</item>
+                        <item name="Name" type_name="gh_string" type_code="10">Surfaces</item>
+                        <item name="NickName" type_name="gh_string" type_code="10">S</item>
+                        <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                        <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                      </items>
+                      <chunks count="1">
+                        <chunk name="Attributes">
+                          <items count="2">
+                            <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                              <X>4714</X>
+                              <Y>1434</Y>
+                              <W>16</W>
+                              <H>73</H>
+                            </item>
+                            <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                              <X>4722</X>
+                              <Y>1470.5</Y>
+                            </item>
+                          </items>
+                        </chunk>
+                      </chunks>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="151">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">537b0419-bbc2-4ff4-bf08-afe526367b2c</item>
+                <item name="Name" type_name="gh_string" type_code="10">Custom Preview</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="5">
+                    <item name="Description" type_name="gh_string" type_code="10">Allows for customized geometry previews</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">ed67395f-3d4a-4179-b336-43bcb0e74fb0</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Custom Preview</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">Preview</item>
+                    <item name="ViewportFilter" type_name="gh_string" type_code="10"></item>
+                  </items>
+                  <chunks count="3">
+                    <chunk name="Attributes">
+                      <items count="2">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>4754</X>
+                          <Y>1446</Y>
+                          <W>46</W>
+                          <H>65</H>
+                        </item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>4786</X>
+                          <Y>1479</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                    <chunk name="param_input" index="0">
+                      <items count="8">
+                        <item name="Description" type_name="gh_string" type_code="10">Geometry to preview</item>
+                        <item name="Hidden" type_name="gh_bool" type_code="1">true</item>
+                        <item name="InstanceGuid" type_name="gh_guid" type_code="9">0ca6e35d-3155-42cb-9a73-63385a396e76</item>
+                        <item name="Name" type_name="gh_string" type_code="10">Geometry</item>
+                        <item name="NickName" type_name="gh_string" type_code="10">G</item>
+                        <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                        <item name="Source" index="0" type_name="gh_guid" type_code="9">3619e7cf-2523-4a3e-ba37-c49147c07293</item>
+                        <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
+                      </items>
+                      <chunks count="1">
+                        <chunk name="Attributes">
+                          <items count="2">
+                            <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                              <X>4756</X>
+                              <Y>1448</Y>
+                              <W>15</W>
+                              <H>30</H>
+                            </item>
+                            <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                              <X>4765</X>
+                              <Y>1463.25</Y>
+                            </item>
+                          </items>
+                        </chunk>
+                      </chunks>
+                    </chunk>
+                    <chunk name="param_input" index="1">
+                      <items count="6">
+                        <item name="Description" type_name="gh_string" type_code="10">The preview shader override</item>
+                        <item name="InstanceGuid" type_name="gh_guid" type_code="9">70c84a9a-ae10-45f8-b8c4-564756816c17</item>
+                        <item name="Name" type_name="gh_string" type_code="10">Shader</item>
+                        <item name="NickName" type_name="gh_string" type_code="10">S</item>
+                        <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                        <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                      </items>
+                      <chunks count="2">
+                        <chunk name="Attributes">
+                          <items count="2">
+                            <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                              <X>4756</X>
+                              <Y>1478</Y>
+                              <W>15</W>
+                              <H>31</H>
+                            </item>
+                            <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                              <X>4765</X>
+                              <Y>1493.75</Y>
+                            </item>
+                          </items>
+                        </chunk>
+                        <chunk name="PersistentData">
+                          <items count="1">
+                            <item name="Count" type_name="gh_int32" type_code="3">1</item>
+                          </items>
+                          <chunks count="1">
+                            <chunk name="Branch" index="0">
+                              <items count="2">
+                                <item name="Count" type_name="gh_int32" type_code="3">1</item>
+                                <item name="Path" type_name="gh_string" type_code="10">{0}</item>
+                              </items>
+                              <chunks count="1">
+                                <chunk name="Item" index="0">
+                                  <items count="7">
+                                    <item name="ambient" type_name="gh_drawing_color" type_code="36">
+                                      <ARGB>255;0;0;0</ARGB>
+                                    </item>
+                                    <item name="diffuse" type_name="gh_drawing_color" type_code="36">
+                                      <ARGB>255;255;105;180</ARGB>
+                                    </item>
+                                    <item name="emission" type_name="gh_drawing_color" type_code="36">
+                                      <ARGB>255;76;32;54</ARGB>
+                                    </item>
+                                    <item name="rdk_id" type_name="gh_guid" type_code="9">00000000-0000-0000-0000-000000000000</item>
+                                    <item name="shine" type_name="gh_double" type_code="6">0.5</item>
+                                    <item name="specular" type_name="gh_drawing_color" type_code="36">
+                                      <ARGB>255;255;255;255</ARGB>
+                                    </item>
+                                    <item name="transparency" type_name="gh_double" type_code="6">0</item>
+                                  </items>
+                                </chunk>
+                              </chunks>
+                            </chunk>
+                          </chunks>
+                        </chunk>
+                      </chunks>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="152">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">57da07bd-ecab-415d-9d86-af36d7073abc</item>
+                <item name="Name" type_name="gh_string" type_code="10">Number Slider</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="6">
+                    <item name="Description" type_name="gh_string" type_code="10">Numeric slider for single values</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">b5954f67-6dfa-434c-adad-5f81af25246a</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Number Slider</item>
+                    <item name="NickName" type_name="gh_string" type_code="10"></item>
+                    <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                    <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                  </items>
+                  <chunks count="2">
+                    <chunk name="Attributes">
+                      <items count="2">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>3997</X>
+                          <Y>1366</Y>
+                          <W>160</W>
+                          <H>20</H>
+                        </item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>3997.611</X>
+                          <Y>1366.277</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                    <chunk name="Slider">
+                      <items count="7">
+                        <item name="Digits" type_name="gh_int32" type_code="3">3</item>
+                        <item name="GripDisplay" type_name="gh_int32" type_code="3">1</item>
+                        <item name="Interval" type_name="gh_int32" type_code="3">1</item>
+                        <item name="Max" type_name="gh_double" type_code="6">100</item>
+                        <item name="Min" type_name="gh_double" type_code="6">0</item>
+                        <item name="SnapCount" type_name="gh_int32" type_code="3">0</item>
                         <item name="Value" type_name="gh_double" type_code="6">0</item>
                       </items>
                     </chunk>
@@ -18687,1080 +17978,175 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="151">
-              <items count="3">
-                <item name="GUID" type_name="gh_guid" type_code="9">410755b1-224a-4c1e-a407-bf32fb45ea7e</item>
-                <item name="Lib" type_name="gh_guid" type_code="9">16cf80bc-9018-cbdb-2238-976eb17fd30d</item>
-                <item name="Name" type_name="gh_string" type_code="10">Python Script</item>
+            <chunk name="Object" index="153">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">59daf374-bc21-4a5e-8282-5504fb7ae9ae</item>
+                <item name="Name" type_name="gh_string" type_code="10">List Item</item>
               </items>
               <chunks count="1">
                 <chunk name="Container">
-                  <items count="10">
-                    <item name="CodeInput" type_name="gh_string" type_code="10">from collections import defaultdict
-import rhinoscriptsyntax as rs
-import Rhino as rc
-import scriptcontext as sc
-import random, copy
-from itertools import permutations
-import math as m
-
-import ghpythonlib.parallel
-
-class Graph(object):
-    
-    def __init__(self, nodes=set(), edges=defaultdict(set), distances={}):
-        """
-            currently resource allocation between graphs is broken
-            multiple graphs share the same node set
-        """
-        self.nodes = nodes
-        self.edges = edges
-        self.distances = distances 
-
-    def __repr__(self):
-        return "Graph: {0} nodes, {1} edges".format(len(self.nodes), len(self.edges))
-    
-    def add_node(self, value):
-        self.nodes.add(value)
-        
-    def add_edge(self, from_node, to_node, distance):
-        self.add_node(from_node)
-        self.add_node(to_node)
-        
-        self.edges[from_node].add(to_node)
-        self.edges[to_node].add(from_node)
-        self.distances[(from_node, to_node)] = distance
-        self.distances[(to_node, from_node)] = distance
-    
-    
-    def get_distance(self, key, gen=0):
-        return self.distances[key]
-    
-    def get_step(self, initial, goal, route):
-        return
-    
-    """
-        initial dijsktra from:
-        https://gist.github.com/econchick/4666413
-    """
-    def dijsktra(self, initial, goal=None, start_idx=0):
-
-        visited = {initial: 0}
-        path = {}
-        nodes = set(self.nodes)
-
-        while nodes:
-            min_node = None
-            for node in nodes:
-                if node in visited:
-                    if min_node is None:
-                        min_node = node
-                    elif visited[node] &lt; visited[min_node]:
-                        min_node = node
-            if min_node is None:
-                break
-            nodes.remove(min_node)
-            current_weight = visited[min_node]
-
-            gen = self.get_step(min_node, initial, path)
-
-            for edge in self.edges[min_node]:
-                distance = self.get_distance((min_node, edge), gen+start_idx)
-                weight = current_weight + distance
-                if edge not in visited or weight &lt; visited[edge]:
-                    
-                    visited[edge] = weight
-                    path[edge] = min_node
-                    
-                if goal != None and edge == goal: return visited, path
-                        
-        return visited, path
-
-    def shortest_path(self, initial_node, goal_node, start_idx=0, paths=None):
-        
-        if paths == None:
-            distances, paths = self.dijsktra(initial_node, goal_node, start_idx)
-            
-        route = [goal_node]
-        while goal_node != initial_node:
-            route.append(paths[goal_node])
-            goal_node = paths[goal_node]
-        route.reverse()
-        return route
-
-class Map(Graph):
-    
-    def __init__(self, floor):
-        super(Map, self).__init__()
-        self._floor = floor
-        self._barrier_map = defaultdict(float)
-        self._density_map = defaultdict(lambda : defaultdict(int))
-        
-    @property
-    def barrier_map(self):
-        return self._barrier_map
-    
-    def set_barrier(self, key, val):
-        self.barrier_map[key] += val
-   
-    def get_barrier_map(self):
-        return [self.barrier_map[k] for k in self.barrier_map.keys()]
-    
-    def shift(self, key, num):
-        """
-            INFO - probably a terrible idea
-        """
-        pass
-    
-    @property
-    def density_map(self):
-        return self._density_map
-    
-    def get_density(self, key, gen):
-        denom = (self.floor.grid_size / 3.28084) **2
-        return self.density_map[gen][key] / denom
-    
-    def get_density_map_at(self, gen):
-        return [self.get_density(k, gen) for k in range(len(self.floor.grid))]
-    
-    def add_density(self, key, gen):
-        self.density_map[gen][key] += 1
-    
-        
-    @property
-    def floor(self):
-        return self._floor
-    
-    def filter(self, key):
-        return self.barrier_map[key]
-    
-    def get_step(self, initial, goal, route):
-        path = [initial]
-        while initial != goal:
-            path.append(route[initial])
-            initial = route[initial]
-        curr_gen = len(path)
-        return curr_gen
-    
-    def get_distance(self, key, gen):
-        dist = self.distances[key]
-        density  = self.get_density(key[1], gen)
-        overlays = self.filter(key[1])
-        
-        return dist + overlays + density
-
-class Bounds2d():
-    
-    def __init__(self, geo):
-        self.geo_pts = rs.CurvePoints(geo)
-        self._bds = [self.bds_x(self.geo_pts), self.bds_y(self.geo_pts)]
-        self._origin = rc.Geometry.Point3d(self.bds[0][0], self.bds[1][0], 0)
-        
-        self._dim_x = self._bds[0][1] - self._bds[0][0]
-        self._dim_y = self._bds[1][1] - self._bds[1][0]
-        
-    
-    @property
-    def pts(self):
-        return [ rc.Geometry.Point3d(self.bds[0][0], self.bds[1][0], 0),
-            rc.Geometry.Point3d(self.bds[0][1], self.bds[1][0], 0),
-            rc.Geometry.Point3d(self.bds[0][1], self.bds[1][1], 0),
-            rc.Geometry.Point3d(self.bds[0][0], self.bds[1][1], 0)]
-    
-    @property
-    def bds(self):
-        return self._bds
-    
-    @property
-    def origin(self):
-        return self._origin
-    
-    def set_origin(self, pt):
-        self._origin = pt
-    
-    @property
-    def plane(self):
-        return rc.Geometry.Plane(self.origin, rc.Geometry.Vector3d(0,0,1))
-    
-    @property
-    def x(self):
-        return self.bds[0][0]
-    
-    @property
-    def y(self):
-        return self.bds[1][0]
-    
-    def bds_x(self, pts):
-        pts.sort(key = lambda pt: pt.X)
-        return (pts[0].X, pts[-1].X)
-    
-    def bds_y(self, pts):
-        pts.sort(key = lambda pt: pt.Y)
-        return (pts[0].Y, pts[-1].Y)
-   
-    @property
-    def dim_x(self):
-        return self._dim_x
-    
-    @property
-    def dim_y(self):
-        return self._dim_y
-    
-    @property
-    def centroid(self):
-        x_average = self.x + self.dim_x/2
-        y_average = self.y + self.dim_y/2
-        return rc.Geometry.Point3d(x_average, y_average, 0)
-    
-    def to_rect(self):
-        return rc.Geometry.Rectangle3d(self.plane, self.dim_x, self.dim_y)
-    
-    def to_grid(self, grid_size):
-        
-        def mesh_from_rect(rect, grid_size):
-
-            mesh_params = rc.Geometry.MeshingParameters.Default
-            mesh_params.MaximumEdgeLength = grid_size
-            mesh_params.MinimumEdgeLength = grid_size
-            mesh_params.GridAspectRatio = 1
-
-            rect = rc.Geometry.Rectangle3d.ToNurbsCurve(rect)
-            return rc.Geometry.Mesh.CreateFromPlanarBoundary(rect, mesh_params)
-        
-        return mesh_from_rect(self.to_rect(), grid_size)
-    
-    def contains_pt(self, pt):
-        pt = rs.coerce3dpoint(pt)
-        if pt.X &lt; self.x or pt.X &gt; (self.x + self.dim_x) or pt.Y &lt; self.y or pt.Y &gt; (self.y + self.dim_y):
-            return False
-        return True
-
-
-class Entity(object):
-    
-    def __init__(self, attr):
-        self._pos = defaultdict(lambda: None)
-        self._attr = attr
-        self._type = 'entity'
-    
-    def __repr__(self):
-        return "Environment Entity: {0} : {1} ".format(self.type, self.get_attribute('name'))
-
-    @property
-    def position(self):
-        return self._pos[0]
-    
-    def set_position(self, pos, gen=0):
-        self._pos[gen] = pos
-    
-    def get_position(self, gen=0):
-        return self._pos[gen]
-    
-    @property
-    def type(self):
-        return self._type
-    
-    def set_type(self, type):
-        self._type = type
-    
-    @property
-    def attributes(self): return self._attr
-    
-    def set_attribute(self, key, value):
-        self._attr[key] = value
-    
-    def get_attribute(self, key):
-        
-        def _finditem(obj, key):
-            if key in obj: return obj[key]
-            for k, v in obj.items():
-                if isinstance(v,dict):
-                    item = _finditem(v, key)
-                    if item is not None:
-                        return item
-                        
-        return _finditem(self.attributes, key)
-    
-    def has_attribute_value(self, val):
-        
-        def _findvalue(obj, val):
-            if val in obj.values(): return True
-            for k,v in obj.items():
-                if isinstance(v,dict):
-                    value = _findvalue(v, val)
-                    if value is not None:
-                        return True
-            return False
-        
-        return _findvalue(self.attributes, val)
-
-
-class Node(Entity):
-    
-    def __init__(self, pos, attr={}):
-        super(Node, self).__init__(attr)
-        self.set_position(pos)
-        self.set_type('node')
-
-        
-class Template(Entity):
-    
-    def __init__(self, attr={}):
-        super(Template, self).__init__(attr)
-        self.set_type('template')
-    
-    @property
-    def edges(self):
-        return self.get_attribute('edges')
-
-class Floor(Entity):
-    
-    def __init__(self, geo, attr={}):
-        super(Floor, self).__init__(attr)
-        self._geo = rs.coercecurve(geo)
-        self._bds = Bounds2d(geo)
-        self._map = None
-        self._msh = None
-        self._grid = None
-        self._grid_size = None
-        self._coords = {}
-        
-        self.set_position(self.bounds.origin)
-        self.set_type('floor')
-        
-    @property
-    def geo(self):
-        return self._geo
-    
-    @property
-    def bounds(self):
-        return self._bds
-    
-    @property
-    def mesh(self):
-        return self._msh
-        
-    @property
-    def map(self):
-        return self._map
-    
-    
-    @property
-    def grid(self):
-        return self._grid
-        
-    def set_grid(self, grid_size):
-        
-        indexes = []
-        denom = m.sqrt(2*(grid_size**2))
-        t_mesh = rs.coercemesh(rs.AddPlanarMesh(self.geo))
-        self._msh = self.bounds.to_grid(grid_size)
-        self._map = Map(self)
-        self._grid_size = grid_size
-        
-        for i, cpt in enumerate(rs.MeshFaceCenters(self.mesh)):
-            line = rc.Geometry.Line(cpt, rc.Geometry.Vector3d(0,0,1))
-            if not rc.Geometry.Intersect.Intersection.MeshLine(t_mesh, line)[1]:
-                indexes.append(i)
-
-        self.mesh.Faces.DeleteFaces(indexes)
-        self._grid = rs.MeshFaceCenters(self.mesh)
-        
-        for i, pt in enumerate(self.grid):
-            self.set_coord(self.to_grid_coord(pt), i)
-        
-        for i, vertex in enumerate(self.mesh.Vertices):
-
-            edges = self.mesh.TopologyVertices.ConnectedFaces(i)
-            for e1 in edges:
-                for e2 in edges:
-                    if not e1 == e2:
-                        weight = rs.Distance(self._grid[e1], self._grid[e2])/denom
-                        self.map.add_edge(e1,e2, weight)
-                        
-        self.add_edge_map()
-    
-    @property
-    def grid_size(self):
-        return self._grid_size
-    
-    @property
-    def coords(self):
-        return self._coords
-    
-    def set_coord(self, key, val):
-        self._coords[key] = val
-    
-    def get_index_at_coord(self, key):
-        return self._coords[key]
-    
-    def to_grid_coord(self, pt):
-        
-        grid_x = self.bounds.dim_x / m.floor(self.bounds.dim_x / self.grid_size)
-        grid_y = self.bounds.dim_y / m.floor(self.bounds.dim_y / self.grid_size)
-        
-        cs_x = m.floor(self.bounds.dim_x / grid_x)
-        cs_y = m.floor(self.bounds.dim_y / grid_y)
-
-        pt_x = m.floor((pt.X - self.position.X)/ grid_x)
-        pt_y = m.floor((pt.Y - self.position.Y)/ grid_y)
-        
-        return (pt_x, pt_y)
-    
-    def to_grid_index(self, pt):
-        
-        coord = self.to_grid_coord(pt)
-        return self.get_index_at_coord(coord)
-    
-    
-    def add_edge_map(self):
-        
-        def _func(num):
-            if num == 8: return 0
-            else: return 0.5
-            
-        for i, pt in enumerate(self.grid):
-            edges = self.map.edges[i]
-            self.map.set_barrier(i, _func(len(edges)))
-    
-    def add_barrier_map(self, barrier):
-        for i, pt in enumerate(self.grid):
-            if barrier.bounds.contains_pt(pt):
-                if rs.PointInPlanarClosedCurve(pt, barrier.geo):
-                    self.map.set_barrier(i, float('inf'))
-                    for e in self.map.edges[i]:
-                        self.map.set_barrier(e, 0.5)
-
-        
-class Barrier(Entity):
-    
-    def __init__(self, geo, attr={}):
-        super(Barrier, self).__init__(attr)
-        self._geo = rs.coercecurve(geo)
-        self._bds = Bounds2d(geo)
-        
-        self.set_position(self.bounds.origin)
-        self.set_type('barrier')
-        
-    @property
-    def geo(self):
-        return self._geo
-    
-    @property
-    def bounds(self):
-        return self._bds
-        
-
-class Agent(Entity):
-    
-    def __init__(self, pos=None, attr={}, env=None):
-        super(Agent, self).__init__(attr)
-        self._attr = attr
-        self._env = env
-        self._state = None
-        self._history = []
-        self._path = []
-        
-        self.set_position(pos)
-        self.set_type('agent')
-        
-        self.age = 0
-        self.__hold = None
-        self.is_active = True
-        self.is_complete = False
-                
-    
-    @property
-    def position(self):
-        return self.get_position(self.age)
-        
-    def shift(self, num):
-        print 'shift'
-        index = self.state[-2]
-        
-        left = len(self.state)
-        print left, 'steps to goal'
-        self._path[-1].insert(left, index)
-        self.history.append(self.position)
-        #print self.age, self._pos
-        
-        
-        """
-        self.environment.floors[0].map.add_density(path[pi], self.age+pi)
-        self.set_position(path[pi], self.age+pi)
-        """
-        
-        """
-            TODO - not clean at all - MAke this better
-        """
-        keys = self._pos.keys()
-        keys.sort()
-        keys = keys[self.age:]
-        keys.reverse()
-        _dict = copy.copy(self._pos)
-        #print _dict
-        for ki in range(len(keys)):
-            _dict[keys[ki]+1] = _dict[keys[ki]]
-            #self._pos[keys[ki]] = self._pos[keys[ki+1]]
-        #print _dict
-        self._pos = _dict
-        
-        
-    @property
-    def grid_index(self):
-        return self.environment.floors[0].to_grid_index(self.position.position)
-    
-    @property
-    def state(self):
-        return self._state
-    
-    def set_state(self, state):
-        self._state = state
-    
-    @property
-    def destination(self):
-        val = self.get_attribute('destination')
-        return random.choice(self.environment.get_nodes_with_value(val))
-    
-    
-    
-    @property
-    def path(self):
-        print 'making path', self._path
-        _path = sum([p for p in self._path], [])
-        _dict = {idx: self.environment.floors[0].grid[idx] for idx in set(_path)}
-        return [_dict[p] for p in _path]
-    
-    def add_path(self, path):
-        self._path.append(copy.deepcopy(path))
-        print 'added path', self._path
-    
-    
-    @property
-    def history(self):
-        return self._history
-    
-    @property
-    def visited(self):
-        """
-            TODO - this needs to become more standard - maybe a property of the node?
-        """
-        return [n.get_attribute('name') for n in self.history if not type(n) == int]
-    
-    
-    @property
-    def environment(self):
-        return self._env
-    
-    def set_environment(self, env):
-        self._env = env
-        
-    def toggle_active(self):
-        self.is_active = not self.is_active
-        
-    def toggle_complete(self):
-        self.is_complete = not self.is_complete
-    
-    def step(self):        
-        
-       
-        def wait(time):
-            return self.position, [self.position] * time
-    
-    
-        def move(lst):
-            
-            lst = [l for l in lst if not l.get_attribute('name') in self.visited]
-            
-            if len(lst):
-            
-                properties = self.get_attribute('properties')
-                keys = properties.keys()
-                n_percs = [k for k in keys if random.randint(0,100) &lt;= properties[k]]
-                
-                lst = [(l, self.environment.graph.get_distance((self.position, l))) for l in lst if l.get_attribute('name') in n_percs]
-            
-                if len(lst):
-                    
-                    lst.sort(key = lambda tup: len(tup[1]))
-                    lst.reverse()
-                    ncount=0
-                    while len(lst) and ncount &lt; 100 :
-                        
-                        ncount+=1
-                        if ncount ==100: print "&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; broke inner while loop"
-                        tup = lst.pop()
-                        n_choice = tup[0]
-                        
-                        """
-                            TODO - switch agents_at_position to consider generation
-                                 this currently looks at the amount of people with the same destination
-                        """
-                        #num_people = len(self.environment.agents_at_position(n_choice, self.age))
-                        num_people = len([a for a in self.environment.agents if self.__hold == a.__hold and a != self])
-                        capacity = n_choice.get_attribute('capacity')
-
-                        if capacity != None:
-                            if num_people &lt; float(capacity):
-                                break
-                            else:
-                                if random.randint(0,100) &lt; self.get_attribute('queuing'):
-                                    break
-                                else: 
-                                    continue
-                        else:
-                            break
-                else:
-                    n_choice = self.destination
-            else:
-                n_choice = self.destination
-                self.toggle_complete()
-            
-            """
-                TODO - replace with entity.to_grid_index(environment)
-            """
-            n_index = self.environment.floors[0].to_grid_index(n_choice.position)
-            n_path = self.environment.floors[0].map.shortest_path(self.grid_index, n_index, start_idx=self.age)
-            
-            return n_choice, n_path
-
-
-        if not len(self.history):
-
-            start_node = self.get_attribute('origin')
-            start_positions = self.environment.get_nodes_with_value(start_node)
-            start_position = random.choice(start_positions)
-            
-            self.set_position(start_position)
-            self.set_state('waiting')
-            
-        else:
-
-            if self.is_active:
-                
-                print 'position: ', self.position, 'currently', len(self.environment.agents_at_position(self.position, self.age)), 'ppl'
-                print 'state: ', self.state
-                
-                
-                if self.state == 'ready':
-                    
-                    self.__hold, path = move(self.environment.graph.edges[self.position])
-                    #self.add_path([self.environment.floors[0].grid[i] for i in path])
-                    self.add_path(path)
-                    
-                    for pi in range(len(path)):
-                        self.environment.floors[0].map.add_density(path[pi], self.age+pi)
-                        self.set_position(path[pi], self.age+pi)
-                    
-                    path.reverse()
-                    self.set_state(path)
-               
-               
-                if self.state == 'waiting':
-                    
-                    num_people = len(self.environment.agents_at_position(self.__hold, self.age))+1
-                    """
-                        Wait time set to random for now
-                    """
-                    wait_time = random.randint(1,3) * num_people
-                    
-                    self.__hold, path = wait(wait_time)
-                    self.add_path([self.grid_index] * wait_time)
-                    
-                    for pi in range(len(path)):
-                        self.environment.floors[0].map.add_density(self.grid_index, self.age+pi)
-                        self.set_position(path[pi], self.age+pi)
-                    
-                    path.reverse()
-                    self.set_state(path)
-               
-               
-                elif len(self.state) == 1:
-                    
-                    self.set_position(self.__hold, self.age)
-                    
-                    if self.is_complete:
-                        self.set_state('complete')
-                        self.toggle_active()
-                    else:
-                        if self.position == self.state[0]:
-                            self.set_state('ready')
-                        else:
-                            self.set_state('waiting')
-                            
-                            
-                else:
-                    
-                                        
-                    """
-                        TEMP
-                   """
-                    index = self.state[-2]
-                    num_people = len(self.environment.agents_at_position(index, self.age))
-                    print 'next step: ',index
-                    print self._path
-                    print num_people, 'ppl currently at next step'
-                    if num_people &gt;0 and type(index) != Node :
-                        print ' ##################################################################### wait'
-                        self.state.append(self.position)
-                        self.shift(1)
-                        
-                    """
-                        END TEMP
-                    """
-                    
-                    self.age+=1
-                    self.state.pop()
-
-        self.history.append(self.position)
-        
-        
-        
-class Environment():
-    
-    def __init__(self, resolution=30):
-        self._entities = defaultdict(list)
-        self._agents = []
-        self._graph = copy.deepcopy(Graph()) # bad - fix later
-        self._graph_paths = {}
-        self._resolution = resolution
-    
-    def __repr__(self):
-        return 'Environment: {0} agents, {1} nodes, {2} floors'.format(len(self.agents), len(self.graph.nodes), len(self.floors))
-    
-    @property
-    def resolution(self):
-        return self._resolution
-    
-    
-    @property
-    def entities(self):
-        return self._entities
-     
-    def add_entity(self, entity):
-        self.entities[entity.type].append(entity)
-    
-    def add_entities(self, entities):
-        
-        def _add_floor(entity):
-            entity = Floor(entity['geometry'], entity['profile'])
-            self.add_floor(entity)
-            self.add_entity(entity)
-        
-        def _add_node(entity):
-            entity = Node(entity['position'], entity['profile'])
-            self.add_node(entity)
-            self.add_entity(entity)
-            
-        def _add_template(entity):
-            entity = Template(entity['profile'])
-            self.add_template(entity)
-            self.add_entity(entity)
-        
-        def _add_barrier(entity):
-            entity = Barrier(entity['geometry'], entity['profile'])
-            self.add_barrier(entity)
-            self.add_entity(entity)
-        
-        def _add_agent(entity):
-            entity = Agent(attr=entity['profile'])
-            self.add_agent(entity)
-            self.add_entity(entity)
-        
-        
-        dict = defaultdict(list)
-        for entity in entities:
-            dict[entity['type']].append(entity)
-        
-        if len(dict['floor']):
-            for  floor in dict['floor']:
-                _add_floor(floor)
-        else:
-            """
-                TODO - return a warning
-            """
-            print 'environment needs at least one floor to run'
-            
-        if len(dict['node']):
-            ghpythonlib.parallel.run(_add_node, dict['node'], False)
-            #for node in dict['node']:
-            #    _add_node(node)
-        else:
-            """
-                TODO - return a warning
-            """
-            print 'environment needs at least two nodes to run'
-        
-        if len(dict['template']):
-            for template in dict['template']:
-                _add_template(template)
-        else: self.add_default_template()
-
-        if len(dict['barrier']):
-            for barrier in dict['barrier']:
-                _add_barrier(barrier)
-            
-        if len(dict['agent']):
-            for agent in dict['agent']:
-                _add_agent(agent)
-        else:
-            """
-                TODO - return a warning
-            """
-            print 'environment needs at least one agent to run'
-
-
-    @property
-    def graph(self):
-        return self._graph
-    
-    @property
-    def graph_paths(self):
-        return self._graph_paths
-    
-    def get_graph_path(self, n1, n2):
-        
-        floor = self.floors[0] # bad - fix later
-        idx1 = floor.to_grid_index(n1.position)
-        idx2 = floor.to_grid_index(n2.position)
-        return floor.map.shortest_path(idx1, idx2, paths=self.graph_paths[n1])
-    
-    def set_graph_path(self, key, val):
-        self._graph_paths[key] = val
-    
-    
-    @property
-    def templates(self):
-        return [n for n in self.entities['template']]
-    
-    def add_template(self, template):
-        if template.get_attribute('directed') == False:
-            for edge in template.edges:
-                nodes = [n for n in self.nodes if n.position in edge]
-                if len(nodes) == 2:
-                    path = self.get_graph_path(nodes[0], nodes[1])
-                    self.graph.add_edge(nodes[0], nodes[1], path)
-    
-    def add_default_template(self):
-        for n1 in self.graph.nodes:
-            for n2 in self.graph.nodes:
-                if not n1 == n2: 
-                    path = self.get_graph_path(n1, n2)
-                    self.graph.add_edge(n1, n2, path)
-    
-    
-    @property
-    def agents(self):
-        return self._agents
-        
-    def add_agent(self, agent, other=None):
-        agent.set_environment(self)
-        self.agents.append(agent)
-    
-    def agents_at_position(self, position, gen=0):
-        return [a for a in self.agents if a.get_position(gen) == position]
-        #return [a for a in self.agents if a.position == position]
-    
-    
-    @property
-    def nodes(self):
-        return [n for n in self.entities['node']]
-    
-    def add_node(self, node):
-        self.graph.add_node(node)
-        """
-            TODO - floors need to be referenced better
-        """
-        djk = self.floors[0].map.dijsktra(self.floors[0].to_grid_index(node.position))
-        self.set_graph_path(node, djk[1])
-    
-    def get_nodes_with_value(self, val):
-        return [n for n in self.nodes if n.has_attribute_value(val)]
-    
-    
-    @property
-    def floors(self):
-        return [n for n in self.entities['floor']]
-    
-    def add_floor(self, floor):
-        floor.set_grid(self.resolution)
-    
-    def set_grid(self, grid_size):
-        
-        """
-            TODO - implement more complexity
-            grids will need to match up between floors
-               - maybe 1 unified graph to hold graphs?
-        """
-        for floor in self.floors: floor.set_grid(grid_size)
-    
-    
-    @property
-    def paths(self):
-        return [a.path for a in self.agents]
-    
-    def add_barrier(self, barrier):
-        
-        """
-            TODO - implement multiple floors: barriers should be declared with
-            their floor identifier.
-            single floor use only for now
-        """
-        for floor in self.floors:
-            floor.add_barrier_map(barrier)
-    
-    
-    def generation(self, gen):
-        return [a.get_position(gen) for a in self.agents]
-
-    def step(self):
-        
-        def _func(agent):
-            if agent.is_active:
-                agent.step()
-        
-        print '______________________________________________________'
-        print 'NEW STEP'
-        #ghpythonlib.parallel.run(_func, self.agents, False)
-        for i, agent in enumerate(self.agents):
-            print 'agent', i
-            _func(agent)
-    
-    def run(self):
-        count = 0
-        while len([a for a in self.agents if a.is_active]) and count &lt; 500:
-            self.step()
-            count+=1
-            if count ==500: print "&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; broke outer while loop"
-        
-
-if len(entities) != 0 and res != None:
-    environment = Environment(resolution=res)
-    environment.add_entities(entities)
-    
-    a = environment
-</item>
-                    <item name="Description" type_name="gh_string" type_code="10">A python scriptable component</item>
-                    <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
-                      <X>1912</X>
-                      <Y>-728</Y>
-                    </item>
-                    <item name="EditorSize" type_name="gh_drawing_size" type_code="32">
-                      <W>1216</W>
-                      <H>1932</H>
-                    </item>
-                    <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
-                    <item name="HideOutput" type_name="gh_bool" type_code="1">false</item>
-                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">f33d859b-f763-4281-b08c-adec77dfc5cd</item>
-                    <item name="Locked" type_name="gh_bool" type_code="1">true</item>
-                    <item name="Name" type_name="gh_string" type_code="10">Python Script</item>
-                    <item name="NickName" type_name="gh_string" type_code="10">+ENV</item>
+                  <items count="6">
+                    <item name="BaseOutputIndex" type_name="gh_int32" type_code="3">0</item>
+                    <item name="Description" type_name="gh_string" type_code="10">Retrieve a specific item from a list.</item>
+                    <item name="Hidden" type_name="gh_bool" type_code="1">true</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">9854dcec-9770-4b0c-b89f-a2b197430d08</item>
+                    <item name="Name" type_name="gh_string" type_code="10">List Item</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">Item</item>
                   </items>
                   <chunks count="2">
                     <chunk name="Attributes">
                       <items count="2">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>2923</X>
-                          <Y>2240</Y>
-                          <W>118</W>
-                          <H>51</H>
+                          <X>4377</X>
+                          <Y>1684</Y>
+                          <W>80</W>
+                          <H>64</H>
                         </item>
                         <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                          <X>2998</X>
-                          <Y>2266</Y>
+                          <X>4427</X>
+                          <Y>1716</Y>
                         </item>
                       </items>
                     </chunk>
                     <chunk name="ParameterData">
                       <items count="6">
-                        <item name="InputCount" type_name="gh_int32" type_code="3">2</item>
-                        <item name="InputId" index="0" type_name="gh_guid" type_code="9">84fa917c-1ed8-4db3-8be1-7bdc4a6495a2</item>
-                        <item name="InputId" index="1" type_name="gh_guid" type_code="9">84fa917c-1ed8-4db3-8be1-7bdc4a6495a2</item>
-                        <item name="OutputCount" type_name="gh_int32" type_code="3">2</item>
-                        <item name="OutputId" index="0" type_name="gh_guid" type_code="9">3ede854e-c753-40eb-84cb-b48008f14fd4</item>
-                        <item name="OutputId" index="1" type_name="gh_guid" type_code="9">8ec86459-bf01-4409-baee-174d0d2b13d0</item>
+                        <item name="InputCount" type_name="gh_int32" type_code="3">3</item>
+                        <item name="InputId" index="0" type_name="gh_guid" type_code="9">8ec86459-bf01-4409-baee-174d0d2b13d0</item>
+                        <item name="InputId" index="1" type_name="gh_guid" type_code="9">2e3ab970-8545-46bb-836c-1c11e5610bce</item>
+                        <item name="InputId" index="2" type_name="gh_guid" type_code="9">cb95db89-6165-43b6-9c41-5702bc5bf137</item>
+                        <item name="OutputCount" type_name="gh_int32" type_code="3">1</item>
+                        <item name="OutputId" index="0" type_name="gh_guid" type_code="9">8ec86459-bf01-4409-baee-174d0d2b13d0</item>
                       </items>
                       <chunks count="4">
                         <chunk name="InputParam" index="0">
-                          <items count="21">
+                          <items count="9">
                             <item name="Access" type_name="gh_int32" type_code="3">1</item>
-                            <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Description" type_name="gh_string" type_code="10">Script input entities.</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">96c35f34-688c-4de8-83bf-8dc428341022</item>
-                            <item name="Locked" type_name="gh_bool" type_code="1">true</item>
+                            <item name="Description" type_name="gh_string" type_code="10">Base list</item>
+                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">30c89025-bfd2-466d-9644-ebbffe60d7ef</item>
                             <item name="Mapping" type_name="gh_int32" type_code="3">1</item>
-                            <item name="Name" type_name="gh_string" type_code="10">entities</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">entities</item>
-                            <item name="Optional" type_name="gh_bool" type_code="1">true</item>
-                            <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">1</item>
-                            <item name="ShowTypeHints" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Source" index="0" type_name="gh_guid" type_code="9">8d6365d3-a807-44b5-b63d-d8277b71106c</item>
-                            <item name="Source" index="1" type_name="gh_guid" type_code="9">17ad29d0-7812-4f2f-a7c9-089ee59e6198</item>
-                            <item name="Source" index="2" type_name="gh_guid" type_code="9">22bf05af-1237-4c55-bcab-6dba79ff280d</item>
-                            <item name="Source" index="3" type_name="gh_guid" type_code="9">ed7d8bca-4429-4275-9947-19c667fd052e</item>
-                            <item name="Source" index="4" type_name="gh_guid" type_code="9">b8e6894c-77b9-4ed6-95af-8920927a53c6</item>
-                            <item name="Source" index="5" type_name="gh_guid" type_code="9">abf6facc-4195-465e-976f-47afa9951285</item>
-                            <item name="Source" index="6" type_name="gh_guid" type_code="9">729ec0a8-3039-4ce5-8816-4f43eb64e9ce</item>
-                            <item name="Source" index="7" type_name="gh_guid" type_code="9">afe7f55e-1c6a-49bb-9bed-1d1ee3c82a81</item>
-                            <item name="SourceCount" type_name="gh_int32" type_code="3">8</item>
-                            <item name="TypeHintID" type_name="gh_guid" type_code="9">87f87f55-5b71-41f4-8aea-21d494016f81</item>
+                            <item name="Name" type_name="gh_string" type_code="10">List</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">L</item>
+                            <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                            <item name="Source" index="0" type_name="gh_guid" type_code="9">abf6a5d9-4137-42bd-ac00-76c7181fe0ad</item>
+                            <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
                           </items>
                           <chunks count="1">
                             <chunk name="Attributes">
                               <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>2925</X>
-                                  <Y>2242</Y>
-                                  <W>58</W>
-                                  <H>23</H>
+                                  <X>4379</X>
+                                  <Y>1686</Y>
+                                  <W>33</W>
+                                  <H>20</H>
                                 </item>
                                 <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>2963.5</X>
-                                  <Y>2253.75</Y>
+                                  <X>4405</X>
+                                  <Y>1696</Y>
                                 </item>
                               </items>
                             </chunk>
                           </chunks>
                         </chunk>
                         <chunk name="InputParam" index="1">
-                          <items count="12">
-                            <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Description" type_name="gh_string" type_code="10">Script input res.</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">8dd259a0-b6a1-40d8-976b-8c63625c5454</item>
-                            <item name="Locked" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Name" type_name="gh_string" type_code="10">res</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">res</item>
-                            <item name="Optional" type_name="gh_bool" type_code="1">true</item>
-                            <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">0</item>
-                            <item name="ShowTypeHints" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Source" index="0" type_name="gh_guid" type_code="9">d18d6081-9c2d-4151-98ae-9e5185325bb0</item>
+                          <items count="7">
+                            <item name="Description" type_name="gh_string" type_code="10">Item index</item>
+                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">cbf77ff3-e728-4d64-9ace-85fe4bddbfcb</item>
+                            <item name="Name" type_name="gh_string" type_code="10">Index</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">i</item>
+                            <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                            <item name="Source" index="0" type_name="gh_guid" type_code="9">c776e42f-9446-401f-88c0-0355f567fd8f</item>
                             <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
-                            <item name="TypeHintID" type_name="gh_guid" type_code="9">39fbc626-7a01-46ab-a18e-ec1c0c41685b</item>
                           </items>
-                          <chunks count="1">
+                          <chunks count="2">
                             <chunk name="Attributes">
                               <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>2925</X>
-                                  <Y>2265</Y>
-                                  <W>58</W>
-                                  <H>24</H>
+                                  <X>4379</X>
+                                  <Y>1706</Y>
+                                  <W>33</W>
+                                  <H>20</H>
                                 </item>
                                 <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>2963.5</X>
-                                  <Y>2277.25</Y>
+                                  <X>4405</X>
+                                  <Y>1716</Y>
                                 </item>
                               </items>
+                            </chunk>
+                            <chunk name="PersistentData">
+                              <items count="1">
+                                <item name="Count" type_name="gh_int32" type_code="3">1</item>
+                              </items>
+                              <chunks count="1">
+                                <chunk name="Branch" index="0">
+                                  <items count="2">
+                                    <item name="Count" type_name="gh_int32" type_code="3">1</item>
+                                    <item name="Path" type_name="gh_string" type_code="10">{0}</item>
+                                  </items>
+                                  <chunks count="1">
+                                    <chunk name="Item" index="0">
+                                      <items count="1">
+                                        <item name="number" type_name="gh_int32" type_code="3">0</item>
+                                      </items>
+                                    </chunk>
+                                  </chunks>
+                                </chunk>
+                              </chunks>
+                            </chunk>
+                          </chunks>
+                        </chunk>
+                        <chunk name="InputParam" index="2">
+                          <items count="6">
+                            <item name="Description" type_name="gh_string" type_code="10">Wrap index to list bounds</item>
+                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">4cf0b697-c4fd-4640-82ff-12e802aba272</item>
+                            <item name="Name" type_name="gh_string" type_code="10">Wrap</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">W</item>
+                            <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                          </items>
+                          <chunks count="2">
+                            <chunk name="Attributes">
+                              <items count="2">
+                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                                  <X>4379</X>
+                                  <Y>1726</Y>
+                                  <W>33</W>
+                                  <H>20</H>
+                                </item>
+                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                                  <X>4405</X>
+                                  <Y>1736</Y>
+                                </item>
+                              </items>
+                            </chunk>
+                            <chunk name="PersistentData">
+                              <items count="1">
+                                <item name="Count" type_name="gh_int32" type_code="3">1</item>
+                              </items>
+                              <chunks count="1">
+                                <chunk name="Branch" index="0">
+                                  <items count="2">
+                                    <item name="Count" type_name="gh_int32" type_code="3">1</item>
+                                    <item name="Path" type_name="gh_string" type_code="10">{0}</item>
+                                  </items>
+                                  <chunks count="1">
+                                    <chunk name="Item" index="0">
+                                      <items count="1">
+                                        <item name="boolean" type_name="gh_bool" type_code="1">true</item>
+                                      </items>
+                                    </chunk>
+                                  </chunks>
+                                </chunk>
+                              </chunks>
                             </chunk>
                           </chunks>
                         </chunk>
                         <chunk name="OutputParam" index="0">
                           <items count="7">
-                            <item name="Description" type_name="gh_string" type_code="10">The execution information, as output and error streams</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">c826e0b0-9eee-4874-bb37-4354ae77cbcb</item>
-                            <item name="Locked" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Name" type_name="gh_string" type_code="10">out</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">out</item>
+                            <item name="Description" type_name="gh_string" type_code="10">Item at {i'}</item>
+                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">684497ec-acb6-4951-b37d-b8046e2a0f48</item>
+                            <item name="Mutable" type_name="gh_bool" type_code="1">false</item>
+                            <item name="Name" type_name="gh_string" type_code="10">Item</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">i</item>
                             <item name="Optional" type_name="gh_bool" type_code="1">false</item>
                             <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
                           </items>
@@ -19768,47 +18154,186 @@ if len(entities) != 0 and res != None:
                             <chunk name="Attributes">
                               <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>3013</X>
-                                  <Y>2242</Y>
-                                  <W>26</W>
-                                  <H>23</H>
+                                  <X>4442</X>
+                                  <Y>1686</Y>
+                                  <W>13</W>
+                                  <H>60</H>
                                 </item>
                                 <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>3026</X>
-                                  <Y>2253.75</Y>
-                                </item>
-                              </items>
-                            </chunk>
-                          </chunks>
-                        </chunk>
-                        <chunk name="OutputParam" index="1">
-                          <items count="7">
-                            <item name="Description" type_name="gh_string" type_code="10">Script output a.</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">ec470fee-9978-4234-8c31-d233a774318b</item>
-                            <item name="Locked" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Name" type_name="gh_string" type_code="10">a</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">a</item>
-                            <item name="Optional" type_name="gh_bool" type_code="1">false</item>
-                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
-                          </items>
-                          <chunks count="1">
-                            <chunk name="Attributes">
-                              <items count="2">
-                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>3013</X>
-                                  <Y>2265</Y>
-                                  <W>26</W>
-                                  <H>24</H>
-                                </item>
-                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>3026</X>
-                                  <Y>2277.25</Y>
+                                  <X>4448.5</X>
+                                  <Y>1716</Y>
                                 </item>
                               </items>
                             </chunk>
                           </chunks>
                         </chunk>
                       </chunks>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="154">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">537b0419-bbc2-4ff4-bf08-afe526367b2c</item>
+                <item name="Name" type_name="gh_string" type_code="10">Custom Preview</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="5">
+                    <item name="Description" type_name="gh_string" type_code="10">Allows for customized geometry previews</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">4c04e35b-b8ea-44f4-bcbd-7ee5ae594950</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Custom Preview</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">Preview</item>
+                    <item name="ViewportFilter" type_name="gh_string" type_code="10"></item>
+                  </items>
+                  <chunks count="3">
+                    <chunk name="Attributes">
+                      <items count="2">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>4499</X>
+                          <Y>1699</Y>
+                          <W>46</W>
+                          <H>65</H>
+                        </item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>4531</X>
+                          <Y>1732</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                    <chunk name="param_input" index="0">
+                      <items count="8">
+                        <item name="Description" type_name="gh_string" type_code="10">Geometry to preview</item>
+                        <item name="Hidden" type_name="gh_bool" type_code="1">true</item>
+                        <item name="InstanceGuid" type_name="gh_guid" type_code="9">2377425d-a90a-4400-85a9-ef2558c319c4</item>
+                        <item name="Name" type_name="gh_string" type_code="10">Geometry</item>
+                        <item name="NickName" type_name="gh_string" type_code="10">G</item>
+                        <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                        <item name="Source" index="0" type_name="gh_guid" type_code="9">684497ec-acb6-4951-b37d-b8046e2a0f48</item>
+                        <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
+                      </items>
+                      <chunks count="1">
+                        <chunk name="Attributes">
+                          <items count="2">
+                            <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                              <X>4501</X>
+                              <Y>1701</Y>
+                              <W>15</W>
+                              <H>30</H>
+                            </item>
+                            <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                              <X>4510</X>
+                              <Y>1716.25</Y>
+                            </item>
+                          </items>
+                        </chunk>
+                      </chunks>
+                    </chunk>
+                    <chunk name="param_input" index="1">
+                      <items count="6">
+                        <item name="Description" type_name="gh_string" type_code="10">The preview shader override</item>
+                        <item name="InstanceGuid" type_name="gh_guid" type_code="9">ebe55582-dc20-44a5-b610-7792987b27cc</item>
+                        <item name="Name" type_name="gh_string" type_code="10">Shader</item>
+                        <item name="NickName" type_name="gh_string" type_code="10">S</item>
+                        <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                        <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                      </items>
+                      <chunks count="2">
+                        <chunk name="Attributes">
+                          <items count="2">
+                            <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                              <X>4501</X>
+                              <Y>1731</Y>
+                              <W>15</W>
+                              <H>31</H>
+                            </item>
+                            <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                              <X>4510</X>
+                              <Y>1746.75</Y>
+                            </item>
+                          </items>
+                        </chunk>
+                        <chunk name="PersistentData">
+                          <items count="1">
+                            <item name="Count" type_name="gh_int32" type_code="3">1</item>
+                          </items>
+                          <chunks count="1">
+                            <chunk name="Branch" index="0">
+                              <items count="2">
+                                <item name="Count" type_name="gh_int32" type_code="3">1</item>
+                                <item name="Path" type_name="gh_string" type_code="10">{0}</item>
+                              </items>
+                              <chunks count="1">
+                                <chunk name="Item" index="0">
+                                  <items count="7">
+                                    <item name="ambient" type_name="gh_drawing_color" type_code="36">
+                                      <ARGB>255;0;0;0</ARGB>
+                                    </item>
+                                    <item name="diffuse" type_name="gh_drawing_color" type_code="36">
+                                      <ARGB>255;255;105;180</ARGB>
+                                    </item>
+                                    <item name="emission" type_name="gh_drawing_color" type_code="36">
+                                      <ARGB>255;76;32;54</ARGB>
+                                    </item>
+                                    <item name="rdk_id" type_name="gh_guid" type_code="9">00000000-0000-0000-0000-000000000000</item>
+                                    <item name="shine" type_name="gh_double" type_code="6">0.5</item>
+                                    <item name="specular" type_name="gh_drawing_color" type_code="36">
+                                      <ARGB>255;255;255;255</ARGB>
+                                    </item>
+                                    <item name="transparency" type_name="gh_double" type_code="6">0</item>
+                                  </items>
+                                </chunk>
+                              </chunks>
+                            </chunk>
+                          </chunks>
+                        </chunk>
+                      </chunks>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="155">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">57da07bd-ecab-415d-9d86-af36d7073abc</item>
+                <item name="Name" type_name="gh_string" type_code="10">Number Slider</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="6">
+                    <item name="Description" type_name="gh_string" type_code="10">Numeric slider for single values</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">c776e42f-9446-401f-88c0-0355f567fd8f</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Number Slider</item>
+                    <item name="NickName" type_name="gh_string" type_code="10"></item>
+                    <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                    <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                  </items>
+                  <chunks count="2">
+                    <chunk name="Attributes">
+                      <items count="2">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>4108</X>
+                          <Y>1703</Y>
+                          <W>160</W>
+                          <H>20</H>
+                        </item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>4108.75</X>
+                          <Y>1703.75</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                    <chunk name="Slider">
+                      <items count="7">
+                        <item name="Digits" type_name="gh_int32" type_code="3">3</item>
+                        <item name="GripDisplay" type_name="gh_int32" type_code="3">1</item>
+                        <item name="Interval" type_name="gh_int32" type_code="3">1</item>
+                        <item name="Max" type_name="gh_double" type_code="6">100</item>
+                        <item name="Min" type_name="gh_double" type_code="6">0</item>
+                        <item name="SnapCount" type_name="gh_int32" type_code="3">0</item>
+                        <item name="Value" type_name="gh_double" type_code="6">0</item>
+                      </items>
                     </chunk>
                   </chunks>
                 </chunk>
@@ -19821,7 +18346,7 @@ if len(entities) != 0 and res != None:
     <chunk name="Thumbnail">
       <items count="1">
         <item name="Thumbnail" type_name="gh_drawing_bitmap" type_code="37">
-          <bitmap length="7581">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</bitmap>
+          <bitmap length="9649">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</bitmap>
         </item>
       </items>
     </chunk>
