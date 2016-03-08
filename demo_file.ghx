@@ -48,10 +48,10 @@
             <chunk name="Projection">
               <items count="2">
                 <item name="Target" type_name="gh_drawing_point" type_code="30">
-                  <X>-61</X>
-                  <Y>-71</Y>
+                  <X>-3282</X>
+                  <Y>-2212</Y>
                 </item>
-                <item name="Zoom" type_name="gh_single" type_code="5">0.1677721</item>
+                <item name="Zoom" type_name="gh_single" type_code="5">1.25</item>
               </items>
             </chunk>
             <chunk name="Views">
@@ -107,9 +107,9 @@
         </chunk>
         <chunk name="DefinitionObjects">
           <items count="1">
-            <item name="ObjectCount" type_name="gh_int32" type_code="3">155</item>
+            <item name="ObjectCount" type_name="gh_int32" type_code="3">157</item>
           </items>
-          <chunks count="155">
+          <chunks count="157">
             <chunk name="Object" index="0">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">c552a431-af5b-46a9-a8a4-0fcbc27ef596</item>
@@ -673,8 +673,8 @@ if len(profile) != 0 and boundary != None:
                     <chunk name="Attributes">
                       <items count="5">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>2922</X>
-                          <Y>1012</Y>
+                          <X>2908</X>
+                          <Y>1114</Y>
                           <W>905</W>
                           <H>953</H>
                         </item>
@@ -682,8 +682,8 @@ if len(profile) != 0 and boundary != None:
                         <item name="MarginRight" type_name="gh_int32" type_code="3">0</item>
                         <item name="MarginTop" type_name="gh_int32" type_code="3">0</item>
                         <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                          <X>2922.623</X>
-                          <Y>1012.154</Y>
+                          <X>2908.623</X>
+                          <Y>1114.904</Y>
                         </item>
                       </items>
                     </chunk>
@@ -5638,8 +5638,9 @@ if env != None and run:
               </items>
               <chunks count="1">
                 <chunk name="Container">
-                  <items count="5">
+                  <items count="6">
                     <item name="Description" type_name="gh_string" type_code="10">Allows for customized geometry previews</item>
+                    <item name="Hidden" type_name="gh_bool" type_code="1">true</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">241db121-a609-4812-9fba-d5c54baecf60</item>
                     <item name="Name" type_name="gh_string" type_code="10">Custom Preview</item>
                     <item name="NickName" type_name="gh_string" type_code="10">Preview</item>
@@ -10210,7 +10211,7 @@ if env != None and run:
                         <item name="Max" type_name="gh_double" type_code="6">100</item>
                         <item name="Min" type_name="gh_double" type_code="6">0</item>
                         <item name="SnapCount" type_name="gh_int32" type_code="3">0</item>
-                        <item name="Value" type_name="gh_double" type_code="6">0</item>
+                        <item name="Value" type_name="gh_double" type_code="6">81</item>
                       </items>
                     </chunk>
                   </chunks>
@@ -10516,7 +10517,7 @@ if env != None and run:
                     <item name="Description" type_name="gh_string" type_code="10">Receives the output value from the Flux data key.</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">495f172c-a6b2-48f9-8b02-98b1f8608219</item>
                     <item name="keyId" type_name="gh_string" type_code="10">40cb3cd726665aea6aff065b945d8271</item>
-                    <item name="lastTransfer" type_name="gh_date" type_code="8">635926926664605112</item>
+                    <item name="lastTransfer" type_name="gh_date" type_code="8">635929487583295945</item>
                     <item name="mode" type_name="gh_string" type_code="10">Constantly</item>
                     <item name="Name" type_name="gh_string" type_code="10">From Flux</item>
                     <item name="NickName" type_name="gh_string" type_code="10">From Flux</item>
@@ -10847,7 +10848,7 @@ if env != None and run:
                     <item name="Description" type_name="gh_string" type_code="10">Receives the output value from the Flux data key.</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">770791df-617c-44a5-bb67-5ec41fbe1971</item>
                     <item name="keyId" type_name="gh_string" type_code="10">4012e5098a2acc3bb59e6201ecf9dd56</item>
-                    <item name="lastTransfer" type_name="gh_date" type_code="8">635926926667413112</item>
+                    <item name="lastTransfer" type_name="gh_date" type_code="8">635929487581703945</item>
                     <item name="mode" type_name="gh_string" type_code="10">Constantly</item>
                     <item name="Name" type_name="gh_string" type_code="10">From Flux</item>
                     <item name="NickName" type_name="gh_string" type_code="10">From Flux</item>
@@ -12547,7 +12548,7 @@ a = [{name: value}]</item>
                         <item name="Max" type_name="gh_double" type_code="6">100</item>
                         <item name="Min" type_name="gh_double" type_code="6">0</item>
                         <item name="SnapCount" type_name="gh_int32" type_code="3">0</item>
-                        <item name="Value" type_name="gh_double" type_code="6">50</item>
+                        <item name="Value" type_name="gh_double" type_code="6">100</item>
                       </items>
                     </chunk>
                   </chunks>
@@ -14001,9 +14002,14 @@ class Agent(Entity):
     def position(self):
         return self.get_position(self.age)
         
-    def shift(self, num):
-        _index =  self._path[-1].index(self.state[-2])
-        self._path[-1].insert(_index, self.state[-2])
+    def shift(self):
+        
+        next_position = self.state[-2]
+        if type(next_position) == Node:
+            next_position = self.environment.floors[0].to_grid_index(next_position.position)
+            
+        _index =  self._path[-1].index(next_position)
+        self._path[-1].insert(_index, next_position)
         self.history.append(self.position)
         """
             TODO - not clean at all - Make this better
@@ -14115,7 +14121,6 @@ class Agent(Entity):
                                 break
                             else:
                                 if random.randint(0,100) &lt; self.get_attribute('queuing'):
-                                    print 'queuing'
                                     break
                                 else: 
                                     continue
@@ -14132,7 +14137,7 @@ class Agent(Entity):
             """
             n_index = self.environment.floors[0].to_grid_index(n_choice.position)
             n_path = self.environment.floors[0].map.shortest_path(self.grid_index, n_index, start_idx=self.age)
-            
+
             return n_choice, n_path
 
 
@@ -14172,7 +14177,7 @@ class Agent(Entity):
                     """
                         Wait time set to random for now
                     """
-                    wait_time = random.randint(1,3) * num_people
+                    wait_time = num_people
                     
                     self.__hold, path = wait(wait_time)
                     self.add_path([self.grid_index] * wait_time)
@@ -14186,26 +14191,59 @@ class Agent(Entity):
                
                
                 elif len(self.state) == 1:
+
+                    next_position = self.__hold
+                    capacity = next_position.get_attribute('capacity')
+                    capacity = int(capacity) if capacity != None else float('inf')
+                    num_people = len(self.environment.agents_at_position(next_position, self.age))
+
+
+                    if num_people &gt; capacity and type(self.position)!= Node:
+                        print 'over capacity', num_people, capacity
+                        
+                        """
+                        wait_time = num_people-capacity
+                        print wait_time
+                        path = wait(wait_time)[1]
+                        self.add_path([self.position] * wait_time)
                     
-                    self.set_position(self.__hold, self.age)
+                        for pi in range(len(path)):
+                            self.environment.floors[0].map.add_density(self.position, self.age+pi)
+                            self.set_position(path[pi], self.age+pi)
+                        
+                        path.reverse()
+                        print path
+                        self.set_state(path)
+                        return
+                        """
+                        self.state.append(self.position)
+                        self.shift()
+                        
+                        self.age+=1
+                        self.state.pop();
                     
-                    if self.is_complete:
-                        self.set_state('complete')
-                        self.toggle_active()
                     else:
-                        if self.position == self.state[0]:
-                            self.set_state('ready')
+                        self.set_position(self.__hold, self.age)
+                        
+                        if self.is_complete:
+                            self.set_state('complete')
+                            self.toggle_active()
                         else:
-                            self.set_state('waiting')
+                            if self.position == self.state[0]:
+                                self.set_state('ready')
+                                print 'ready'
+                            else:
+                                self.set_state('waiting')
+                                print 'waiting'
                             
 
                 else:
-                    
-                    index = self.state[-2]
-                    num_people = len(self.environment.agents_at_position(index, self.age))
-                    if num_people &gt;0 and type(index) != Node :
-                        self.state.append(self.position)
-                        self.shift(1)
+                    if type(self.position)!= Node:
+                        next_position = self.state[-2]
+                        num_people = len(self.environment.agents_at_position(next_position, self.age))
+                        if num_people &gt; 1 :
+                                self.state.append(self.position)
+                                self.shift()
 
                     self.age+=1
                     self.state.pop()
@@ -14277,17 +14315,15 @@ class Environment():
             """
                 TODO - return a warning
             """
-            print 'environment needs at least one floor to run'
+            pass
             
         if len(dict['node']):
             ghpythonlib.parallel.run(_add_node, dict['node'], False)
-            #for node in dict['node']:
-            #    _add_node(node)
         else:
             """
                 TODO - return a warning
             """
-            print 'environment needs at least two nodes to run'
+            pass
         
         if len(dict['template']):
             for template in dict['template']:
@@ -14305,7 +14341,7 @@ class Environment():
             """
                 TODO - return a warning
             """
-            print 'environment needs at least one agent to run'
+            pass
 
 
     @property
@@ -14357,8 +14393,7 @@ class Environment():
     
     def agents_at_position(self, position, gen=0):
         return [a for a in self.agents if a.get_position(gen) == position]
-        #return [a for a in self.agents if a.position == position]
-    
+
     
     @property
     def nodes(self):
@@ -14417,11 +14452,7 @@ class Environment():
             if agent.is_active:
                 agent.step()
         
-        #print '______________________________________________________'
-        #print 'NEW STEP'
-        #ghpythonlib.parallel.run(_func, self.agents, False)
         for i, agent in enumerate(self.agents):
-            #print 'agent', i
             _func(agent)
     
     def run(self):
@@ -17903,14 +17934,14 @@ if env != None and run:
                     <chunk name="Attributes">
                       <items count="2">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>3997</X>
-                          <Y>1366</Y>
-                          <W>160</W>
+                          <X>3965</X>
+                          <Y>1367</Y>
+                          <W>161</W>
                           <H>20</H>
                         </item>
                         <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                          <X>3997.611</X>
-                          <Y>1366.277</Y>
+                          <X>3965.134</X>
+                          <Y>1367.557</Y>
                         </item>
                       </items>
                     </chunk>
@@ -17922,7 +17953,7 @@ if env != None and run:
                         <item name="Max" type_name="gh_double" type_code="6">100</item>
                         <item name="Min" type_name="gh_double" type_code="6">0</item>
                         <item name="SnapCount" type_name="gh_int32" type_code="3">0</item>
-                        <item name="Value" type_name="gh_double" type_code="6">100</item>
+                        <item name="Value" type_name="gh_double" type_code="6">85</item>
                       </items>
                     </chunk>
                   </chunks>
@@ -18290,6 +18321,1266 @@ if env != None and run:
                 </chunk>
               </chunks>
             </chunk>
+            <chunk name="Object" index="155">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">1177d6ee-3993-4226-9558-52b7fd63e1e3</item>
+                <item name="Name" type_name="gh_string" type_code="10">Trim Tree</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="4">
+                    <item name="Description" type_name="gh_string" type_code="10">Reduce the complexity of a tree by merging the outermost branches.</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">565fb090-e90d-4954-a4b7-32d70f2f0571</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Trim Tree</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">Trim</item>
+                  </items>
+                  <chunks count="4">
+                    <chunk name="Attributes">
+                      <items count="2">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>2654</X>
+                          <Y>1678</Y>
+                          <W>65</W>
+                          <H>44</H>
+                        </item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>2686</X>
+                          <Y>1700</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                    <chunk name="param_input" index="0">
+                      <items count="7">
+                        <item name="Access" type_name="gh_int32" type_code="3">2</item>
+                        <item name="Description" type_name="gh_string" type_code="10">Data tree to flatten</item>
+                        <item name="InstanceGuid" type_name="gh_guid" type_code="9">4ad247a7-9b11-4cd5-87ee-1e2c749b8630</item>
+                        <item name="Name" type_name="gh_string" type_code="10">Tree</item>
+                        <item name="NickName" type_name="gh_string" type_code="10">T</item>
+                        <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                        <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                      </items>
+                      <chunks count="1">
+                        <chunk name="Attributes">
+                          <items count="2">
+                            <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                              <X>2656</X>
+                              <Y>1680</Y>
+                              <W>15</W>
+                              <H>20</H>
+                            </item>
+                            <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                              <X>2665</X>
+                              <Y>1690</Y>
+                            </item>
+                          </items>
+                        </chunk>
+                      </chunks>
+                    </chunk>
+                    <chunk name="param_input" index="1">
+                      <items count="6">
+                        <item name="Description" type_name="gh_string" type_code="10">Number of outermost branches to merge</item>
+                        <item name="InstanceGuid" type_name="gh_guid" type_code="9">98502fc0-0b72-40b5-b2a6-b92d314eb0ea</item>
+                        <item name="Name" type_name="gh_string" type_code="10">Depth</item>
+                        <item name="NickName" type_name="gh_string" type_code="10">D</item>
+                        <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                        <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                      </items>
+                      <chunks count="2">
+                        <chunk name="Attributes">
+                          <items count="2">
+                            <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                              <X>2656</X>
+                              <Y>1700</Y>
+                              <W>15</W>
+                              <H>20</H>
+                            </item>
+                            <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                              <X>2665</X>
+                              <Y>1710</Y>
+                            </item>
+                          </items>
+                        </chunk>
+                        <chunk name="PersistentData">
+                          <items count="1">
+                            <item name="Count" type_name="gh_int32" type_code="3">1</item>
+                          </items>
+                          <chunks count="1">
+                            <chunk name="Branch" index="0">
+                              <items count="2">
+                                <item name="Count" type_name="gh_int32" type_code="3">1</item>
+                                <item name="Path" type_name="gh_string" type_code="10">{0}</item>
+                              </items>
+                              <chunks count="1">
+                                <chunk name="Item" index="0">
+                                  <items count="1">
+                                    <item name="number" type_name="gh_int32" type_code="3">1</item>
+                                  </items>
+                                </chunk>
+                              </chunks>
+                            </chunk>
+                          </chunks>
+                        </chunk>
+                      </chunks>
+                    </chunk>
+                    <chunk name="param_output" index="0">
+                      <items count="7">
+                        <item name="Access" type_name="gh_int32" type_code="3">2</item>
+                        <item name="Description" type_name="gh_string" type_code="10">Trimmed data tree</item>
+                        <item name="InstanceGuid" type_name="gh_guid" type_code="9">1e60e2f4-9e9c-4c4e-b81b-a7508668590f</item>
+                        <item name="Name" type_name="gh_string" type_code="10">Tree</item>
+                        <item name="NickName" type_name="gh_string" type_code="10">T</item>
+                        <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                        <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                      </items>
+                      <chunks count="1">
+                        <chunk name="Attributes">
+                          <items count="2">
+                            <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                              <X>2701</X>
+                              <Y>1680</Y>
+                              <W>16</W>
+                              <H>40</H>
+                            </item>
+                            <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                              <X>2709</X>
+                              <Y>1700</Y>
+                            </item>
+                          </items>
+                        </chunk>
+                      </chunks>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="156">
+              <items count="3">
+                <item name="GUID" type_name="gh_guid" type_code="9">410755b1-224a-4c1e-a407-bf32fb45ea7e</item>
+                <item name="Lib" type_name="gh_guid" type_code="9">16cf80bc-9018-cbdb-2238-976eb17fd30d</item>
+                <item name="Name" type_name="gh_string" type_code="10">Python Script</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="10">
+                    <item name="CodeInput" type_name="gh_string" type_code="10">from collections import defaultdict
+import rhinoscriptsyntax as rs
+import Rhino as rc
+import scriptcontext as sc
+import random, copy
+from itertools import permutations
+import math as m
+
+import ghpythonlib.parallel
+
+class Graph(object):
+    
+    def __init__(self, nodes=set(), edges=defaultdict(set), distances={}):
+        """
+            currently resource allocation between graphs is broken
+            multiple graphs share the same node set
+        """
+        self.nodes = nodes
+        self.edges = edges
+        self.distances = distances 
+
+    def __repr__(self):
+        return "Graph: {0} nodes, {1} edges".format(len(self.nodes), len(self.edges))
+    
+    def add_node(self, value):
+        self.nodes.add(value)
+        
+    def add_edge(self, from_node, to_node, distance):
+        self.add_node(from_node)
+        self.add_node(to_node)
+        
+        self.edges[from_node].add(to_node)
+        self.edges[to_node].add(from_node)
+        self.distances[(from_node, to_node)] = distance
+        self.distances[(to_node, from_node)] = distance
+    
+    
+    def get_distance(self, key, gen=0):
+        return self.distances[key]
+    
+    def get_step(self, initial, goal, route):
+        return
+    
+    """
+        initial dijsktra from:
+        https://gist.github.com/econchick/4666413
+    """
+    def dijsktra(self, initial, goal=None, start_idx=0):
+
+        visited = {initial: 0}
+        path = {}
+        nodes = set(self.nodes)
+
+        while nodes:
+            min_node = None
+            for node in nodes:
+                if node in visited:
+                    if min_node is None:
+                        min_node = node
+                    elif visited[node] &lt; visited[min_node]:
+                        min_node = node
+            if min_node is None:
+                break
+            nodes.remove(min_node)
+            current_weight = visited[min_node]
+
+            gen = self.get_step(min_node, initial, path)
+
+            for edge in self.edges[min_node]:
+                distance = self.get_distance((min_node, edge), gen+start_idx)
+                weight = current_weight + distance
+                if edge not in visited or weight &lt; visited[edge]:
+                    
+                    visited[edge] = weight
+                    path[edge] = min_node
+                    
+                if goal != None and edge == goal: return visited, path
+                        
+        return visited, path
+
+    def shortest_path(self, initial_node, goal_node, start_idx=0, paths=None):
+        
+        if paths == None:
+            distances, paths = self.dijsktra(initial_node, goal_node, start_idx)
+            
+        route = [goal_node]
+        while goal_node != initial_node:
+            route.append(paths[goal_node])
+            goal_node = paths[goal_node]
+        route.reverse()
+        return route
+
+class Map(Graph):
+    
+    def __init__(self, floor):
+        super(Map, self).__init__()
+        self._floor = floor
+        self._barrier_map = defaultdict(float)
+        self._density_map = defaultdict(lambda : defaultdict(int))
+        
+    @property
+    def barrier_map(self):
+        return self._barrier_map
+    
+    def set_barrier(self, key, val):
+        self.barrier_map[key] += val
+   
+    def get_barrier_map(self):
+        return [self.barrier_map[k] for k in self.barrier_map.keys()]
+    
+    def shift(self, key, num):
+        """
+            INFO - probably a terrible idea
+        """
+        pass
+    
+    @property
+    def density_map(self):
+        return self._density_map
+    
+    def get_density(self, key, gen):
+        denom = (self.floor.grid_size / 3.28084) **2
+        return self.density_map[gen][key] / denom
+    
+    def get_density_map_at(self, gen):
+        return [self.get_density(k, gen) for k in range(len(self.floor.grid))]
+    
+    def add_density(self, key, gen):
+        self.density_map[gen][key] += 1
+    
+        
+    @property
+    def floor(self):
+        return self._floor
+    
+    def filter(self, key):
+        return self.barrier_map[key]
+    
+    def get_step(self, initial, goal, route):
+        path = [initial]
+        while initial != goal:
+            path.append(route[initial])
+            initial = route[initial]
+        curr_gen = len(path)
+        return curr_gen
+    
+    def get_distance(self, key, gen):
+        dist = self.distances[key]
+        density  = self.get_density(key[1], gen)
+        overlays = self.filter(key[1])
+        
+        return dist + overlays + density
+
+class Bounds2d():
+    
+    def __init__(self, geo):
+        self.geo_pts = rs.CurvePoints(geo)
+        self._bds = [self.bds_x(self.geo_pts), self.bds_y(self.geo_pts)]
+        self._origin = rc.Geometry.Point3d(self.bds[0][0], self.bds[1][0], 0)
+        
+        self._dim_x = self._bds[0][1] - self._bds[0][0]
+        self._dim_y = self._bds[1][1] - self._bds[1][0]
+        
+    
+    @property
+    def pts(self):
+        return [ rc.Geometry.Point3d(self.bds[0][0], self.bds[1][0], 0),
+            rc.Geometry.Point3d(self.bds[0][1], self.bds[1][0], 0),
+            rc.Geometry.Point3d(self.bds[0][1], self.bds[1][1], 0),
+            rc.Geometry.Point3d(self.bds[0][0], self.bds[1][1], 0)]
+    
+    @property
+    def bds(self):
+        return self._bds
+    
+    @property
+    def origin(self):
+        return self._origin
+    
+    def set_origin(self, pt):
+        self._origin = pt
+    
+    @property
+    def plane(self):
+        return rc.Geometry.Plane(self.origin, rc.Geometry.Vector3d(0,0,1))
+    
+    @property
+    def x(self):
+        return self.bds[0][0]
+    
+    @property
+    def y(self):
+        return self.bds[1][0]
+    
+    def bds_x(self, pts):
+        pts.sort(key = lambda pt: pt.X)
+        return (pts[0].X, pts[-1].X)
+    
+    def bds_y(self, pts):
+        pts.sort(key = lambda pt: pt.Y)
+        return (pts[0].Y, pts[-1].Y)
+   
+    @property
+    def dim_x(self):
+        return self._dim_x
+    
+    @property
+    def dim_y(self):
+        return self._dim_y
+    
+    @property
+    def centroid(self):
+        x_average = self.x + self.dim_x/2
+        y_average = self.y + self.dim_y/2
+        return rc.Geometry.Point3d(x_average, y_average, 0)
+    
+    def to_rect(self):
+        return rc.Geometry.Rectangle3d(self.plane, self.dim_x, self.dim_y)
+    
+    def to_grid(self, grid_size):
+        
+        def mesh_from_rect(rect, grid_size):
+
+            mesh_params = rc.Geometry.MeshingParameters.Default
+            mesh_params.MaximumEdgeLength = grid_size
+            mesh_params.MinimumEdgeLength = grid_size
+            mesh_params.GridAspectRatio = 1
+
+            rect = rc.Geometry.Rectangle3d.ToNurbsCurve(rect)
+            return rc.Geometry.Mesh.CreateFromPlanarBoundary(rect, mesh_params)
+        
+        return mesh_from_rect(self.to_rect(), grid_size)
+    
+    def contains_pt(self, pt):
+        pt = rs.coerce3dpoint(pt)
+        if pt.X &lt; self.x or pt.X &gt; (self.x + self.dim_x) or pt.Y &lt; self.y or pt.Y &gt; (self.y + self.dim_y):
+            return False
+        return True
+
+
+class Entity(object):
+    
+    def __init__(self, attr):
+        self._pos = defaultdict(lambda: None)
+        self._attr = attr
+        self._type = 'entity'
+    
+    def __repr__(self):
+        return "Environment Entity: {0} : {1} ".format(self.type, self.get_attribute('name'))
+
+    @property
+    def position(self):
+        return self._pos[0]
+    
+    def set_position(self, pos, gen=0):
+        self._pos[gen] = pos
+    
+    def get_position(self, gen=0):
+        return self._pos[gen]
+    
+    @property
+    def type(self):
+        return self._type
+    
+    def set_type(self, type):
+        self._type = type
+    
+    @property
+    def attributes(self): return self._attr
+    
+    def set_attribute(self, key, value):
+        self._attr[key] = value
+    
+    def get_attribute(self, key):
+        
+        def _finditem(obj, key):
+            if key in obj: return obj[key]
+            for k, v in obj.items():
+                if isinstance(v,dict):
+                    item = _finditem(v, key)
+                    if item is not None:
+                        return item
+                        
+        return _finditem(self.attributes, key)
+    
+    def has_attribute_value(self, val):
+        
+        def _findvalue(obj, val):
+            if val in obj.values(): return True
+            for k,v in obj.items():
+                if isinstance(v,dict):
+                    value = _findvalue(v, val)
+                    if value is not None:
+                        return True
+            return False
+        
+        return _findvalue(self.attributes, val)
+
+
+class Node(Entity):
+    
+    def __init__(self, pos, attr={}):
+        super(Node, self).__init__(attr)
+        self.set_position(pos)
+        self.set_type('node')
+
+        
+class Template(Entity):
+    
+    def __init__(self, attr={}):
+        super(Template, self).__init__(attr)
+        self.set_type('template')
+    
+    @property
+    def edges(self):
+        return self.get_attribute('edges')
+
+class Floor(Entity):
+    
+    def __init__(self, geo, attr={}):
+        super(Floor, self).__init__(attr)
+        self._geo = rs.coercecurve(geo)
+        self._bds = Bounds2d(geo)
+        self._map = None
+        self._msh = None
+        self._grid = None
+        self._grid_size = None
+        self._coords = {}
+        
+        self.set_position(self.bounds.origin)
+        self.set_type('floor')
+        
+    @property
+    def geo(self):
+        return self._geo
+    
+    @property
+    def bounds(self):
+        return self._bds
+    
+    @property
+    def mesh(self):
+        return self._msh
+        
+    @property
+    def map(self):
+        return self._map
+    
+    
+    @property
+    def grid(self):
+        return self._grid
+        
+    def set_grid(self, grid_size):
+        
+        indexes = []
+        denom = m.sqrt(2*(grid_size**2))
+        t_mesh = rs.coercemesh(rs.AddPlanarMesh(self.geo))
+        self._msh = self.bounds.to_grid(grid_size)
+        self._map = Map(self)
+        self._grid_size = grid_size
+        
+        for i, cpt in enumerate(rs.MeshFaceCenters(self.mesh)):
+            line = rc.Geometry.Line(cpt, rc.Geometry.Vector3d(0,0,1))
+            if not rc.Geometry.Intersect.Intersection.MeshLine(t_mesh, line)[1]:
+                indexes.append(i)
+
+        self.mesh.Faces.DeleteFaces(indexes)
+        self._grid = rs.MeshFaceCenters(self.mesh)
+        
+        for i, pt in enumerate(self.grid):
+            self.set_coord(self.to_grid_coord(pt), i)
+        
+        for i, vertex in enumerate(self.mesh.Vertices):
+
+            edges = self.mesh.TopologyVertices.ConnectedFaces(i)
+            for e1 in edges:
+                for e2 in edges:
+                    if not e1 == e2:
+                        weight = rs.Distance(self._grid[e1], self._grid[e2])/denom
+                        self.map.add_edge(e1,e2, weight)
+                        
+        self.add_edge_map()
+    
+    @property
+    def grid_size(self):
+        return self._grid_size
+    
+    @property
+    def coords(self):
+        return self._coords
+    
+    def set_coord(self, key, val):
+        self._coords[key] = val
+    
+    def get_index_at_coord(self, key):
+        return self._coords[key]
+    
+    def to_grid_coord(self, pt):
+        
+        grid_x = self.bounds.dim_x / m.floor(self.bounds.dim_x / self.grid_size)
+        grid_y = self.bounds.dim_y / m.floor(self.bounds.dim_y / self.grid_size)
+        
+        cs_x = m.floor(self.bounds.dim_x / grid_x)
+        cs_y = m.floor(self.bounds.dim_y / grid_y)
+
+        pt_x = m.floor((pt.X - self.position.X)/ grid_x)
+        pt_y = m.floor((pt.Y - self.position.Y)/ grid_y)
+        
+        return (pt_x, pt_y)
+    
+    def to_grid_index(self, pt):
+        
+        coord = self.to_grid_coord(pt)
+        return self.get_index_at_coord(coord)
+    
+    
+    def add_edge_map(self):
+        
+        def _func(num):
+            if num == 8: return 0
+            else: return 0.5
+            
+        for i, pt in enumerate(self.grid):
+            edges = self.map.edges[i]
+            self.map.set_barrier(i, _func(len(edges)))
+    
+    def add_barrier_map(self, barrier):
+        for i, pt in enumerate(self.grid):
+            if barrier.bounds.contains_pt(pt):
+                if rs.PointInPlanarClosedCurve(pt, barrier.geo):
+                    self.map.set_barrier(i, float('inf'))
+                    for e in self.map.edges[i]:
+                        self.map.set_barrier(e, 0.5)
+
+        
+class Barrier(Entity):
+    
+    def __init__(self, geo, attr={}):
+        super(Barrier, self).__init__(attr)
+        self._geo = rs.coercecurve(geo)
+        self._bds = Bounds2d(geo)
+        
+        self.set_position(self.bounds.origin)
+        self.set_type('barrier')
+        
+    @property
+    def geo(self):
+        return self._geo
+    
+    @property
+    def bounds(self):
+        return self._bds
+        
+
+class Agent(Entity):
+    
+    def __init__(self, pos=None, attr={}, env=None):
+        super(Agent, self).__init__(attr)
+        self._attr = attr
+        self._env = env
+        self._state = None
+        self._history = []
+        self._path = []
+        
+        self.set_position(pos)
+        self.set_type('agent')
+        
+        self.age = 0
+        self.__hold = None
+        self.is_active = True
+        self.is_complete = False
+                
+    
+    @property
+    def position(self):
+        return self.get_position(self.age)
+        
+    def shift(self):
+        
+        next_position = self.state[-2]
+        if type(next_position) == Node:
+            next_position = self.environment.floors[0].to_grid_index(next_position.position)
+            
+        _index =  self._path[-1].index(next_position)
+        self._path[-1].insert(_index, next_position)
+        self.history.append(self.position)
+        """
+            TODO - not clean at all - Make this better
+        """
+        keys = self._pos.keys()
+        keys.sort()
+        keys = keys[self.age:]
+        keys.reverse()
+        _dict = copy.copy(self._pos)
+        for ki in range(len(keys)):
+            _dict[keys[ki]+1] = _dict[keys[ki]]
+            self.environment.floors[0].map.density_map[keys[ki]][_dict[keys[ki]]] -=1
+            self.environment.floors[0].map.density_map[keys[ki]][_dict[keys[ki]+1]] +=1
+        self._pos = _dict
+        
+        
+    @property
+    def grid_index(self):
+        return self.environment.floors[0].to_grid_index(self.position.position)
+    
+    @property
+    def state(self):
+        return self._state
+    
+    def set_state(self, state):
+        self._state = state
+    
+    @property
+    def destination(self):
+        val = self.get_attribute('destination')
+        return random.choice(self.environment.get_nodes_with_value(val))
+    
+    
+    
+    @property
+    def path(self):
+        _path = sum([p for p in self._path], [])
+        _dict = {idx: self.environment.floors[0].grid[idx] for idx in set(_path)}
+        return [_dict[p] for p in _path]
+    
+    def add_path(self, path):
+        self._path.append(copy.deepcopy(path))    
+    
+    @property
+    def history(self):
+        return self._history
+    
+    @property
+    def visited(self):
+        """
+            TODO - this needs to become more standard - maybe a name property of the node?
+        """
+        return [n.get_attribute('name') for n in self.history if not type(n) == int]
+    
+    
+    @property
+    def environment(self):
+        return self._env
+    
+    def set_environment(self, env):
+        self._env = env
+        
+    def toggle_active(self):
+        self.is_active = not self.is_active
+        
+    def toggle_complete(self):
+        self.is_complete = not self.is_complete
+    
+    def step(self):        
+        
+       
+        def wait(time):
+            return self.position, [self.position] * time
+    
+    
+        def move(lst):
+            
+            lst = [l for l in lst if not l.get_attribute('name') in self.visited]
+            
+            if len(lst):
+            
+                properties = self.get_attribute('properties')
+                keys = properties.keys()
+                n_percs = [k for k in keys if random.randint(0,100) &lt;= properties[k]]
+                
+                lst = [(l, self.environment.graph.get_distance((self.position, l))) for l in lst if l.get_attribute('name') in n_percs]
+            
+                if len(lst):
+                    
+                    lst.sort(key = lambda tup: len(tup[1]))
+                    lst.reverse()
+                    ncount=0
+                    while len(lst):
+                        
+                        ncount+=1
+                        tup = lst.pop()
+                        n_choice = tup[0]
+                        
+                        """
+                            TODO - switch agents_at_position to consider generation
+                                 this currently looks at the amount of people with the same destination
+                                 insead of num_people = len(self.environment.agents_at_position(n_choice, self.age))
+                        """
+                        num_people = len([a for a in self.environment.agents if self.__hold == a.__hold and a != self])
+                        capacity = n_choice.get_attribute('capacity')
+
+                        if capacity != None:
+                            if num_people &lt; float(capacity):
+                                break
+                            else:
+                                if random.randint(0,100) &lt; self.get_attribute('queuing'):
+                                    break
+                                else: 
+                                    continue
+                        else:
+                            break
+                else:
+                    n_choice = self.destination
+            else:
+                n_choice = self.destination
+                self.toggle_complete()
+            
+            """
+                TODO - replace with entity.to_grid_index(environment)
+            """
+            n_index = self.environment.floors[0].to_grid_index(n_choice.position)
+            n_path = self.environment.floors[0].map.shortest_path(self.grid_index, n_index, start_idx=self.age)
+
+            return n_choice, n_path
+
+
+        if not len(self.history):
+
+            start_node = self.get_attribute('origin')
+            start_positions = self.environment.get_nodes_with_value(start_node)
+            start_position = random.choice(start_positions)
+            
+            self.set_position(start_position)
+            self.set_state('waiting')
+            
+        else:
+
+            if self.is_active:
+                
+                #print 'position: ', self.position, 'currently', len(self.environment.agents_at_position(self.position, self.age)), 'ppl'
+                #print 'state: ', self.state
+                
+                
+                if self.state == 'ready':
+                    
+                    self.__hold, path = move(self.environment.graph.edges[self.position])
+                    self.add_path(path)
+                    
+                    for pi in range(len(path)):
+                        self.environment.floors[0].map.add_density(path[pi], self.age+pi)
+                        self.set_position(path[pi], self.age+pi)
+                    
+                    path.reverse()
+                    self.set_state(path)
+               
+               
+                if self.state == 'waiting':
+                    
+                    num_people = len(self.environment.agents_at_position(self.__hold, self.age))+1
+                    """
+                        Wait time set to random for now
+                    """
+                    wait_time = num_people
+                    
+                    self.__hold, path = wait(wait_time)
+                    self.add_path([self.grid_index] * wait_time)
+                    
+                    for pi in range(len(path)):
+                        self.environment.floors[0].map.add_density(self.grid_index, self.age+pi)
+                        self.set_position(path[pi], self.age+pi)
+                    
+                    path.reverse()
+                    self.set_state(path)
+               
+               
+                elif len(self.state) == 1:
+
+                    next_position = self.__hold
+                    capacity = next_position.get_attribute('capacity')
+                    capacity = int(capacity) if capacity != None else float('inf')
+                    num_people = len(self.environment.agents_at_position(next_position, self.age))
+
+
+                    if num_people &gt; capacity and type(self.position)!= Node:
+                        print 'over capacity', num_people, capacity
+                        
+                        """
+                        wait_time = num_people-capacity
+                        print wait_time
+                        path = wait(wait_time)[1]
+                        self.add_path([self.position] * wait_time)
+                    
+                        for pi in range(len(path)):
+                            self.environment.floors[0].map.add_density(self.position, self.age+pi)
+                            self.set_position(path[pi], self.age+pi)
+                        
+                        path.reverse()
+                        print path
+                        self.set_state(path)
+                        return
+                        """
+                        self.state.append(self.position)
+                        self.shift()
+                        
+                        self.age+=1
+                        self.state.pop();
+                    
+                    else:
+                        self.set_position(self.__hold, self.age)
+                        
+                        if self.is_complete:
+                            self.set_state('complete')
+                            self.toggle_active()
+                        else:
+                            if self.position == self.state[0]:
+                                self.set_state('ready')
+                                print 'ready'
+                            else:
+                                self.set_state('waiting')
+                                print 'waiting'
+                            
+
+                else:
+                    if type(self.position)!= Node:
+                        next_position = self.state[-2]
+                        num_people = len(self.environment.agents_at_position(next_position, self.age))
+                        if num_people &gt; 1 :
+                                self.state.append(self.position)
+                                self.shift()
+
+                    self.age+=1
+                    self.state.pop()
+
+        self.history.append(self.position)
+        
+        
+        
+class Environment():
+    
+    def __init__(self, resolution=30):
+        self._entities = defaultdict(list)
+        self._agents = []
+        self._graph = copy.deepcopy(Graph()) # bad - fix later
+        self._graph_paths = {}
+        self._resolution = resolution
+    
+    def __repr__(self):
+        return 'Environment: {0} agents, {1} nodes, {2} floors'.format(len(self.agents), len(self.graph.nodes), len(self.floors))
+    
+    @property
+    def resolution(self):
+        return self._resolution
+    
+    
+    @property
+    def entities(self):
+        return self._entities
+     
+    def add_entity(self, entity):
+        self.entities[entity.type].append(entity)
+    
+    def add_entities(self, entities):
+        
+        def _add_floor(entity):
+            entity = Floor(entity['geometry'], entity['profile'])
+            self.add_floor(entity)
+            self.add_entity(entity)
+        
+        def _add_node(entity):
+            entity = Node(entity['position'], entity['profile'])
+            self.add_node(entity)
+            self.add_entity(entity)
+            
+        def _add_template(entity):
+            entity = Template(entity['profile'])
+            self.add_template(entity)
+            self.add_entity(entity)
+        
+        def _add_barrier(entity):
+            entity = Barrier(entity['geometry'], entity['profile'])
+            self.add_barrier(entity)
+            self.add_entity(entity)
+        
+        def _add_agent(entity):
+            entity = Agent(attr=entity['profile'])
+            self.add_agent(entity)
+            self.add_entity(entity)
+        
+        
+        dict = defaultdict(list)
+        for entity in entities:
+            dict[entity['type']].append(entity)
+        
+        if len(dict['floor']):
+            for  floor in dict['floor']:
+                _add_floor(floor)
+        else:
+            """
+                TODO - return a warning
+            """
+            pass
+            
+        if len(dict['node']):
+            ghpythonlib.parallel.run(_add_node, dict['node'], False)
+        else:
+            """
+                TODO - return a warning
+            """
+            pass
+        
+        if len(dict['template']):
+            for template in dict['template']:
+                _add_template(template)
+        else: self.add_default_template()
+
+        if len(dict['barrier']):
+            for barrier in dict['barrier']:
+                _add_barrier(barrier)
+            
+        if len(dict['agent']):
+            for agent in dict['agent']:
+                _add_agent(agent)
+        else:
+            """
+                TODO - return a warning
+            """
+            pass
+
+
+    @property
+    def graph(self):
+        return self._graph
+    
+    @property
+    def graph_paths(self):
+        return self._graph_paths
+    
+    def get_graph_path(self, n1, n2):
+        
+        floor = self.floors[0] # bad - fix later
+        idx1 = floor.to_grid_index(n1.position)
+        idx2 = floor.to_grid_index(n2.position)
+        return floor.map.shortest_path(idx1, idx2, paths=self.graph_paths[n1])
+    
+    def set_graph_path(self, key, val):
+        self._graph_paths[key] = val
+    
+    
+    @property
+    def templates(self):
+        return [n for n in self.entities['template']]
+    
+    def add_template(self, template):
+        if template.get_attribute('directed') == False:
+            for edge in template.edges:
+                nodes = [n for n in self.nodes if n.position in edge]
+                if len(nodes) == 2:
+                    path = self.get_graph_path(nodes[0], nodes[1])
+                    self.graph.add_edge(nodes[0], nodes[1], path)
+    
+    def add_default_template(self):
+        for n1 in self.graph.nodes:
+            for n2 in self.graph.nodes:
+                if not n1 == n2: 
+                    path = self.get_graph_path(n1, n2)
+                    self.graph.add_edge(n1, n2, path)
+    
+    
+    @property
+    def agents(self):
+        return self._agents
+        
+    def add_agent(self, agent, other=None):
+        agent.set_environment(self)
+        self.agents.append(agent)
+    
+    def agents_at_position(self, position, gen=0):
+        return [a for a in self.agents if a.get_position(gen) == position]
+
+    
+    @property
+    def nodes(self):
+        return [n for n in self.entities['node']]
+    
+    def add_node(self, node):
+        self.graph.add_node(node)
+        """
+            TODO - floors need to be referenced better
+        """
+        djk = self.floors[0].map.dijsktra(self.floors[0].to_grid_index(node.position))
+        self.set_graph_path(node, djk[1])
+    
+    def get_nodes_with_value(self, val):
+        return [n for n in self.nodes if n.has_attribute_value(val)]
+    
+    
+    @property
+    def floors(self):
+        return [n for n in self.entities['floor']]
+    
+    def add_floor(self, floor):
+        floor.set_grid(self.resolution)
+    
+    def set_grid(self, grid_size):
+        
+        """
+            TODO - implement more complexity
+            grids will need to match up between floors
+               - maybe 1 unified graph to hold graphs?
+        """
+        for floor in self.floors: floor.set_grid(grid_size)
+    
+    
+    @property
+    def paths(self):
+        return [a.path for a in self.agents]
+    
+    def add_barrier(self, barrier):
+        
+        """
+            TODO - implement multiple floors: barriers should be declared with
+            their floor identifier.
+            single floor use only for now
+        """
+        for floor in self.floors:
+            floor.add_barrier_map(barrier)
+    
+    
+    def generation(self, gen):
+        return [a.get_position(gen) for a in self.agents]
+
+    def step(self):
+        
+        def _func(agent):
+            if agent.is_active:
+                agent.step()
+        
+        for i, agent in enumerate(self.agents):
+            _func(agent)
+    
+    def run(self):
+        count = 0
+        while len([a for a in self.agents if a.is_active]) and count &lt; 1000:
+            self.step()
+            count+=1
+            if count ==500: print "&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; broke outer while loop"
+        
+
+if len(entities) != 0 and res != None:
+    environment = Environment(resolution=res)
+    environment.add_entities(entities)
+    
+    a = environment
+</item>
+                    <item name="Description" type_name="gh_string" type_code="10">A python scriptable component</item>
+                    <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
+                      <X>1912</X>
+                      <Y>-728</Y>
+                    </item>
+                    <item name="EditorSize" type_name="gh_drawing_size" type_code="32">
+                      <W>1216</W>
+                      <H>1932</H>
+                    </item>
+                    <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
+                    <item name="HideOutput" type_name="gh_bool" type_code="1">false</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">48d7d613-61a3-465e-af8a-387fb8d945cc</item>
+                    <item name="Locked" type_name="gh_bool" type_code="1">true</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Python Script</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">+ENV</item>
+                  </items>
+                  <chunks count="2">
+                    <chunk name="Attributes">
+                      <items count="2">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>2918</X>
+                          <Y>2250</Y>
+                          <W>118</W>
+                          <H>51</H>
+                        </item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>2993</X>
+                          <Y>2276</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                    <chunk name="ParameterData">
+                      <items count="6">
+                        <item name="InputCount" type_name="gh_int32" type_code="3">2</item>
+                        <item name="InputId" index="0" type_name="gh_guid" type_code="9">84fa917c-1ed8-4db3-8be1-7bdc4a6495a2</item>
+                        <item name="InputId" index="1" type_name="gh_guid" type_code="9">84fa917c-1ed8-4db3-8be1-7bdc4a6495a2</item>
+                        <item name="OutputCount" type_name="gh_int32" type_code="3">2</item>
+                        <item name="OutputId" index="0" type_name="gh_guid" type_code="9">3ede854e-c753-40eb-84cb-b48008f14fd4</item>
+                        <item name="OutputId" index="1" type_name="gh_guid" type_code="9">8ec86459-bf01-4409-baee-174d0d2b13d0</item>
+                      </items>
+                      <chunks count="4">
+                        <chunk name="InputParam" index="0">
+                          <items count="21">
+                            <item name="Access" type_name="gh_int32" type_code="3">1</item>
+                            <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
+                            <item name="Description" type_name="gh_string" type_code="10">Script input entities.</item>
+                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">ddfa04f8-3dd2-42e5-a94e-d3b81806ee86</item>
+                            <item name="Locked" type_name="gh_bool" type_code="1">true</item>
+                            <item name="Mapping" type_name="gh_int32" type_code="3">1</item>
+                            <item name="Name" type_name="gh_string" type_code="10">entities</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">entities</item>
+                            <item name="Optional" type_name="gh_bool" type_code="1">true</item>
+                            <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">1</item>
+                            <item name="ShowTypeHints" type_name="gh_bool" type_code="1">true</item>
+                            <item name="Source" index="0" type_name="gh_guid" type_code="9">8d6365d3-a807-44b5-b63d-d8277b71106c</item>
+                            <item name="Source" index="1" type_name="gh_guid" type_code="9">17ad29d0-7812-4f2f-a7c9-089ee59e6198</item>
+                            <item name="Source" index="2" type_name="gh_guid" type_code="9">22bf05af-1237-4c55-bcab-6dba79ff280d</item>
+                            <item name="Source" index="3" type_name="gh_guid" type_code="9">ed7d8bca-4429-4275-9947-19c667fd052e</item>
+                            <item name="Source" index="4" type_name="gh_guid" type_code="9">b8e6894c-77b9-4ed6-95af-8920927a53c6</item>
+                            <item name="Source" index="5" type_name="gh_guid" type_code="9">abf6facc-4195-465e-976f-47afa9951285</item>
+                            <item name="Source" index="6" type_name="gh_guid" type_code="9">729ec0a8-3039-4ce5-8816-4f43eb64e9ce</item>
+                            <item name="Source" index="7" type_name="gh_guid" type_code="9">afe7f55e-1c6a-49bb-9bed-1d1ee3c82a81</item>
+                            <item name="SourceCount" type_name="gh_int32" type_code="3">8</item>
+                            <item name="TypeHintID" type_name="gh_guid" type_code="9">87f87f55-5b71-41f4-8aea-21d494016f81</item>
+                          </items>
+                          <chunks count="1">
+                            <chunk name="Attributes">
+                              <items count="2">
+                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                                  <X>2920</X>
+                                  <Y>2252</Y>
+                                  <W>58</W>
+                                  <H>23</H>
+                                </item>
+                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                                  <X>2958.5</X>
+                                  <Y>2263.75</Y>
+                                </item>
+                              </items>
+                            </chunk>
+                          </chunks>
+                        </chunk>
+                        <chunk name="InputParam" index="1">
+                          <items count="12">
+                            <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
+                            <item name="Description" type_name="gh_string" type_code="10">Script input res.</item>
+                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">69ca3032-852f-4b97-a597-f1c9050dd805</item>
+                            <item name="Locked" type_name="gh_bool" type_code="1">true</item>
+                            <item name="Name" type_name="gh_string" type_code="10">res</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">res</item>
+                            <item name="Optional" type_name="gh_bool" type_code="1">true</item>
+                            <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">0</item>
+                            <item name="ShowTypeHints" type_name="gh_bool" type_code="1">true</item>
+                            <item name="Source" index="0" type_name="gh_guid" type_code="9">d18d6081-9c2d-4151-98ae-9e5185325bb0</item>
+                            <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
+                            <item name="TypeHintID" type_name="gh_guid" type_code="9">39fbc626-7a01-46ab-a18e-ec1c0c41685b</item>
+                          </items>
+                          <chunks count="1">
+                            <chunk name="Attributes">
+                              <items count="2">
+                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                                  <X>2920</X>
+                                  <Y>2275</Y>
+                                  <W>58</W>
+                                  <H>24</H>
+                                </item>
+                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                                  <X>2958.5</X>
+                                  <Y>2287.25</Y>
+                                </item>
+                              </items>
+                            </chunk>
+                          </chunks>
+                        </chunk>
+                        <chunk name="OutputParam" index="0">
+                          <items count="7">
+                            <item name="Description" type_name="gh_string" type_code="10">The execution information, as output and error streams</item>
+                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">8cb16c39-581f-4af6-b9d7-dcb732f3fa3d</item>
+                            <item name="Locked" type_name="gh_bool" type_code="1">true</item>
+                            <item name="Name" type_name="gh_string" type_code="10">out</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">out</item>
+                            <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                          </items>
+                          <chunks count="1">
+                            <chunk name="Attributes">
+                              <items count="2">
+                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                                  <X>3008</X>
+                                  <Y>2252</Y>
+                                  <W>26</W>
+                                  <H>23</H>
+                                </item>
+                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                                  <X>3021</X>
+                                  <Y>2263.75</Y>
+                                </item>
+                              </items>
+                            </chunk>
+                          </chunks>
+                        </chunk>
+                        <chunk name="OutputParam" index="1">
+                          <items count="7">
+                            <item name="Description" type_name="gh_string" type_code="10">Script output a.</item>
+                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">d70e1623-876d-4a27-ba3d-d9a8fb6eb634</item>
+                            <item name="Locked" type_name="gh_bool" type_code="1">true</item>
+                            <item name="Name" type_name="gh_string" type_code="10">a</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">a</item>
+                            <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                          </items>
+                          <chunks count="1">
+                            <chunk name="Attributes">
+                              <items count="2">
+                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                                  <X>3008</X>
+                                  <Y>2275</Y>
+                                  <W>26</W>
+                                  <H>24</H>
+                                </item>
+                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                                  <X>3021</X>
+                                  <Y>2287.25</Y>
+                                </item>
+                              </items>
+                            </chunk>
+                          </chunks>
+                        </chunk>
+                      </chunks>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
           </chunks>
         </chunk>
       </chunks>
@@ -18297,7 +19588,7 @@ if env != None and run:
     <chunk name="Thumbnail">
       <items count="1">
         <item name="Thumbnail" type_name="gh_drawing_bitmap" type_code="37">
-          <bitmap length="9206">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</bitmap>
+          <bitmap length="6542">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</bitmap>
         </item>
       </items>
     </chunk>
