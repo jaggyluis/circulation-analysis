@@ -1,7 +1,7 @@
 
 - fix points not on mesh
 - freezes when agent does not have a node type that it is on
-- all entities should habe an environment variable
+- all entities should have an environment variable
 - components need an internalized "name"
 - barriers should be recogized with resolution too small
 - agents need a floor property
