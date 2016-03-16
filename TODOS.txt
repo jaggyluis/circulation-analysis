@@ -2,8 +2,9 @@
 - fix points not on mesh
 - freezes when agent does not have a node type that it is on
 - all entities should have an environment variable
-- components need an internalized "name"
+X components need an internalized "name"
 - barriers should be recogized with resolution too small
 - agents need a floor property
-- fix bound on desnity maps for output
+- fix bound on density maps for output
 - nodes need wait times
+- bidirectional template
