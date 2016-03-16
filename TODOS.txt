@@ -8,3 +8,5 @@ X components need an internalized "name"
 - fix bound on density maps for output
 - nodes need wait times
 - bidirectional template
+- what happens if a path is not possible?
+- implement queuing and time remainder on agents
