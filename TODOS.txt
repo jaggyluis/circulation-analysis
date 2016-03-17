@@ -3,7 +3,7 @@
 - freezes when agent does not have a node type that it is on
 - all entities should have an environment variable
 X components need an internalized "name"
-- barriers should be recogized with resolution too small
+X barriers should be recogized with resolution too small
 - agents need a floor property
 - fix bound on density maps for output
 - nodes need wait times
