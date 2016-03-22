@@ -1,5 +1,5 @@
 
-- fix points not on mesh
+X fix points not on mesh
 - freezes when agent does not have a node type that it is on
 - all entities should have an environment variable
 X components need an internalized "name"
