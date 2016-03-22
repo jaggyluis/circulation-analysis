@@ -7,6 +7,6 @@ X barriers should be recogized with resolution too small
 - agents need a floor property
 X fix bound on density maps for output
 - nodes need wait times
-- bidirectional template
+X bidirectional template
 - what happens if a path is not possible?
-- implement queuing and time remainder on agents
+- implement time remainder on agents
