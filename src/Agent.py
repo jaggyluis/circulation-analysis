@@ -1,3 +1,4 @@
+
 import rhinoscriptsyntax as rs
 import copy, random
 
@@ -19,6 +20,11 @@ if name != None and origin != None and destination != None:
         'influence':{
             'queuing':50, #implement later
             'remainder':None # implement later
+        },
+        'speed':{
+            'min':0.5, #0.65
+            'max':2, #2.05
+            'default':1 # 1.35
         }
     }
     

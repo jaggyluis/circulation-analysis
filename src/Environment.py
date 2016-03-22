@@ -70,7 +70,7 @@ class Graph(object):
         visited = {initial: 0}
         path = {}
         nodes = set(self.nodes)
-
+        
         while nodes:
             min_node = None
             for node in nodes:
@@ -173,7 +173,8 @@ class Map(Graph):
     
     def get_distance(self, key, gen):
         dist = self.distances[key]
-        density  = self.get_density(key[1], gen)
+        denom = 2 * (self.floor.grid_size)**2 # maybe switch to 4?
+        density  = self.get_density(key[1], gen) / denom
         overlays = self.filter(key[1])
         return dist + overlays + density
 
@@ -492,29 +493,20 @@ class Floor(Entity):
                 return True
             return False
         
-        """
-            INFO - parallel toggle
-        """
-        """
-        for i, pt in enumerate(self.grid):
-            _vals = [v for v in self.map.shallowsearch([i], _func).values() if not v==None]
-            _vals.sort()
-            if _vals:
-                _weight = 1 / (self.grid_size*(_vals[0]+1))
-                self.map.set_barrier(i, _weight)
-        """
-        
-        def _parallelsearch(i):
+        def _search(i):
             if not self.map.barrier_map[i] == float('inf'):
                 _vals = [v for v in self.map.shallowsearch([i], _func).values() if not v==None]
                 _vals.sort()
                 if _vals:
-                    _weight = 1 / (self.grid_size*(_vals[0]+1))
+                    _weight = 1 / (self.grid_size*(_vals[0]+1))**2
                     self.map.set_barrier(i, _weight)
+                    
+        if PARALLEL:
+            ghpythonlib.parallel.run(_search, range(len(self.grid)), False)
+        else:
+            for i, pt in enumerate(self.grid):
+                _search(i)
         
-        ghpythonlib.parallel.run(_parallelsearch, range(len(self.grid)), False)
-        
-                
     def add_barrier_map(self, barrier):
         
         for i, pt in enumerate(self.grid):
@@ -787,7 +779,7 @@ class Agent(Entity):
                 else:
 
                     next_position = self.state[-2]
-                    max_density = 1 * self.environment.resolution 
+                    max_density = 4 * self.environment.resolution**2
                     num_people = len(self.environment.agents_at_position(next_position, self.age))
                     next_people = len(self.environment.agents_at_position(next_position, self.age+1))
                     """
@@ -876,16 +868,22 @@ class Environment():
             e = gh.GH_RuntimeMessageLevel.Error
             ghenv.Component.AddRuntimeMessage(e, 'component needs at least one floor')
             return
+        
+        if len(dict['barrier']):
+            for barrier in dict['barrier']:
+                _add_barrier(barrier)
+        
+        for floor in self.entities['floor']:
+            pass
+            #floor.add_edge_map()
             
         if len(dict['node']) > 1:
-            """
-                INFO - toggle parallel simulation
-            """
-            """
-            for node in dict['node']:
-                _add_node(node)
-            """
-            _err = ghpythonlib.parallel.run(_add_node, dict['node'], False)
+
+            if PARALLEL: 
+                _err = ghpythonlib.parallel.run(_add_node, dict['node'], False)
+            else:
+                _err = [_add_node(node) for node in dict['node']]
+                
             if any( _err):
                 for _msg in _err:
                     e = e = gh.GH_RuntimeMessageLevel.Error
@@ -901,13 +899,6 @@ class Environment():
             for template in dict['template']:
                 _add_template(template)
         else: self.add_default_template()
-
-        if len(dict['barrier']):
-            for barrier in dict['barrier']:
-                _add_barrier(barrier)
-                
-        for floor in self.entities['floor']:
-            floor.add_edge_map()
             
         if len(dict['agent']):
             for agent in dict['agent']:
@@ -1026,15 +1017,12 @@ class Environment():
             if agent.is_active:
                 agent.step()
                    
-        """
-            INFO - toggle parallel simulation
-        """
-        """
-        for i, agent in enumerate(self.agents):
-            _func(agent)
-        """
-        ghpythonlib.parallel.run(_func, self.agents, False)
-            
+        if PARALLEL:
+            ghpythonlib.parallel.run(_func, self.agents, False)
+        else:
+            for i, agent in enumerate(self.agents):
+                _func(agent)
+        
     def run(self):
         count = 0
         while len([a for a in self.agents if a.is_active]) and count < 1000:
@@ -1043,6 +1031,7 @@ class Environment():
             
         if count == 1000: print ">>>>>>>>>>>>>>>>>>>>>>>>> broke outer while loop"
         
+PARALLEL = True
 
 if len(entities) != 0 and res != None:
     environment = Environment(resolution=res)

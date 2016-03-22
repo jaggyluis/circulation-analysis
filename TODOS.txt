@@ -1,6 +1,9 @@
 
 X fix points not on mesh
+
 - freezes when agent does not have a node type that it is on
+- what happens if a path is not possible?
+
 - all entities should have an environment variable
 X components need an internalized "name"
 X barriers should be recogized with resolution too small
@@ -8,5 +11,5 @@ X barriers should be recogized with resolution too small
 X fix bound on density maps for output
 - nodes need wait times
 X bidirectional template
-- what happens if a path is not possible?
+
 - implement time remainder on agents
