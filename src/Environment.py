@@ -173,7 +173,7 @@ class Map(Graph):
     
     def get_distance(self, key, gen):
         dist = self.distances[key]
-        denom = 2 * (self.floor.grid_size)**2 # maybe switch to 4?
+        denom = 4 * (self.floor.grid_size)**2
         density  = self.get_density(key[1], gen) / denom
         overlays = self.filter(key[1])
         return dist + overlays + density
@@ -301,6 +301,52 @@ class Bounds2d():
             rc.Geometry.Point3d(pt.X-dim_x/2, pt.Y+dim_y/2, pt.Z)]
         
         return cls(pts=geo_pts, dim_x=dim_x, dim_y=dim_y)
+
+class Interval():
+    
+    def __init__(self, a,b):
+        
+        self._a = a
+        self._b = b
+        
+    def __repr__(self):
+        return str((self.a, self.b))
+    
+    @property
+    def a(self):
+        return self._a
+    
+    @property
+    def b(self):
+        return self._b
+    
+    @property
+    def min(self):
+        return min([self.a, self.b])
+    
+    @property
+    def max(self):
+        return max([self.a, self.b])
+    
+    @property
+    def irange(self):
+        return m.fabs(self._a - self._b)
+    
+    def includes(self, other):
+        pass
+    
+    def intersects(self, other):
+        pass
+        
+    @staticmethod
+    def remap(source_ival, target_ival, num, bounded=False):
+        if source_ival.irange == 0: return target_ival.min
+        else:
+            ret = (((num - source_ival.min) * target_ival.irange) / source_ival.irange) + target_ival.min
+            if bounded:
+                if ret > target_ival.max : return target_ival.max
+                elif ret < target_ival.min: return target_ival.min
+            return ret
 
 class Entity(object):
     
@@ -553,21 +599,36 @@ class Agent(Entity):
         super(Agent, self).__init__(attr)
         self._attr = attr
         self._env = env
-        self._state = None
+        
         self._history = []
         self._path = []
         
         self.set_position(pos)
         self.set_type('agent')
         
+        self._speed = float(self.get_attribute('speed')['default'])
+        self._velocity = int(m.floor(self.environment.resolution / self.speed)) if env else None
+        self._min_velocity = None
+        self._max_velocity = None
+        self._state = None
+        
         self.age = 0
-        self.__hold = None
         self.is_active = True
         self.is_complete = False
+        
+        self.__hold = None
                 
     @property
     def position(self):
         return self.get_position(self.age)
+        
+    @property
+    def speed(self):
+        return self._speed
+    
+    @property
+    def velocity(self):
+        return self._velocity
         
     def shift(self):
         
@@ -643,6 +704,7 @@ class Agent(Entity):
     
     def set_environment(self, env):
         self._env = env
+        self._velocity = int(m.floor(self.environment.resolution / self.speed))
         
     def toggle_active(self):
         self.is_active = not self.is_active
@@ -702,7 +764,6 @@ class Agent(Entity):
             """
             n_index = self.environment.floors[0].to_grid_index(n_choice.position)
             n_path = self.environment.floors[0].map.shortest_path(self.grid_index, n_index, start_idx=self.age)
-
             return n_choice, n_path
 
         if not len(self.history):
@@ -711,22 +772,55 @@ class Agent(Entity):
             start_positions = self.environment.get_nodes_with_value(start_node)
             start_position = random.choice(start_positions)
             
+            self._min_velocity = int(m.floor(self.environment.resolution / float(self.get_attribute('speed')['min'])))
+            self._max_velocity = int(m.floor(self.environment.resolution / float(self.get_attribute('speed')['max'])))
+            
             self.set_position(start_position)
             self.set_state('waiting')
             
+
+            
         else:
 
+            """
+                TODO - major cleanup needed here
+            """
             if self.is_active:
                 
                 if self.state == 'ready':
                     
                     self.__hold, path = move(self.environment.graph.edges[self.position])
-                    self.add_path(path[:-1])
+                    
+                    
+                    _path = [[path[-1]], [path[0]]]
+                    for pi in range(1,len(path)-1):
+
+                        num_people = self.environment.floors[0].map.get_density(path[pi], self.age+pi)+1                        
+                        source_ival = Interval(1,  2 * self.environment.resolution**2)
+                        target_ival = Interval(self._max_velocity, self._min_velocity)
+                        
+                        val = int(round(Interval.remap(source_ival, target_ival, num_people, bounded=True)))
+                        
+                        if val > self._velocity:
+                            for r in range(val - self.velocity):
+                                self.environment.floors[0].map.add_occupancy(path[pi], self.age+pi+r)
+                        
+                        _path.insert(1,[path[pi]]*val)
+                    
+                    _path = [p for n_path in _path for p in n_path]
+                    _path.reverse()
+                    print '_______________ new'
+                    print 'path:', path
+                    print '_path:', _path
+                   
+                    path = _path
                     
                     for pi in range(len(path)):
                         if pi != len(path)-1:
                             self.environment.floors[0].map.add_density(path[pi], self.age+pi)
                         self.set_position(path[pi], self.age+pi)
+                    
+                    self.add_path(path[:-1])
                     
                     path.reverse()
                     self.set_state(path)
@@ -739,15 +833,17 @@ class Agent(Entity):
                         TODO - switch to property of node/agent?
                         this is also where the intial arrival time would be implemented and swapped
                     """
-                    wait_time = num_people * 1 if len(self._path) != 0 else num_people * random.randint(1,60)
+                    wait_time = num_people * 1 if len(self._path) != 0 else num_people * random.randint(1,20)
                                         
                     self.__hold, path = wait(wait_time)
-                    self.add_path([self.grid_index] * (wait_time-1))
+                    
                     
                     for pi in range(len(path)):
                         if pi != len(path)-1:
                             self.environment.floors[0].map.add_density(self.grid_index, self.age+pi)
                         self.set_position(path[pi], self.age+pi)
+                    
+                    self.add_path([self.grid_index] * (wait_time-1))
                     
                     path.reverse()
                     self.set_state(path)
@@ -1031,7 +1127,7 @@ class Environment():
             
         if count == 1000: print ">>>>>>>>>>>>>>>>>>>>>>>>> broke outer while loop"
         
-PARALLEL = True
+PARALLEL = False
 
 if len(entities) != 0 and res != None:
     environment = Environment(resolution=res)
