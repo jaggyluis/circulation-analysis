@@ -11,5 +11,7 @@ X barriers should be recogized with resolution too small
 X fix bound on density maps for output
 - nodes need wait times
 X bidirectional template
+X lost agents in void
+- do not default to original choice when capacity is met
 
 - implement time remainder on agents
