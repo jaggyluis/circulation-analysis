@@ -1,4 +1,6 @@
-
+"""
+    THiS IS A TEST STRING
+"""
 import rhinoscriptsyntax as rs
 import copy, random
 
