@@ -1,5 +1,6 @@
 
 X fix points not on mesh
+- finish recursive search for points not on mesh
 
 - freezes when agent does not have a node type that it is on
 - what happens if a path is not possible?
