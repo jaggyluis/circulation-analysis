@@ -48,10 +48,10 @@
             <chunk name="Projection">
               <items count="2">
                 <item name="Target" type_name="gh_drawing_point" type_code="30">
-                  <X>125</X>
-                  <Y>203</Y>
+                  <X>-81</X>
+                  <Y>-86</Y>
                 </item>
-                <item name="Zoom" type_name="gh_single" type_code="5">0.64</item>
+                <item name="Zoom" type_name="gh_single" type_code="5">1</item>
               </items>
             </chunk>
             <chunk name="Views">
@@ -130,7 +130,7 @@
                             <chunk name="Item" index="0">
                               <items count="3">
                                 <item name="EdgeIndex" type_name="gh_int32" type_code="3">-1</item>
-                                <item name="RefID" type_name="gh_guid" type_code="9">aa1301ab-2f42-4037-8e3b-0b64fcca1a9d</item>
+                                <item name="RefID" type_name="gh_guid" type_code="9">d80fc57d-045d-4887-b15e-bec52ffc3bf1</item>
                                 <item name="TypeName" type_name="gh_string" type_code="10">Grasshopper.Kernel.Types.GH_Curve</item>
                               </items>
                             </chunk>
@@ -159,16 +159,37 @@ class Skeleton():
     def __init__(self, pts):
         
         self._pts = pts
-        self._vecs = [rs.VectorUnitize(rs.VectorCreate(pts[i-1], pts[i])) for i in range(len(pts))]
+        self._vecs = self.get_vecs(self.pts)
         self._bisectors = self.get_bisectors(self.pts)
         
     @property
     def pts(self):
         return self._pts
     
+    def loop_pts(self, pts, reverse=False):
+        """
+        if not reverse:
+            return self.pts[1:] + [self.pts[0]]
+        else:
+            return [self.pts[-1]] + self.pts[:-1]
+        """
+        return self.pts[1:] + [self.pts[0]], [self.pts[-1]] + self.pts[:-1]
+     
+    def zip(self, l1, l2, longest=False):
+        return #while l1 and l2:
+            
+    
     @property
     def vecs(self):
         return self._vecs
+    
+    def get_vecs(self, pts):
+        vecs = []
+        l1, l2 = self.loop_pts(pts)
+        for i, pt in enumerate(pts):
+            print pt
+            vecs.append(rs.VectorUnitize(rs.VectorCreate(pt, pts[i]))) 
+        return vecs
     
     @property
     def bisectors(self):
@@ -192,12 +213,12 @@ skel = Skeleton(rs.coerce3dpointlist(pts))
 a = skel.vecs</item>
                     <item name="Description" type_name="gh_string" type_code="10">A python scriptable component</item>
                     <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
-                      <X>232</X>
-                      <Y>26</Y>
+                      <X>463</X>
+                      <Y>11</Y>
                     </item>
                     <item name="EditorSize" type_name="gh_drawing_size" type_code="32">
-                      <W>943</W>
-                      <H>1097</H>
+                      <W>1450</W>
+                      <H>1043</H>
                     </item>
                     <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
                     <item name="HideOutput" type_name="gh_bool" type_code="1">false</item>
@@ -209,10 +230,10 @@ a = skel.vecs</item>
                     <chunk name="Attributes">
                       <items count="2">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>500</X>
-                          <Y>335</Y>
-                          <W>82</W>
-                          <H>60</H>
+                          <X>496</X>
+                          <Y>328</Y>
+                          <W>91</W>
+                          <H>73</H>
                         </item>
                         <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
                           <X>539</X>
@@ -236,7 +257,7 @@ a = skel.vecs</item>
                             <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
                             <item name="Description" type_name="gh_string" type_code="10">Script variable Python</item>
                             <item name="InstanceGuid" type_name="gh_guid" type_code="9">8ededba7-51fb-41e6-8f50-e8c3b63ca505</item>
-                            <item name="Name" type_name="gh_string" type_code="10">x</item>
+                            <item name="Name" type_name="gh_string" type_code="10">pts</item>
                             <item name="NickName" type_name="gh_string" type_code="10">pts</item>
                             <item name="Optional" type_name="gh_bool" type_code="1">true</item>
                             <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">1</item>
@@ -249,14 +270,14 @@ a = skel.vecs</item>
                             <chunk name="Attributes">
                               <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>502</X>
-                                  <Y>337</Y>
-                                  <W>22</W>
-                                  <H>28</H>
+                                  <X>498</X>
+                                  <Y>330</Y>
+                                  <W>26</W>
+                                  <H>34</H>
                                 </item>
                                 <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>514.5</X>
-                                  <Y>351</Y>
+                                  <X>512.5</X>
+                                  <Y>347.25</Y>
                                 </item>
                               </items>
                             </chunk>
@@ -279,14 +300,14 @@ a = skel.vecs</item>
                             <chunk name="Attributes">
                               <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>502</X>
-                                  <Y>365</Y>
-                                  <W>22</W>
-                                  <H>28</H>
+                                  <X>498</X>
+                                  <Y>364</Y>
+                                  <W>26</W>
+                                  <H>35</H>
                                 </item>
                                 <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>514.5</X>
-                                  <Y>379</Y>
+                                  <X>512.5</X>
+                                  <Y>381.75</Y>
                                 </item>
                               </items>
                             </chunk>
@@ -306,13 +327,13 @@ a = skel.vecs</item>
                               <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
                                   <X>554</X>
-                                  <Y>337</Y>
-                                  <W>26</W>
-                                  <H>28</H>
+                                  <Y>330</Y>
+                                  <W>31</W>
+                                  <H>34</H>
                                 </item>
                                 <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>567</X>
-                                  <Y>351</Y>
+                                  <X>569.5</X>
+                                  <Y>347.25</Y>
                                 </item>
                               </items>
                             </chunk>
@@ -332,13 +353,13 @@ a = skel.vecs</item>
                               <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
                                   <X>554</X>
-                                  <Y>365</Y>
-                                  <W>26</W>
-                                  <H>28</H>
+                                  <Y>364</Y>
+                                  <W>31</W>
+                                  <H>35</H>
                                 </item>
                                 <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>567</X>
-                                  <Y>379</Y>
+                                  <X>569.5</X>
+                                  <Y>381.75</Y>
                                 </item>
                               </items>
                             </chunk>
@@ -367,9 +388,9 @@ a = skel.vecs</item>
                     <chunk name="Attributes">
                       <items count="2">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>281</X>
+                          <X>279</X>
                           <Y>343</Y>
-                          <W>68</W>
+                          <W>74</W>
                           <H>64</H>
                         </item>
                         <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
@@ -392,13 +413,13 @@ a = skel.vecs</item>
                         <chunk name="Attributes">
                           <items count="2">
                             <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                              <X>283</X>
+                              <X>281</X>
                               <Y>345</Y>
-                              <W>14</W>
+                              <W>16</W>
                               <H>60</H>
                             </item>
                             <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                              <X>291.5</X>
+                              <X>290.5</X>
                               <Y>375</Y>
                             </item>
                           </items>
@@ -421,11 +442,11 @@ a = skel.vecs</item>
                             <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
                               <X>327</X>
                               <Y>345</Y>
-                              <W>20</W>
+                              <W>24</W>
                               <H>20</H>
                             </item>
                             <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                              <X>337</X>
+                              <X>339</X>
                               <Y>355</Y>
                             </item>
                           </items>
@@ -448,11 +469,11 @@ a = skel.vecs</item>
                             <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
                               <X>327</X>
                               <Y>365</Y>
-                              <W>20</W>
+                              <W>24</W>
                               <H>20</H>
                             </item>
                             <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                              <X>337</X>
+                              <X>339</X>
                               <Y>375</Y>
                             </item>
                           </items>
@@ -475,11 +496,11 @@ a = skel.vecs</item>
                             <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
                               <X>327</X>
                               <Y>385</Y>
-                              <W>20</W>
+                              <W>24</W>
                               <H>20</H>
                             </item>
                             <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                              <X>337</X>
+                              <X>339</X>
                               <Y>395</Y>
                             </item>
                           </items>
@@ -608,10 +629,10 @@ a = skel.vecs</item>
                     <chunk name="Attributes">
                       <items count="2">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>622</X>
-                          <Y>514</Y>
-                          <W>45</W>
-                          <H>44</H>
+                          <X>619</X>
+                          <Y>510</Y>
+                          <W>48</W>
+                          <H>52</H>
                         </item>
                         <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
                           <X>653</X>
@@ -633,14 +654,14 @@ a = skel.vecs</item>
                         <chunk name="Attributes">
                           <items count="2">
                             <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                              <X>624</X>
-                              <Y>516</Y>
-                              <W>14</W>
-                              <H>20</H>
+                              <X>621</X>
+                              <Y>512</Y>
+                              <W>17</W>
+                              <H>24</H>
                             </item>
                             <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                              <X>632.5</X>
-                              <Y>526</Y>
+                              <X>631</X>
+                              <Y>524</Y>
                             </item>
                           </items>
                         </chunk>
@@ -660,14 +681,14 @@ a = skel.vecs</item>
                         <chunk name="Attributes">
                           <items count="2">
                             <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                              <X>624</X>
+                              <X>621</X>
                               <Y>536</Y>
-                              <W>14</W>
-                              <H>20</H>
+                              <W>17</W>
+                              <H>24</H>
                             </item>
                             <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                              <X>632.5</X>
-                              <Y>546</Y>
+                              <X>631</X>
+                              <Y>548</Y>
                             </item>
                           </items>
                         </chunk>
@@ -694,9 +715,9 @@ a = skel.vecs</item>
                     <chunk name="Attributes">
                       <items count="2">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>388</X>
+                          <X>384</X>
                           <Y>283</Y>
-                          <W>66</W>
+                          <W>72</W>
                           <H>64</H>
                         </item>
                         <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
@@ -720,13 +741,13 @@ a = skel.vecs</item>
                         <chunk name="Attributes">
                           <items count="2">
                             <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                              <X>390</X>
+                              <X>386</X>
                               <Y>285</Y>
-                              <W>17</W>
+                              <W>21</W>
                               <H>20</H>
                             </item>
                             <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                              <X>400</X>
+                              <X>398</X>
                               <Y>295</Y>
                             </item>
                           </items>
@@ -748,13 +769,13 @@ a = skel.vecs</item>
                         <chunk name="Attributes">
                           <items count="2">
                             <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                              <X>390</X>
+                              <X>386</X>
                               <Y>305</Y>
-                              <W>17</W>
+                              <W>21</W>
                               <H>20</H>
                             </item>
                             <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                              <X>400</X>
+                              <X>398</X>
                               <Y>315</Y>
                             </item>
                           </items>
@@ -774,13 +795,13 @@ a = skel.vecs</item>
                         <chunk name="Attributes">
                           <items count="2">
                             <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                              <X>390</X>
+                              <X>386</X>
                               <Y>325</Y>
-                              <W>17</W>
+                              <W>21</W>
                               <H>20</H>
                             </item>
                             <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                              <X>400</X>
+                              <X>398</X>
                               <Y>335</Y>
                             </item>
                           </items>
@@ -823,11 +844,11 @@ a = skel.vecs</item>
                             <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
                               <X>437</X>
                               <Y>285</Y>
-                              <W>15</W>
+                              <W>17</W>
                               <H>60</H>
                             </item>
                             <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                              <X>444.5</X>
+                              <X>445.5</X>
                               <Y>315</Y>
                             </item>
                           </items>
@@ -896,7 +917,7 @@ a = skel.vecs</item>
     <chunk name="Thumbnail">
       <items count="1">
         <item name="Thumbnail" type_name="gh_drawing_bitmap" type_code="37">
-          <bitmap length="2640">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</bitmap>
+          <bitmap length="4685">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</bitmap>
         </item>
       </items>
     </chunk>
