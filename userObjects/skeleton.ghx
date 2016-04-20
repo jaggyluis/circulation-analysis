@@ -48,10 +48,10 @@
             <chunk name="Projection">
               <items count="2">
                 <item name="Target" type_name="gh_drawing_point" type_code="30">
-                  <X>-123</X>
-                  <Y>-86</Y>
+                  <X>125</X>
+                  <Y>203</Y>
                 </item>
-                <item name="Zoom" type_name="gh_single" type_code="5">1.25</item>
+                <item name="Zoom" type_name="gh_single" type_code="5">0.64</item>
               </items>
             </chunk>
             <chunk name="Views">
@@ -130,7 +130,7 @@
                             <chunk name="Item" index="0">
                               <items count="3">
                                 <item name="EdgeIndex" type_name="gh_int32" type_code="3">-1</item>
-                                <item name="RefID" type_name="gh_guid" type_code="9">025ac8e2-edfe-45ba-8191-711754fa6033</item>
+                                <item name="RefID" type_name="gh_guid" type_code="9">aa1301ab-2f42-4037-8e3b-0b64fcca1a9d</item>
                                 <item name="TypeName" type_name="gh_string" type_code="10">Grasshopper.Kernel.Types.GH_Curve</item>
                               </items>
                             </chunk>
@@ -159,10 +159,8 @@ class Skeleton():
     def __init__(self, pts):
         
         self._pts = pts
-        self._vecs = [rs.VectorUnitize(rs.VectorCreate(pts[i+1], pts[i])) for i in range(len(pts)-1)]
-        self._bisectors = []
-        
-        self.set_bisectors()
+        self._vecs = [rs.VectorUnitize(rs.VectorCreate(pts[i-1], pts[i])) for i in range(len(pts))]
+        self._bisectors = self.get_bisectors(self.pts)
         
     @property
     def pts(self):
@@ -176,33 +174,30 @@ class Skeleton():
     def bisectors(self):
         return self._bisectors
         
-    def set_bisectors(self):
-        
-        self._bisectors = []
-        
+    def get_bisectors(self, pts):
+        bisectors = []
         for vi in range(len(self.vecs)):
             cross_vec = rs.VectorCrossProduct(self.vecs[vi], self.vecs[vi-1])
-            
             if cross_vec.Z &gt; 0:
-                self.bisectors.append(rs.VectorAdd(self.vecs[vi],
+                bisectors.append(rs.VectorAdd(self.vecs[vi],
                     rs.VectorReverse(self.vecs[vi-1])))
             
             elif cross_vec.Z &lt; 0:
-                self.bisectors.append(rs.VectorAdd(self.vecs[vi-1],
+                bisectors.append(rs.VectorAdd(self.vecs[vi-1],
                     rs.VectorReverse(self.vecs[vi])))
-                
-
+        return bisectors
+     
 
 skel = Skeleton(rs.coerce3dpointlist(pts))
-a = skel.bisectors</item>
+a = skel.vecs</item>
                     <item name="Description" type_name="gh_string" type_code="10">A python scriptable component</item>
                     <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
-                      <X>293</X>
-                      <Y>157</Y>
+                      <X>232</X>
+                      <Y>26</Y>
                     </item>
                     <item name="EditorSize" type_name="gh_drawing_size" type_code="32">
                       <W>943</W>
-                      <H>865</H>
+                      <H>1097</H>
                     </item>
                     <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
                     <item name="HideOutput" type_name="gh_bool" type_code="1">false</item>
@@ -212,7 +207,7 @@ a = skel.bisectors</item>
                   </items>
                   <chunks count="2">
                     <chunk name="Attributes">
-                      <items count="3">
+                      <items count="2">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
                           <X>500</X>
                           <Y>335</Y>
@@ -223,7 +218,6 @@ a = skel.bisectors</item>
                           <X>539</X>
                           <Y>365</Y>
                         </item>
-                        <item name="Selected" type_name="gh_bool" type_code="1">true</item>
                       </items>
                     </chunk>
                     <chunk name="ParameterData">
@@ -253,7 +247,7 @@ a = skel.bisectors</item>
                           </items>
                           <chunks count="1">
                             <chunk name="Attributes">
-                              <items count="3">
+                              <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
                                   <X>502</X>
                                   <Y>337</Y>
@@ -264,7 +258,6 @@ a = skel.bisectors</item>
                                   <X>514.5</X>
                                   <Y>351</Y>
                                 </item>
-                                <item name="Selected" type_name="gh_bool" type_code="1">true</item>
                               </items>
                             </chunk>
                           </chunks>
@@ -284,7 +277,7 @@ a = skel.bisectors</item>
                           </items>
                           <chunks count="1">
                             <chunk name="Attributes">
-                              <items count="3">
+                              <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
                                   <X>502</X>
                                   <Y>365</Y>
@@ -295,7 +288,6 @@ a = skel.bisectors</item>
                                   <X>514.5</X>
                                   <Y>379</Y>
                                 </item>
-                                <item name="Selected" type_name="gh_bool" type_code="1">true</item>
                               </items>
                             </chunk>
                           </chunks>
@@ -311,7 +303,7 @@ a = skel.bisectors</item>
                           </items>
                           <chunks count="1">
                             <chunk name="Attributes">
-                              <items count="3">
+                              <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
                                   <X>554</X>
                                   <Y>337</Y>
@@ -322,7 +314,6 @@ a = skel.bisectors</item>
                                   <X>567</X>
                                   <Y>351</Y>
                                 </item>
-                                <item name="Selected" type_name="gh_bool" type_code="1">true</item>
                               </items>
                             </chunk>
                           </chunks>
@@ -338,7 +329,7 @@ a = skel.bisectors</item>
                           </items>
                           <chunks count="1">
                             <chunk name="Attributes">
-                              <items count="3">
+                              <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
                                   <X>554</X>
                                   <Y>365</Y>
@@ -349,7 +340,6 @@ a = skel.bisectors</item>
                                   <X>567</X>
                                   <Y>379</Y>
                                 </item>
-                                <item name="Selected" type_name="gh_bool" type_code="1">true</item>
                               </items>
                             </chunk>
                           </chunks>
@@ -618,14 +608,14 @@ a = skel.bisectors</item>
                     <chunk name="Attributes">
                       <items count="2">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>610</X>
-                          <Y>433</Y>
+                          <X>622</X>
+                          <Y>514</Y>
                           <W>45</W>
                           <H>44</H>
                         </item>
                         <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                          <X>641</X>
-                          <Y>455</Y>
+                          <X>653</X>
+                          <Y>536</Y>
                         </item>
                       </items>
                     </chunk>
@@ -643,14 +633,14 @@ a = skel.bisectors</item>
                         <chunk name="Attributes">
                           <items count="2">
                             <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                              <X>612</X>
-                              <Y>435</Y>
+                              <X>624</X>
+                              <Y>516</Y>
                               <W>14</W>
                               <H>20</H>
                             </item>
                             <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                              <X>620.5</X>
-                              <Y>445</Y>
+                              <X>632.5</X>
+                              <Y>526</Y>
                             </item>
                           </items>
                         </chunk>
@@ -670,14 +660,14 @@ a = skel.bisectors</item>
                         <chunk name="Attributes">
                           <items count="2">
                             <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                              <X>612</X>
-                              <Y>455</Y>
+                              <X>624</X>
+                              <Y>536</Y>
                               <W>14</W>
                               <H>20</H>
                             </item>
                             <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                              <X>620.5</X>
-                              <Y>465</Y>
+                              <X>632.5</X>
+                              <Y>546</Y>
                             </item>
                           </items>
                         </chunk>
@@ -906,7 +896,7 @@ a = skel.bisectors</item>
     <chunk name="Thumbnail">
       <items count="1">
         <item name="Thumbnail" type_name="gh_drawing_bitmap" type_code="37">
-          <bitmap length="5859">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</bitmap>
+          <bitmap length="2640">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</bitmap>
         </item>
       </items>
     </chunk>
