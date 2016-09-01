@@ -8,8 +8,8 @@
     <ProjectGuid>{EA5B7F17-B759-4652-B6DB-EFC4A2185879}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Circulation_Toolkit</RootNamespace>
-    <AssemblyName>Circulation Toolkit</AssemblyName>
+    <RootNamespace>CirculationToolkit</RootNamespace>
+    <AssemblyName>CirculationToolkit</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -53,11 +53,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entity.cs" />
-    <Compile Include="components\GH_Floor.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Components\Floor_GH.cs" />
+    <Compile Include="Entities\Floor.cs" />
+    <Compile Include="Profiles\FloorProfile.cs" />
     <Compile Include="ToolkitInfo.cs" />
-    <Compile Include="Profile.cs" />
+    <Compile Include="Profiles\Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\Bounds.cs" />
+    <Compile Include="Util\Graph.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -69,6 +73,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>Copy "$(TargetPath)" "$(TargetDir)$(ProjectName).gha"
+Copy "$(TargetPath)" "C:\Users\sfolmj\AppData\Roaming\Grasshopper\Libraries\$(ProjectName).gha"
 Erase "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
