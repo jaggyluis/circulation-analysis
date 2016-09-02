@@ -22,7 +22,7 @@ namespace CirculationToolkit.Entities
         /// </summary>
         /// <param name="profile"></param>
         /// <param name="edges"></param>
-        public Template(TemplateProfile profile, List<Tuple<Point3d, Point3d>> edges)
+        public Template(Profile profile, List<Tuple<Point3d, Point3d>> edges)
             : base(profile)
         {
             Edges = edges;

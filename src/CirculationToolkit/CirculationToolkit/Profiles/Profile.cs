@@ -9,7 +9,7 @@ namespace CirculationToolkit.Profiles
     /// Main Profile class for storing input information
     /// from the Rhino environment
     /// </summary>
-    public abstract class Profile
+    public class Profile
     {
         public string Name;
         public string Type;
@@ -29,7 +29,7 @@ namespace CirculationToolkit.Profiles
         /// </summary>
         /// <param name="name"></param>
         /// <param name="type"></param>
-        public Profile(string name, string type)
+        public Profile(string type, string name)
         {
             Name = name;
             Type = type;
@@ -81,92 +81,5 @@ namespace CirculationToolkit.Profiles
             }
         }
         #endregion
-    }
-
-    /// <summary>
-    /// FloorProfile sub-class that stores Floor Entity information
-    /// from the Rhino environment
-    /// </summary>
-    public class FloorProfile : Profile
-    {
-        /// <summary>
-        /// FloorProfile Constructor that takes a name for this Floor Entity
-        /// </summary>
-        /// <param name="name"></param>
-        public FloorProfile(string name)
-            : base(name, "floor")
-        {
-        }
-    }
-
-    /// <summary>
-    /// BarrierProfile sub-class that stores Barrier Entity information
-    /// from the Rhino environment
-    /// </summary>
-    public class BarrierProfile : Profile
-    {
-        /// <summary>
-        /// BarrierProfile Constructor that takes a name for the Floor Entity
-        /// that this Barrier Entity is on
-        /// </summary>
-        /// <param name="floorName"></param>
-        public BarrierProfile(string floorName)
-            : base("barrier")
-        {
-            SetAttribute("floor", floorName);
-        }
-    }
-
-    /// <summary>
-    /// NodeProfile sub-class that stores Node Entity information
-    /// from the Rhino environment
-    /// </summary>
-    public class NodeProfile : Profile
-    {
-        /// <summary>
-        /// NodeProfile Constructor that takes a name for this Node Entity and a name
-        /// for the Floor Entity that it is on
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="floorName"></param>
-        public NodeProfile(string name, string floorName)
-            : base(name, "node")
-        {
-            SetAttribute("floor", floorName);
-        }
-    }
-
-    /// <summary>
-    /// TemplateProfile sub-class that stores Template Entity information
-    /// </summary>
-    public class TemplateProfile : Profile
-    {
-        /// <summary>
-        /// TemplateProfile Constructor that takes no input but initializes attributes
-        /// later
-        /// </summary>
-        public TemplateProfile()
-            : base("template")
-        {
-
-        }
-    }
-
-    /// <summary>
-    /// AgentProfile sub-class that stores Agent Entity attributes
-    /// </summary>
-    public class AgentProfile : Profile
-    {
-        /// <summary>
-        /// AgentProfile Constructor that takes a name for this Agent Entity and a name
-        /// for the Floor Entity that it is on
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="floorName"></param>
-        public AgentProfile(string name, string floorName)
-            : base(name, "agent")
-        {
-            SetAttribute("floor", floorName);
-        }
     }
 }

@@ -59,7 +59,8 @@ namespace CirculationToolkit.Components
             DA.GetData(0, ref boundary);
             DA.GetData(1, ref name);
 
-            Floor floor = new Floor(new FloorProfile(name), boundary);
+            Profile profile = new Profile("floor", name);
+            Floor floor = new Floor(profile, boundary);
 
             DA.SetData(0, floor);
 
@@ -177,7 +178,7 @@ namespace CirculationToolkit.Components
     /// <summary>
     /// Floor_Goo wrapper
     /// </summary>
-    public class Floor_Goo : GH_GeometricGoo<FloorProfile>, IGH_PreviewData
+    public class Floor_Goo : GH_GeometricGoo<Floor>, IGH_PreviewData
     {
         #region constructors
         /// <summary>
@@ -187,15 +188,15 @@ namespace CirculationToolkit.Components
         /// <param name="boundary"></param>
         public Floor_Goo()
         {
-            Value = new FloorProfile();
+            Value = new Floor();
         }
-        public Floor_Goo(FloorProfile profile)
+        public Floor_Goo(Floor floor)
         {
-            if (profile == null)
+            if (floor == null)
             {
-                profile = new FloorProfile();
+                floor = new Floor();
             }
-            Value = profile;
+            Value = floor;
         }
         #endregion
 
@@ -241,7 +242,7 @@ namespace CirculationToolkit.Components
         public override bool CastTo<Q>(out Q target)
         {
             //Cast to Floor
-            if (typeof(Q).IsAssignableFrom(typeof(FloorProfile)))
+            if (typeof(Q).IsAssignableFrom(typeof(Floor)))
             {
                 if (Value == null)
                 {
@@ -264,9 +265,9 @@ namespace CirculationToolkit.Components
             {
                 return false;
             }
-            if (typeof(FloorProfile).IsAssignableFrom(source.GetType()))
+            if (typeof(Floor).IsAssignableFrom(source.GetType()))
             {
-                Value = (FloorProfile)source;
+                Value = (Floor)source;
                 return true;
             }
 
@@ -286,11 +287,11 @@ namespace CirculationToolkit.Components
                 {
                     return BoundingBox.Empty;
                 }
-                if (Value.Boundary == null)
+                if (Value.Geometry == null)
                 {
                     return BoundingBox.Empty;
                 }
-                return Value.Boundary.GetBoundingBox(true);
+                return Value.Geometry.GetBoundingBox(true);
             }
         }
 
@@ -308,11 +309,11 @@ namespace CirculationToolkit.Components
             {
                 return BoundingBox.Empty;
             }
-            if (Value.Boundary == null)
+            if (Value.Geometry == null)
             {
                 return BoundingBox.Empty;
             }
-            return Value.Boundary.GetBoundingBox(xform);
+            return Value.Geometry.GetBoundingBox(xform);
         }
 
         public override IGH_GeometricGoo Transform(Transform xform)
@@ -337,7 +338,7 @@ namespace CirculationToolkit.Components
         }
         public Floor_Goo DuplicateFloor()
         {
-            return new Floor_Goo(Value == null ? new FloorProfile() : Value.Duplicate());
+            return new Floor_Goo(Value == null ? new Floor() : Value.Duplicate());
         }
 
         public void DrawViewportWires(GH_PreviewWireArgs args)

@@ -103,6 +103,10 @@ namespace CirculationToolkit.Entities
             }
             set
             {
+                if (Positions.Keys.Count == 0)
+                {
+                    Positions[0] = value;
+                }
                 Positions[Positions.Last().Key] = value;
             }
         }

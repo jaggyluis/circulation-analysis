@@ -11,19 +11,20 @@ namespace CirculationToolkit.Util
     /// <summary>
     /// Graph Class that handles abstract connections
     /// </summary>
-    public class Graph<K>
+    public class Graph<NodeType>
     {
-        private HashSet<K> _nodes;
-        private Dictionary<K, HashSet<K>> _edges;
-        private Dictionary<Tuple<K, K>, double> _distances;
+        private HashSet<NodeType> _nodes;
+        private Dictionary<NodeType, HashSet<NodeType>> _edges;
+        private Dictionary<Tuple<NodeType, NodeType>, double> _distances;
+        
         /// <summary>
-        /// Graph Class Constructor
+        /// Graph class Constructor
         /// </summary>
         public Graph()
         {
-            _nodes = new HashSet<K>();
-            _edges = new Dictionary<K, HashSet<K>>();
-            _distances = new Dictionary<Tuple<K, K>, double>();
+            _nodes = new HashSet<NodeType>();
+            _edges = new Dictionary<NodeType, HashSet<NodeType>>();
+            _distances = new Dictionary<Tuple<NodeType, NodeType>, double>();
         }
 
         #region properties
@@ -41,7 +42,7 @@ namespace CirculationToolkit.Util
         /// <summary>
         /// Returns a list of all the Graph nodes
         /// </summary>
-        public List<K> Nodes
+        public List<NodeType> Nodes
         {
             get
             {
@@ -52,7 +53,7 @@ namespace CirculationToolkit.Util
         /// <summary>
         /// Returns a dictionary of all the Graph edges by node
         /// </summary>
-        public Dictionary<K, HashSet<K>> Edges
+        public Dictionary<NodeType, HashSet<NodeType>> Edges
         {
             get
             {
@@ -63,7 +64,7 @@ namespace CirculationToolkit.Util
         /// <summary>
         /// Returns a dictionary of all the Graph distances by tuple key
         /// </summary>
-        public Dictionary<Tuple<K, K>, double> Distances
+        public Dictionary<Tuple<NodeType, NodeType>, double> Distances
         {
             get
             {
@@ -77,7 +78,7 @@ namespace CirculationToolkit.Util
         /// Adds a node to the Graph
         /// </summary>
         /// <param name="node"></param>
-        public void AddNode(K node)
+        public void AddNode(NodeType node)
         {
             Nodes.Add(node);
         }
@@ -89,18 +90,18 @@ namespace CirculationToolkit.Util
         /// <param name="n2"></param>
         /// <param name="distance"></param>
         /// <param name="directed"></param>
-        public void AddEdge(K n1, K n2, double distance, bool directed=false)
+        public void AddEdge(NodeType n1, NodeType n2, double distance, bool directed=false)
         {
             AddNode(n1);
             AddNode(n2);
 
             Edges[n1].Add(n2);
-            Distances[new Tuple<K, K>(n1, n2)] = distance;
+            Distances[new Tuple<NodeType, NodeType>(n1, n2)] = distance;
 
             if (!directed)
             {
                 Edges[n2].Add(n1);
-                Distances[new Tuple<K, K>(n2, n1)] = distance;
+                Distances[new Tuple<NodeType, NodeType>(n2, n1)] = distance;
             }
         }
 
@@ -110,7 +111,7 @@ namespace CirculationToolkit.Util
         /// <param name="key"></param>
         /// <param name="gen"></param>
         /// <returns></returns>
-        public double GetDistance(Tuple<K, K> key, int gen=0)
+        public virtual double GetDistance(Tuple<NodeType, NodeType> key, int gen=0)
         {
             return Distances[key];
         }
@@ -121,9 +122,9 @@ namespace CirculationToolkit.Util
         /// <param name="initial"></param>
         /// <param name="goal"></param>
         /// <param name="route"></param>
-        public void GetStep(K initial, K goal, Dictionary<K, K> route)
+        public virtual int GetStep(NodeType initial, NodeType goal, Dictionary<NodeType, NodeType> route)
         {
-            return;
+            return 0;
         }
         #endregion
 
@@ -138,7 +139,7 @@ namespace CirculationToolkit.Util
         /// <param name="to"></param>
         /// <param name="from"></param>
         /// <returns></returns>
-        private Dictionary<K,V> MergeDict<V>(Dictionary<K,V> to, Dictionary<K, V> from)
+        private Dictionary<K,V> MergeDict<K, V>(Dictionary<K,V> to, Dictionary<K, V> from)
         {
             foreach(K key in from.Keys)
             {
@@ -155,22 +156,22 @@ namespace CirculationToolkit.Util
         /// Dictionray DeepSearch method that does a deep search of the Graph
         /// using a boolean function until it reaches a result
         /// </summary>
-        /// <typeparam name="K"></typeparam>
+        /// <typeparam name="NodeType"></typeparam>
         /// <param name="key"></param>
         /// <param name="func"></param>
         /// <param name="visited"></param>
         /// <param name="depth"></param>
         /// <param name="maxDepth"></param>
         /// <returns></returns>
-        public Dictionary<K, int?> DeepSearch(K key, 
-            Func<K, bool> func, 
-            Dictionary<K, int?> visited = null,
+        public Dictionary<NodeType, int?> DeepSearch(NodeType key, 
+            Func<NodeType, bool> func, 
+            Dictionary<NodeType, int?> visited = null,
             int depth=0,
             int maxDepth=10)
         {
             if(visited == null)
             {
-                visited = new Dictionary<K, int?>();
+                visited = new Dictionary<NodeType, int?>();
             }
             visited[key] = null;
 
@@ -181,7 +182,7 @@ namespace CirculationToolkit.Util
             else if(depth < maxDepth) {
                 if(Edges.ContainsKey(key))
                 {
-                    foreach (K edge in Edges[key])
+                    foreach (NodeType edge in Edges[key])
                     {
                         if (!visited.ContainsKey(edge))
                         {
@@ -201,24 +202,24 @@ namespace CirculationToolkit.Util
         /// Dictionary ShallowSearch that does a shallow search of the Graph
         /// using a boolean function until it reaches as result
         /// </summary>
-        /// <typeparam name="K"></typeparam>
+        /// <typeparam name="NodeType"></typeparam>
         /// <param name="keys"></param>
         /// <param name="func"></param>
         /// <param name="visited"></param>
         /// <param name="depth"></param>
         /// <param name="maxDepth"></param>
         /// <returns></returns>
-        public Dictionary<K, int?> ShallowSearch(List<K> keys, 
-            Func<K, bool> func, 
-            Dictionary<K, int?> visited = null,
+        public Dictionary<NodeType, int?> ShallowSearch(List<NodeType> keys, 
+            Func<NodeType, bool> func, 
+            Dictionary<NodeType, int?> visited = null,
             int depth=0,
             int maxDepth=int.MaxValue)
         {
             if (visited == null)
             {
-                visited = new Dictionary<K, int?>();
+                visited = new Dictionary<NodeType, int?>();
             }
-            foreach(K key in keys)
+            foreach(NodeType key in keys)
             {
                 if (!visited.ContainsKey(key))
                 {
@@ -232,11 +233,11 @@ namespace CirculationToolkit.Util
             }
             if (depth < maxDepth)
             {
-                HashSet<K> keySet = new HashSet<K>();
+                HashSet<NodeType> keySet = new HashSet<NodeType>();
 
-                foreach(K key in keys)
+                foreach(NodeType key in keys)
                 {
-                    foreach(K k in Edges[key])
+                    foreach(NodeType k in Edges[key])
                     {
                         keySet.Add(k);
                     }
@@ -252,24 +253,122 @@ namespace CirculationToolkit.Util
         }
         #endregion
 
-        public void Dijsktra(K initial, K goal, int startIndex)
+        #region shortest path methods
+        /// <summary>
+        /// Dijsktra Shortest Path Algorythm returns the shortest path tree between
+        /// an Initial node and all nodes
+        /// </summary>
+        /// <param name="initial"></param>
+        /// <param name="goal"></param>
+        /// <param name="startIndex"></param>
+        /// <returns></returns>
+        public Tuple<Dictionary<NodeType, double>, Dictionary<NodeType, NodeType>>
+            Dijsktra(NodeType initial, NodeType goal, int startIndex=0)
         {
-            Dictionary<K, int> visited = new Dictionary<K, int>() {{initial, 0}};
-            Dictionary<K, K> path = new Dictionary<K, K>();
-            HashSet<K> nodes = new HashSet<K>(Nodes);
+            Dictionary<NodeType, double> visited = new Dictionary<NodeType, double>() {{initial, 0}};
+            Dictionary<NodeType, NodeType> path = new Dictionary<NodeType, NodeType>();
+            HashSet<NodeType> nodes = new HashSet<NodeType>(Nodes);
+            Tuple<Dictionary<NodeType, double>, Dictionary<NodeType, NodeType>> tup =
+                new Tuple<Dictionary<NodeType, double>, Dictionary<NodeType, NodeType>>
+                (visited, path);
 
+            while (nodes.Count > 0)
+            {
+                NodeType minNode = default(NodeType);
+
+                foreach (NodeType node in Nodes)
+                {
+                    if (visited.ContainsKey(node))
+                    {
+                        if (minNode == null)
+                        {
+                            minNode = node;
+                        }
+                        else if (visited[node] < visited[minNode])
+                        {
+                            minNode = node;
+                        }
+                    }
+                    if (minNode == null)
+                    {
+                        break;
+                    }
+                    nodes.Remove(minNode);
+
+                    double currWeight = visited[minNode];
+                    int currGeneration = GetStep(minNode, initial, path);
+
+                    foreach (NodeType edge in Edges[minNode])
+                    {
+                        double distance = GetDistance(new Tuple<NodeType, NodeType>(minNode, edge),
+                            currGeneration + startIndex);
+                        double weight = currWeight + distance;
+
+                        if (!visited.ContainsKey(node) || weight < visited[edge])
+                        {
+                            visited[edge] = weight;
+                            path[edge] = minNode;
+                        }
+                        if (goal != null && edge.Equals(goal))
+                        {
+                            return tup;
+                        }
+                    }
+
+                }
+            }
+            return tup;
         }
+
+        /// <summary>
+        /// Shortest Path between two nodes
+        /// </summary>
+        /// <param name="initial"></param>
+        /// <param name="goal"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public List<NodeType> ShortestPath(NodeType initial,
+            NodeType goal,
+            int startIndex = 0,
+            Dictionary<NodeType, NodeType> path = null)
+        {
+            if (path == null)
+            {
+                path = Dijsktra(initial, goal, startIndex).Item2;
+            }
+            List<NodeType> route = new List<NodeType>()
+            {
+                goal
+            };
+            while(!goal.Equals(initial))
+            {
+                route.Add(path[goal]);
+                goal = path[goal];
+            }
+            route.Reverse();
+
+            return route;
+        }
+        #endregion
 
     }
 
     /// <summary>
     /// Map Graph that handles Graphs on a Floor
     /// </summary>
-    public class Map : Graph
+    public class Map<NodeType> : Graph<NodeType>
     {
 
         private Floor _floor;
+        private Dictionary<NodeType, double> _barrierMap;
+        private Dictionary<NodeType, Dictionary<int, int>> _occupancyMap;
 
+        /// <summary>
+        /// Map class Constructor that inherits graph functionality and applies it
+        /// to a Floor Entity
+        /// </summary>
+        /// <param name="floor"></param>
         public Map(Floor floor)
         {
             Floor = floor;
@@ -289,6 +388,167 @@ namespace CirculationToolkit.Util
             {
                 _floor = value;
             }
+        }
+
+        /// <summary>
+        /// Returns the Barrier map on this Map
+        /// </summary>
+        public Dictionary<NodeType, double> BarrierMap
+        {
+            get
+            {
+                return _barrierMap;
+            }
+        }
+
+        /// <summary>
+        /// Returns the Occupancy at all grid points for all generations of
+        /// the simulation
+        /// </summary>
+        public Dictionary<NodeType, Dictionary<int, int>> OccupancyMap
+        {
+            get
+            {
+                return _occupancyMap;
+            }
+        }
+        #endregion
+
+        #region map methods
+        /// <summary>
+        /// Returns a list of all the Map node BarrierMap values
+        /// </summary>
+        /// <returns></returns>
+        public List<double> GetBarrierMapNodeValueList()
+        {
+            return BarrierMap.Values.ToList();
+        }
+
+        /// <summary>
+        /// Returns the BarrierMap value at a Map node
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public double GetBarrierMapNodeValue(NodeType key)
+        {
+            if (!BarrierMap.ContainsKey(key))
+            {
+                BarrierMap[key] = 0;
+            }
+            return BarrierMap[key];
+        }
+
+        /// <summary>
+        /// Increase a Map node BarrierMap value
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public void AddBarrierMapNodeValue(NodeType key, double value)
+        {
+            if (!BarrierMap.ContainsKey(key))
+            {
+                BarrierMap[key] = 0;
+            }
+            BarrierMap[key] += value;
+        }
+
+        /// <summary>
+        /// Returns a list of all the Map node OccupancyMap values
+        /// of a generation
+        /// </summary>
+        /// <param name="gen"></param>
+        /// <returns></returns>
+        public List<int> GetOccupancyMapNodeValueList(int gen)
+        {
+            List<int> valueList = new List<int>();
+
+            foreach(NodeType node in Nodes)
+            {
+                valueList.Add(GetOccupancyMapNodeValue(node, gen));
+            }
+
+            return valueList;
+        }
+
+        /// <summary>
+        /// Returns the OccupancyMap value at a Map node at a generation
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="gen"></param>
+        /// <returns></returns>
+        public int GetOccupancyMapNodeValue(NodeType key, int gen)
+        {
+            if (!OccupancyMap.ContainsKey(key))
+            {
+                OccupancyMap[key] = new Dictionary<int, int>();
+            }
+            if (!OccupancyMap[key].ContainsKey(gen))
+            {
+                OccupancyMap[key][gen] = 0;
+            }
+
+            return OccupancyMap[key][gen];
+        }
+
+        /// <summary>
+        /// Increase the Map node OccupancyMap value at a generation
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="gen"></param>
+        public void AddOccupancyMapNodeValue(NodeType key, int gen)
+        {
+            if (!OccupancyMap.ContainsKey(key))
+            {
+                OccupancyMap[key] = new Dictionary<int, int>();
+            }
+            if (!OccupancyMap[key].ContainsKey(gen))
+            {
+                OccupancyMap[key][gen] = 0;
+            }
+
+            OccupancyMap[key][gen]++;
+        }
+        #endregion
+
+        #region shortest path methods
+        /// <summary>
+        /// Gets the length of the current mid calculation shortest path in order to compute
+        /// the current step count at that point
+        /// </summary>
+        /// <param name="initial"></param>
+        /// <param name="goal"></param>
+        /// <param name="route"></param>
+        /// <returns></returns>
+        public override int GetStep(NodeType initial, NodeType goal, Dictionary<NodeType, NodeType> route)
+        {
+            List<NodeType> path = new List<NodeType>()
+            {
+                initial
+            };
+            while (!initial.Equals(goal))
+            {
+                path.Add(route[initial]);
+                initial = route[initial];
+            }
+            return path.Count;
+        }
+
+        /// <summary>
+        /// Overrides the GetDistance method from the Graph class in order to use the Map
+        /// to modify shortest path values updated to densities and barriers
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="gen"></param>
+        /// <returns></returns>
+        public override double GetDistance(Tuple<NodeType, NodeType> key, int gen = 0)
+        {
+            double distance = Distances[key];
+            double area = Math.Pow(Floor.GridSize, 2);
+            double occupancy = GetOccupancyMapNodeValue(key.Item2, gen);
+            double density = occupancy / area;
+            double barriers = GetBarrierMapNodeValue(key.Item2);
+
+            return distance + barriers + density;
         }
         #endregion
     }

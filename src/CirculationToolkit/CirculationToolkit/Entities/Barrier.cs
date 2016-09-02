@@ -25,7 +25,7 @@ namespace CirculationToolkit.Entities
         /// </summary>
         /// <param name="profile"></param>
         /// <param name="geometry"></param>
-        public Barrier(BarrierProfile profile, Curve geometry)
+        public Barrier(Profile profile, Curve geometry)
             : base (profile)
         { 
             Geometry = geometry;

@@ -21,7 +21,7 @@ namespace CirculationToolkit.Entities
         /// </summary>
         /// <param name="profile"></param>
         /// <param name="geometry"></param>
-        public Node(NodeProfile profile, Point3d geometry)
+        public Node(Profile profile, Point3d geometry)
             : base(profile)
         {
             Position = geometry;

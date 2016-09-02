@@ -17,26 +17,53 @@ namespace CirculationToolkit.Entities
     {
 
         private Curve _geometry;
-        private Mesh _mesh;
-        private double _gridSize;
-        private Dictionary<Tuple<double, double>, int> _coordinates;
         private Bounds2d _bounds;
-        private Map _map;
-        private List<Point3d> _grid;      
+        private Mesh _mesh;
+        private List<Point3d> _grid;
+        private double _gridSize;
+        private Map<int> _map;
+        private Dictionary<Tuple<double, double>, int> _coordinates;            
 
+        /// <summary>
+        /// Floor Entity Constructor that handles null Floor Entities
+        /// </summary>
+        public Floor()
+            : base (new Profile("floor"))
+        {
+            // null Floor for GUI
+        }
         /// <summary>
         /// Floor Entity Constructor that takes a FloorProfile and a Geometry curve
         /// representing the edge of the floor
         /// </summary>
         /// <param name="profile"></param>
         /// <param name="geometry"></param>
-        public Floor(FloorProfile profile, Curve geometry)
+        public Floor(Profile profile, Curve geometry)
             : base(profile)
         {
             Geometry = geometry;
             Coordinates = new Dictionary<Tuple<double,double>, int>();
             Bounds = new Bounds2d(Geometry);
             Position = Bounds.Origin;
+        }
+
+        /// <summary>
+        /// Duplicate this Floor
+        /// </summary>
+        /// <returns></returns>
+        public Floor Duplicate()
+        {
+            Floor duplicate = new Floor(Profile, Geometry);
+
+            duplicate.Geometry = Geometry;
+            duplicate.Bounds = Bounds;
+            duplicate.Mesh = Mesh;
+            duplicate.Grid = Grid;
+            duplicate.GridSize = GridSize;
+            duplicate.Map = Map;
+            duplicate.Coordinates = Coordinates;
+
+            return duplicate;
         }
 
         #region properties
@@ -119,7 +146,7 @@ namespace CirculationToolkit.Entities
         /// <summary>
         /// Returns the Floor Entity Map Graph
         /// </summary>
-        public Map Map
+        public Map<int> Map
         {
             get
             {
@@ -156,7 +183,7 @@ namespace CirculationToolkit.Entities
         {
             GridSize = gridSize;
             Mesh = Bounds.GetGrid(gridSize);
-            Map = new Map(this);
+            Map = new Map<int>(this);
 
             List<int> indexes = new List<int>();
             double denom = Math.Sqrt(2 * Math.Pow(gridSize, 2));
@@ -198,7 +225,7 @@ namespace CirculationToolkit.Entities
                         if (e1 != e2)
                         {
                             double weight = Grid[e1].DistanceTo(Grid[e2]);
-                            //Map.AddEdge(e1,e2, weight);
+                            Map.AddEdge(e1,e2, weight);
                         }
                     }
                 }
@@ -390,11 +417,53 @@ namespace CirculationToolkit.Entities
 
         #region Map methods
         /// <summary>
-        /// Creates the Weighted Floor for Agent Decisions
+        /// Tests a Floor point for edge conditions
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <returns></returns>
+        protected bool IsEdgeVertex(int testIndex)
+        {
+            List<double> barrierValues = new List<double>();
+
+            foreach(int nodeIndex in Map.Edges[testIndex])
+            {
+                barrierValues.Add(Map.GetBarrierMapNodeValue(nodeIndex));
+            }
+            if (barrierValues.Count != 8 || barrierValues.Contains(double.MaxValue))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Creates the Weighted Floor edges for Agent Decisions
         /// </summary>
         public void AddEdgeMap()
         {
-            // TODO
+            for (var i=0; i<Grid.Count; i++)
+            {
+                if (Map.GetBarrierMapNodeValue(i) != double.MaxValue)
+                {
+                    Dictionary<int, int?> search = Map.ShallowSearch(new List<int>(i), IsEdgeVertex);
+                    List<int> values = new List<int>();
+
+                    foreach (int? v in search.Values)
+                    {
+                        if (v != null)
+                        {
+                            values.Add((int)v);
+                        }
+                    }
+                    values.Sort();
+                    if (values.Count > 0)
+                    {
+                        double weight = 1 / Math.Pow((GridSize * (values[0] + 1)), 2);
+                        Map.AddBarrierMapNodeValue(i, weight);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -403,7 +472,32 @@ namespace CirculationToolkit.Entities
         /// <param name="barrier"></param>
         public void AddBarrierMap(Barrier barrier)
         {
-            // TODO
+            for (var i=0; i<Grid.Count; i++)
+            {
+                if (barrier.Bounds.Contains(Grid[i]))
+                {
+                    if (barrier.Geometry.Contains(Grid[i]) == PointContainment.Inside)
+                    {
+                        Map.AddBarrierMapNodeValue(i, double.MaxValue);
+                    }
+                }
+                else
+                {
+                    Bounds2d unitBounds = GetGridUnit(Grid[i]);
+
+                    if (barrier.Bounds.Intersects(unitBounds))
+                    {
+                        foreach (Point3d pt in unitBounds.Points)
+                        {
+                            if (barrier.Geometry.Contains(pt) == PointContainment.Inside)
+                            {
+                                Map.AddBarrierMapNodeValue(i, double.MaxValue);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
         }
         #endregion
 
