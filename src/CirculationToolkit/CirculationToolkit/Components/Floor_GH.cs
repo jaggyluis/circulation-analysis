@@ -8,7 +8,7 @@ using Grasshopper.Kernel.Types;
 using CirculationToolkit.Profiles;
 using CirculationToolkit.Entities;
 
-namespace Circulation_Toolkit
+namespace CirculationToolkit.Components
 {
     public class Floor_GH : GH_Component
     {

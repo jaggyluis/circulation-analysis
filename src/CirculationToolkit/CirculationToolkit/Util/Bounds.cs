@@ -15,12 +15,20 @@ namespace CirculationToolkit.Util
 
         private Dictionary<string, double> _corners;
 
+        /// <summary>
+        /// Bounds2d Constructor that takes a Curve as geometry
+        /// </summary>
+        /// <param name="geo"></param>
         public Bounds2d(Curve geo)
         {
             Polyline pline = null;
             geo.TryGetPolyline(out pline);
             Corners = GetCorners(pline.ToList());
         }
+        /// <summary>
+        /// Bounds2d Constructor that takes a list of Point3ds as geometry
+        /// </summary>
+        /// <param name="points"></param>
         public Bounds2d(List<Point3d> points)
         {
             Corners = GetCorners(points);
@@ -258,7 +266,7 @@ namespace CirculationToolkit.Util
         /// <param name="dimX"></param>
         /// <param name="dimY"></param>
         /// <returns></returns>
-        static Bounds2d FromCenterPoint(Point3d center, double dimX, double dimY)
+        public static Bounds2d FromCenterPoint(Point3d center, double dimX, double dimY)
         {
             List<Point3d> points = new List<Point3d>()
             {
@@ -281,6 +289,11 @@ namespace CirculationToolkit.Util
         public double Start;
         public double End;
 
+        /// <summary>
+        /// Interval Constructor that takes a start number and end number
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         public Interval(double start, double end)
         {
             Start = start;
@@ -348,6 +361,14 @@ namespace CirculationToolkit.Util
         #endregion
 
         #region static methods
+        /// <summary>
+        /// Remaps a number from one Interval to another
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <param name="num"></param>
+        /// <param name="bounded"></param>
+        /// <returns></returns>
         static double Remap(Interval source, Interval target, double num, bool bounded=false)
         {
             if (source.Range == 0)

@@ -53,10 +53,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Barrier.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Components\Floor_GH.cs" />
     <Compile Include="Entities\Floor.cs" />
-    <Compile Include="Profiles\FloorProfile.cs" />
+    <Compile Include="Entities\Node.cs" />
+    <Compile Include="Entities\Template.cs" />
     <Compile Include="ToolkitInfo.cs" />
     <Compile Include="Profiles\Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
