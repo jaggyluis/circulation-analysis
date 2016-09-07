@@ -11,10 +11,18 @@ namespace CirculationToolkit.Entities
     /// <summary>
     /// Main Entity class that stores information for the Circulation Environment
     /// </summary>
-    public abstract class Entity
+    public class Entity
     {
         private Profile _profile;
         private Dictionary<int, Point3d> _positions;
+
+        /// <summary>
+        /// Entity Constructor that handles Null Entities
+        /// </summary>
+        public Entity()
+        {
+            // Null constructor for GUI
+        }
 
         /// <summary>
         /// Entity Constructor that takes a Profile containing Entity Attributes
@@ -24,6 +32,15 @@ namespace CirculationToolkit.Entities
         {
             Profile = profile;
             Positions = new Dictionary<int, Point3d>();
+        }
+
+        /// <summary>
+        /// Duplicate this Entity
+        /// </summary>
+        /// <returns></returns>
+        public virtual Entity Duplicate()
+        {
+            return Profile != null ? new Entity(Profile) : new Entity(); 
         }
 
         #region properties
@@ -63,9 +80,20 @@ namespace CirculationToolkit.Entities
         /// <returns></returns>
         public override string ToString()
         {
-            return Type + " entity" + ": " + Name;
+            if (Name.Length != 0)
+            {
+                return Type + " entity" + ": " + Name;
+            }
+            else
+            {
+                return Type + " entity";
+            }
+            
         }
 
+        /// <summary>
+        /// Accessor for the Entity's Profile object
+        /// </summary>
         public Profile Profile
         {
             get
@@ -157,21 +185,24 @@ namespace CirculationToolkit.Entities
             Positions[gen] = position;         
         }
 
+        /// <summary>
+        /// Checks if this Entity has a profile attribute
+        /// </summary>
+        /// <param name="attribute"></param>
+        /// <returns></returns>
         public bool HasAttribute(string attribute)
         {
             return Profile.HasAttribute(attribute);
         }
 
+        /// <summary>
+        /// Gats and attribute from the Entity's Profile
+        /// </summary>
+        /// <param name="attribute"></param>
+        /// <returns></returns>
         public string GetAttribute(string attribute)
         {
-            if (HasAttribute(attribute))
-            {
-                return Profile.Attributes[attribute];
-            }
-            else
-            {
-                return "";
-            }
+            return Profile.GetAttribute(attribute);
         }
 
         /// <summary>

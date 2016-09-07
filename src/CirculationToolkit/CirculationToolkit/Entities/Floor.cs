@@ -15,7 +15,6 @@ namespace CirculationToolkit.Entities
     /// </summary>
     public class Floor : Entity
     {
-
         private Curve _geometry;
         private Bounds2d _bounds;
         private Mesh _mesh;
@@ -24,14 +23,6 @@ namespace CirculationToolkit.Entities
         private Map<int> _map;
         private Dictionary<Tuple<double, double>, int> _coordinates;            
 
-        /// <summary>
-        /// Floor Entity Constructor that handles null Floor Entities
-        /// </summary>
-        public Floor()
-            : base (new Profile("floor"))
-        {
-            // null Floor for GUI
-        }
         /// <summary>
         /// Floor Entity Constructor that takes a FloorProfile and a Geometry curve
         /// representing the edge of the floor
@@ -43,6 +34,7 @@ namespace CirculationToolkit.Entities
         {
             Geometry = geometry;
             Coordinates = new Dictionary<Tuple<double,double>, int>();
+            Grid = new List<Point3d>();
             Bounds = new Bounds2d(Geometry);
             Position = Bounds.Origin;
         }
@@ -51,7 +43,7 @@ namespace CirculationToolkit.Entities
         /// Duplicate this Floor
         /// </summary>
         /// <returns></returns>
-        public Floor Duplicate()
+        public override Entity Duplicate()
         {
             Floor duplicate = new Floor(Profile, Geometry);
 
@@ -272,7 +264,7 @@ namespace CirculationToolkit.Entities
         }
 
         /// <summary>
-        /// Return the Coordinates of all neighbors at a Coordinates coordinate
+        /// Return the Coordinates of all neighbors at a coordinate
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>

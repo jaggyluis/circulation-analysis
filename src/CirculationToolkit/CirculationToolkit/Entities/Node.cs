@@ -26,5 +26,35 @@ namespace CirculationToolkit.Entities
         {
             Position = geometry;
         }
+
+        /// <summary>
+        /// Duplicate this Node
+        /// </summary>
+        /// <returns></returns>
+        public override Entity Duplicate()
+        {
+            return new Node(Profile, Position);
+        }
+
+        #region properties
+        /// <summary>
+        /// Returns the Agent capacity at this Node
+        /// </summary>
+        public int Capacity
+        {
+            get
+            {
+                int capacity;
+                bool parsed = Int32.TryParse(GetAttribute("capacity"), out capacity);
+
+                if (!parsed)
+                {
+                    capacity = int.MaxValue;
+                }
+
+                return capacity;
+            }
+        }
+        #endregion
     }
 }

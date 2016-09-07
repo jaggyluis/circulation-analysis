@@ -15,7 +15,6 @@ namespace CirculationToolkit.Entities
     /// </summary>
     public class Barrier : Entity
     {
-
         private Curve _geometry;
         private Bounds2d _bounds;
 
@@ -30,6 +29,17 @@ namespace CirculationToolkit.Entities
         { 
             Geometry = geometry;
             Bounds = new Bounds2d(Geometry);
+        }
+
+        /// <summary>
+        /// Duplicate this Barrier Entity
+        /// </summary>
+        /// <returns></returns>
+        public override Entity Duplicate()
+        {
+            Barrier duplicate = new Barrier(Profile, Geometry);
+
+            return duplicate;
         }
 
         #region properties

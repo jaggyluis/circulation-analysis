@@ -13,7 +13,6 @@ namespace CirculationToolkit.Entities
     /// </summary>
     public class Template : Entity
     {
-
         private List<Tuple<Point3d, Point3d>> _edges;
 
         /// <summary>
@@ -26,6 +25,17 @@ namespace CirculationToolkit.Entities
             : base(profile)
         {
             Edges = edges;
+        }
+
+        /// <summary>
+        /// Duplicate this Template Entity
+        /// </summary>
+        /// <returns></returns>
+        public override Entity Duplicate()
+        {
+            Template duplicate = new Template(Profile, Edges);
+
+            return duplicate;
         }
 
         #region properties
@@ -41,6 +51,27 @@ namespace CirculationToolkit.Entities
             set
             {
                 _edges = value;
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the template is directec or not
+        /// </summary>
+        public bool Directed
+        {
+            get
+            {
+                bool directed = false;
+                bool parsed = bool.TryParse(GetAttribute("directed"), out directed);
+
+                if (parsed)
+                {
+                    return parsed;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
         #endregion

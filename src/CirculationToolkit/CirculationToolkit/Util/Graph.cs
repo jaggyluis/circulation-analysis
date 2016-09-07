@@ -372,6 +372,9 @@ namespace CirculationToolkit.Util
         public Map(Floor floor)
         {
             Floor = floor;
+            BarrierMap = new Dictionary<NodeType, double>();
+            OccupancyMap = new Dictionary<NodeType, Dictionary<int, int>>();
+
         }
 
         #region properties
@@ -399,6 +402,10 @@ namespace CirculationToolkit.Util
             {
                 return _barrierMap;
             }
+            set
+            {
+                _barrierMap = value;
+            }
         }
 
         /// <summary>
@@ -410,6 +417,10 @@ namespace CirculationToolkit.Util
             get
             {
                 return _occupancyMap;
+            }
+            set
+            {
+                _occupancyMap = value;
             }
         }
         #endregion

@@ -55,6 +55,23 @@ namespace CirculationToolkit.Profiles
         }
 
         /// <summary>
+        /// Returns a given attribute from the Attributes, or an empty string
+        /// </summary>
+        /// <param name="attribute"></param>
+        /// <returns></returns>
+        public string GetAttribute(string attribute)
+        {
+            if (HasAttribute(attribute))
+            {
+                return Attributes[attribute];
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        /// <summary>
         /// Sets the value of an Entity attribute
         /// </summary>
         /// <param name="attribute"></param>
