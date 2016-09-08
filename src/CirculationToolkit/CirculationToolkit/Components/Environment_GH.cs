@@ -33,6 +33,7 @@ namespace CirculationToolkit.Components
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddTextParameter("test", "test", "test", GH_ParamAccess.item);
+            pManager.AddMeshParameter("sdf", "sdf", "sdf", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -54,8 +55,10 @@ namespace CirculationToolkit.Components
 
             env.BuildEnvironment();
 
+            Floor fl = (Floor)env.Floors[0];
 
             DA.SetData(0, env.ToString());
+            DA.SetData(1, fl.Mesh);
         }
 
         /// <summary>

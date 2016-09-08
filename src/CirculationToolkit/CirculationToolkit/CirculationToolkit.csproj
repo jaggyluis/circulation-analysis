@@ -59,6 +59,7 @@
     <Compile Include="Components\Environment_GH.cs" />
     <Compile Include="Components\Node_GH.cs" />
     <Compile Include="Components\Template_GH.cs" />
+    <Compile Include="Entities\Agent.cs" />
     <Compile Include="Entities\Barrier.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Components\Floor_GH.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="Entities\Template.cs" />
     <Compile Include="Util\Environment.cs" />
     <Compile Include="ToolkitInfo.cs" />
-    <Compile Include="Profiles\Profile.cs" />
+    <Compile Include="Util\Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Bounds.cs" />
     <Compile Include="Util\Graph.cs" />

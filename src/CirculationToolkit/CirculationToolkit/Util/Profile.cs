@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CirculationToolkit.Profiles
+namespace CirculationToolkit.Util
 {
     /// <summary>
     /// Main Profile class for storing input information
@@ -98,5 +98,61 @@ namespace CirculationToolkit.Profiles
             }
         }
         #endregion
+    }
+
+    public class AgentProfile : Profile
+    {
+        private Dictionary<string, double> _propensities;
+
+        /// <summary>
+        /// AgentProfile Constructor for Agent Entities that 
+        /// extends the Profile class with Agent methods
+        /// </summary>
+        public AgentProfile()
+            : base ("agent")
+        {
+        }
+
+        #region properties
+        /// <summary>
+        /// Returns the dictionary of key value pairs for Agent Entity
+        /// Decision making
+        /// </summary>
+        public Dictionary<string, double> Propensities
+        {
+            get
+            {
+                return _propensities;
+            }
+        }
+        #endregion
+
+        #region utility methods
+        /// <summary>
+        /// Returns the propensity of an Agent to make a certain decision
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public double GetPropensity(string type)
+        {
+            if (Propensities.ContainsKey(type))
+            {
+                return Propensities[type];
+            }
+
+            return 1;
+        }
+
+        /// <summary>
+        /// Adds a propensity to the Agent's profile for decision making
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="value"></param>
+        public void AddPropensity(string type, double value)
+        {
+            Propensities[type] = value;
+        }
+        #endregion
+
     }
 }

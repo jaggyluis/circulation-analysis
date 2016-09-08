@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using CirculationToolkit.Profiles;
 using CirculationToolkit.Util;
 using Rhino.Geometry;
 
@@ -74,7 +73,7 @@ namespace CirculationToolkit.Entities
         }
 
         /// <summary>
-        /// Accessor for the name of the floor this Barrier is on
+        /// Returns the name of the Floor Entity that this Barrier is on
         /// </summary>
         public string Floor
         {

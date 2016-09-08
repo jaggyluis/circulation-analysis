@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using CirculationToolkit.Profiles;
 using CirculationToolkit.Util;
 using Rhino.Geometry;
 
@@ -183,32 +182,32 @@ namespace CirculationToolkit.Entities
             MeshingParameters parameters = new MeshingParameters();
             Mesh mesh = Mesh.CreateFromPlanarBoundary(Geometry, parameters);
 
-            for (int i=0; i<mesh.Faces.Count; i++)
+            for (int i=0; i<Mesh.Faces.Count; i++)
             {
-                Point3d pt = mesh.Faces.GetFaceCenter(i);
+                Point3d pt = Mesh.Faces.GetFaceCenter(i);
                 Line line = new Line(pt, new Vector3d(0, 0, -1));
                 int[] intersections;
 
                 Rhino.Geometry.Intersect.Intersection.MeshLine(mesh, line, out intersections);
-                if (intersections.Count() == 0)
+                if (intersections == null)
                 {
                     indexes.Add(i);
                 }
             }
 
-            mesh.Faces.DeleteFaces(indexes);
+            Mesh.Faces.DeleteFaces(indexes);
 
-            for (int i=0; i<mesh.Faces.Count; i++)
+            for (int i=0; i<Mesh.Faces.Count; i++)
             {
-                Point3d pt = mesh.Faces.GetFaceCenter(i);
+                Point3d pt = Mesh.Faces.GetFaceCenter(i);
 
                 Grid.Add(pt);
                 SetCoord(GetCoord(pt), i);
             }
 
-            for (int i=0; i<mesh.Vertices.Count; i++)
+            for (int i=0; i< Mesh.Vertices.Count; i++)
             {
-                int[] edges = mesh.TopologyVertices.ConnectedFaces(i);
+                int[] edges = Mesh.TopologyVertices.ConnectedFaces(i);
 
                 foreach (int e1 in edges)
                 {
@@ -232,6 +231,17 @@ namespace CirculationToolkit.Entities
         public Point3d GetGridPoint(Tuple<double, double> key)
         {
             return Grid[Coordinates[key]];
+        }
+
+        /// <summary>
+        /// Returns a Bounds2d representation of a point on the Grid
+        /// for containment tests
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <returns></returns>
+        private Bounds2d GetGridUnit(Point3d pt)
+        {
+            return Bounds2d.FromCenterPoint(pt, GridSize, GridSize);
         }
 
         /// <summary>
@@ -282,6 +292,45 @@ namespace CirculationToolkit.Entities
 
             return neighbors;
 
+        }
+
+        /// <summary>
+        /// Returns the Index of a Point3d in the Grid fron a Coordinate and a Point3d
+        /// This is a helper method for GetPointIndex
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="pt"></param>
+        /// <returns></returns>
+        private int? GetCoordGridIndex(Tuple<double, double> key, Point3d pt)
+        {
+            if (Coordinates.ContainsKey(key))
+            {
+                return Coordinates[key];
+            }
+            else
+            {
+                Tuple<double, double> nearest = Search(key, pt);
+
+                if (nearest != null)
+                {
+                    return Coordinates[nearest];
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// Returns the Index of a Point3d in the Grid
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <returns></returns>
+        public int? GetPointGridIndex(Point3d pt)
+        {
+            return GetCoordGridIndex(GetCoord(pt), pt);
         }
 
         /// <summary>
@@ -337,55 +386,6 @@ namespace CirculationToolkit.Entities
             }
         }
 
-        /// <summary>
-        /// Returns the Index of a Point3d in the Grid fron a Coordinate and a Point3d
-        /// This is a helper method for GetPointIndex
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="pt"></param>
-        /// <returns></returns>
-        private int? GetCoordIndex(Tuple<double, double> key, Point3d pt)
-        {
-            if (Coordinates.ContainsKey(key))
-            {
-                return Coordinates[key];
-            }
-            else
-            {
-                Tuple<double, double> nearest = Search(key, pt);
-
-                if (nearest != null)
-                {
-                    return Coordinates[nearest];
-                }
-                else
-                {
-                    return null;
-                }
-                
-            }
-        }
-
-        /// <summary>
-        /// Returns a Bounds2d representation of a point on the Grid
-        /// for containment tests
-        /// </summary>
-        /// <param name="pt"></param>
-        /// <returns></returns>
-        private Bounds2d GetGridUnit(Point3d pt)
-        {
-            return Bounds2d.FromCenterPoint(pt, GridSize, GridSize);
-        }
-
-        /// <summary>
-        /// Returns the Index of a Point3d in the Grid
-        /// </summary>
-        /// <param name="pt"></param>
-        /// <returns></returns>
-        public int? GetPointIndex(Point3d pt)
-        {
-            return GetCoordIndex(GetCoord(pt), pt);
-        }
         #endregion
 
         #region tests

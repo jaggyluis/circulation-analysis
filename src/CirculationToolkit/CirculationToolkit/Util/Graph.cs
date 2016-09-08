@@ -42,11 +42,11 @@ namespace CirculationToolkit.Util
         /// <summary>
         /// Returns a list of all the Graph nodes
         /// </summary>
-        public List<NodeType> Nodes
+        public HashSet<NodeType> Nodes
         {
             get
             {
-                return _nodes.ToList();
+                return _nodes;
             }
         }
 
@@ -81,6 +81,11 @@ namespace CirculationToolkit.Util
         public void AddNode(NodeType node)
         {
             Nodes.Add(node);
+
+            if (!Edges.ContainsKey(node))
+            {
+                Edges[node] = new HashSet<NodeType>();
+            }
         }
 
         /// <summary>
@@ -276,11 +281,11 @@ namespace CirculationToolkit.Util
             {
                 NodeType minNode = default(NodeType);
 
-                foreach (NodeType node in Nodes)
+                foreach (NodeType node in nodes)
                 {
                     if (visited.ContainsKey(node))
                     {
-                        if (minNode == null)
+                        if (minNode.Equals(default(NodeType)))
                         {
                             minNode = node;
                         }
@@ -289,32 +294,38 @@ namespace CirculationToolkit.Util
                             minNode = node;
                         }
                     }
-                    if (minNode == null)
+                }
+                if (minNode.Equals(default(NodeType)))
+                {
+                    break;
+                }
+                nodes.Remove(minNode);
+
+                double currWeight = visited[minNode];
+                int currGeneration = GetStep(minNode, initial, path);
+
+                foreach (NodeType edge in Edges[minNode])
+                {
+                    double distance = GetDistance(new Tuple<NodeType, NodeType>(minNode, edge),
+                        currGeneration + startIndex);
+                    double weight = currWeight + distance;
+
+                    if (!visited.ContainsKey(edge) || weight < visited[edge])
                     {
-                        break;
-                    }
-                    nodes.Remove(minNode);
-
-                    double currWeight = visited[minNode];
-                    int currGeneration = GetStep(minNode, initial, path);
-
-                    foreach (NodeType edge in Edges[minNode])
-                    {
-                        double distance = GetDistance(new Tuple<NodeType, NodeType>(minNode, edge),
-                            currGeneration + startIndex);
-                        double weight = currWeight + distance;
-
-                        if (!visited.ContainsKey(node) || weight < visited[edge])
-                        {
-                            visited[edge] = weight;
-                            path[edge] = minNode;
-                        }
-                        if (goal != null && edge.Equals(goal))
-                        {
-                            return tup;
-                        }
+                        visited[edge] = weight;
+                        path[edge] = minNode;
                     }
 
+                    //
+                    // Right now this is using goal=initial to determine whether to
+                    // complete the algorythm - this should implement a nullable nodeType or
+                    // a default value as an option to determine end results.
+                    //
+
+                    if (!goal.Equals(initial) && edge.Equals(goal))
+                    {
+                        return tup;
+                    }
                 }
             }
             return tup;

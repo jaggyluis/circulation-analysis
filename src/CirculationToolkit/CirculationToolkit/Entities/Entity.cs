@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using CirculationToolkit.Profiles;
+using CirculationToolkit.Util;
 using Rhino.Geometry;
 
 namespace CirculationToolkit.Entities
@@ -80,7 +80,7 @@ namespace CirculationToolkit.Entities
         /// <returns></returns>
         public override string ToString()
         {
-            if (Name.Length != 0)
+            if (Name != null && Name.Length != 0)
             {
                 return Type + " entity" + ": " + Name;
             }

@@ -5,7 +5,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using CirculationToolkit.Entities;
 using Grasshopper.Kernel.Types;
-using CirculationToolkit.Profiles;
+using CirculationToolkit.Util;
 
 namespace CirculationToolkit.Components
 {
