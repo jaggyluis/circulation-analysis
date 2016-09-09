@@ -19,10 +19,17 @@ namespace CirculationToolkit.Entities
         private List<List<int>> _paths;
         private List<Node> _visited;
 
-        public Agent(AgentProfile profile, SimulationEnvironment environment)
+        private Stack<int> _stack;
+
+        private Node _last;
+        private Node _curr;
+        private Node _next;
+
+        public Agent(AgentProfile profile)
             : base (profile)
         {
-            Environment = environment;
+            Paths = new List<List<int>>();
+            Visited = new List<Node>();
         }
 
         #region properties
@@ -73,6 +80,10 @@ namespace CirculationToolkit.Entities
             {
                 return _visited;
             }
+            set
+            {
+                _visited = value;
+            }
         }
 
         /// <summary>
@@ -82,7 +93,9 @@ namespace CirculationToolkit.Entities
         {
             get
             {
-                return Environment.GetFloor(Profile.GetAttribute("floor"));
+                Node position = Environment.GetNode(Position);
+
+                return Environment.GetFloor(position.Floor);
             }
         }
 
@@ -104,7 +117,77 @@ namespace CirculationToolkit.Entities
         {
             get
             {
-                return "temp";
+                return _state;
+            }
+            set
+            {
+                _state = value;
+            }
+        }
+
+        /// <summary>
+        /// Returns the Agent age
+        /// </summary>
+        public int Age
+        {
+            get
+            {
+                return _age;
+            }
+            set
+            {
+                _age = value;
+            }
+        }
+
+        /// <summary>
+        /// Returns the Agent's current stack of grid indexes to visit
+        /// </summary>
+        public Stack<int> Stack
+        {
+            get
+            {
+                return _stack;
+            }
+            set
+            {
+                _stack = value;
+            }
+        }
+
+        /// <summary>
+        /// Returns all the Agent Paths
+        /// </summary>
+        public List<List<int>> Paths
+        {
+            get
+            {
+                return _paths;
+            }
+            set
+            {
+                _paths = value;
+            }
+        }
+          
+        /// <summary>
+        /// Returns all the grid indexes that this agent has walked
+        /// </summary>
+        public List<int> Path
+        {
+            get
+            {
+                List<int> path = new List<int>();
+
+                foreach (List<int> p in Paths)
+                {
+                    foreach (int i in p)
+                    {
+                        path.Add(i);
+                    }
+                }
+
+                return path;
             }
         }
 
@@ -122,29 +205,60 @@ namespace CirculationToolkit.Entities
         }
 
         /// <summary>
-        /// Returns all the grid indexes that this agent has walked
+        /// Returns whether this agent is active
         /// </summary>
-        public List<int> Path
+        public bool IsActive
         {
             get
             {
-                List<int> path = new List<int>();
+                return _isActive;
+            }
+            set
+            {
+                _isActive = value;
+            }
+        }
 
-                foreach (List<int> _p in _paths)
-                {
-                    foreach (int i in _p)
-                    {
-                        path.Add(i);
-                    }
-                }
-
-                return path;
+        /// <summary>
+        /// Returns whether this agent has completed its journey
+        /// </summary>
+        public bool IsComplete
+        {
+            get
+            {
+                return _isComplete;
+            }
+            set
+            {
+                _isComplete = value;
             }
         }
         #endregion
 
+        #region utility methods
         /// <summary>
-        /// 
+        /// Returns a decision making propensity
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public double GetPropensity(string type)
+        {
+            AgentProfile profile = (AgentProfile)Profile;
+
+            return profile.GetPropensity(type);
+        }
+
+        /// <summary>
+        /// Adds a list of grid indexes to the Agent paths
+        /// </summary>
+        /// <param name="path"></param>
+        public void AddPath(List<int> path)
+        {
+            _paths.Add(path);
+        }
+
+        /// <summary>
+        /// Toggle whether this Agent Entity is active in the Simulation
         /// </summary>
         public void ToggleActive()
         {
@@ -152,15 +266,17 @@ namespace CirculationToolkit.Entities
         }
 
         /// <summary>
-        /// 
+        /// Toggle whether this Agent Entity has completed its journey
         /// </summary>
         public void ToggleComplete()
         {
             _isComplete = !_isComplete;
         }
+        #endregion
 
+        #region step methods
         /// <summary>
-        /// 
+        /// Returns a list of grid indexes for waiting
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
@@ -179,7 +295,7 @@ namespace CirculationToolkit.Entities
         }
 
         /// <summary>
-        /// 
+        /// Returns a list of grid indexes for moving
         /// </summary>
         /// <param name="nodes"></param>
         /// <returns></returns>
@@ -189,35 +305,72 @@ namespace CirculationToolkit.Entities
             List<Node> goalNodes = new List<Node>(nodes);
 
             Node position = Environment.GetNode(Position);
-            Node goal;
+            Node goal = Destination;
 
-            foreach (Node node in goalNodes)
+            for (int i=goalNodes.Count-1; i>=0; i--)
             {
-                if (Visited.Contains(node))
+                if (Visited.Contains(goalNodes[i]) ||
+                    !Propensities.Keys.Contains(goalNodes[i].Name))
                 {
-                    goalNodes.Remove(node);
+                    goalNodes.RemoveAt(i);
                 }
             }
 
             if (goalNodes.Count > 0)
             {
-                Dictionary<string, double> propensities = Propensities;
-                List<string> types = new List<string>(Propensities.Keys);
                 Random random = new Random();
-
-                foreach (string type in types)
+                
+                for (int i = goalNodes.Count - 1; i >= 0; i--)
                 {
-                    if (random.NextDouble() < propensities[type])
+                    if (random.NextDouble() > GetPropensity(goalNodes[i].Name))
                     {
-                        types.Remove(type);
+                        goalNodes.RemoveAt(i);
                     }
                 }
 
-                // still need to filter by whether node exists
-
-                if (types.Count > 0)
+                if (goalNodes.Count > 0)
                 {
+                    goalNodes.Sort(delegate (Node a, Node b)
+                    {
+                        Tuple<Node, Node> ca = new Tuple<Node, Node>(position, a);
+                        Tuple<Node, Node> cb = new Tuple<Node, Node>(position, b);
 
+                        int la = Environment.NodeGraph.Distances[ca].Count;
+                        int lb = Environment.NodeGraph.Distances[cb].Count;
+
+                        return lb - la;
+
+                    });
+
+                    Stack<Node> goalNodesStack = new Stack<Node>(goalNodes);
+
+                    while (goalNodes.Count > 0)
+                    {
+                        goal = goalNodesStack.Pop();
+
+                        //int goalPopulation = goal.Population;
+
+                        int goalPopulation = 0;
+                        int goalCapacity = goal.Capacity;
+
+                        if (goalPopulation < goalCapacity)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            if (random.NextDouble() < GetPropensity("queuing"))
+                            {
+                                path = Environment.GetNodeShortestPath(position, goal);
+
+                                break;
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -234,20 +387,96 @@ namespace CirculationToolkit.Entities
 
             return new Tuple<Node, List<int>>(goal, path);
         }
+        #endregion
+
+        #region main methods
+        /// <summary>
+        /// Initialize this Agent on the Environment
+        /// </summary>
+        public void Init(SimulationEnvironment environment)
+        {
+            Environment = environment;
+
+            ToggleActive();
+
+            Visited.Add(Origin);
+            Position = Origin.Position;
+            State = "waiting";
+        }
 
         /// <summary>
         /// This is the Agent's main movement method
         /// </summary>
         public void Step()
         {
-            if (isActive)
+            if (IsActive)
             {
+                if (State == "ready")
+                {
+                    Node position = Environment.GetNode(Position);
+                    List<Node> edges = Environment.NodeGraph.Edges[position].ToList();
+                    Tuple<Node, List<int>> move = Move(edges);
 
-            }
-            else
-            {
+                    // add density here
 
+                    Node goal = move.Item1;
+                    List<int> path = move.Item2;
+
+                    Paths.Add(path);
+                    path.Reverse();
+
+                    Stack = new Stack<int>(path);
+                    State = "active";
+
+                }
+                else if (State == "waiting")
+                {
+                    Node position = Environment.GetNode(Position);
+                    Tuple<Node, List<int>> wait = Wait(1);
+
+                    // add density here
+
+                    Node goal = wait.Item1;
+                    List<int> path = wait.Item2;
+
+                    Paths.Add(path);
+                    path.Reverse();
+
+                    Stack = new Stack<int>(path);
+                    State = "active";
+
+                }
+                else if (State == "active")
+                {
+                    if (Stack.Count > 0)
+                    {
+                        int next = Stack.Pop();
+
+                        // do shifting calculations here
+
+                        Age++;
+
+                    }
+                    else
+                    {
+                        if (false)
+                        {
+                            State = "waiting";
+                        }
+                        else if (true)
+                        {
+                            State = "ready";
+                        }
+                        if (IsComplete)
+                        {
+                            State = "complete";
+
+                            ToggleActive();
+                        }
+                    }
+                }
             }
         }
+        #endregion
     }
 }

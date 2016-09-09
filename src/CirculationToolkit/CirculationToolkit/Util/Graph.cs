@@ -11,11 +11,11 @@ namespace CirculationToolkit.Util
     /// <summary>
     /// Graph Class that handles abstract connections
     /// </summary>
-    public class Graph<NodeType>
+    public class Graph<NodeType, DistanceType>
     {
         private HashSet<NodeType> _nodes;
         private Dictionary<NodeType, HashSet<NodeType>> _edges;
-        private Dictionary<Tuple<NodeType, NodeType>, double> _distances;
+        private Dictionary<Tuple<NodeType, NodeType>, DistanceType> _distances;
         
         /// <summary>
         /// Graph class Constructor
@@ -24,7 +24,7 @@ namespace CirculationToolkit.Util
         {
             _nodes = new HashSet<NodeType>();
             _edges = new Dictionary<NodeType, HashSet<NodeType>>();
-            _distances = new Dictionary<Tuple<NodeType, NodeType>, double>();
+            _distances = new Dictionary<Tuple<NodeType, NodeType>, DistanceType>();
         }
 
         #region properties
@@ -64,7 +64,7 @@ namespace CirculationToolkit.Util
         /// <summary>
         /// Returns a dictionary of all the Graph distances by tuple key
         /// </summary>
-        public Dictionary<Tuple<NodeType, NodeType>, double> Distances
+        public Dictionary<Tuple<NodeType, NodeType>, DistanceType> Distances
         {
             get
             {
@@ -95,7 +95,7 @@ namespace CirculationToolkit.Util
         /// <param name="n2"></param>
         /// <param name="distance"></param>
         /// <param name="directed"></param>
-        public void AddEdge(NodeType n1, NodeType n2, double distance, bool directed=false)
+        public void AddEdge(NodeType n1, NodeType n2, DistanceType distance, bool directed=false)
         {
             AddNode(n1);
             AddNode(n2);
@@ -116,7 +116,7 @@ namespace CirculationToolkit.Util
         /// <param name="key"></param>
         /// <param name="gen"></param>
         /// <returns></returns>
-        public virtual double GetDistance(Tuple<NodeType, NodeType> key, int gen=0)
+        public virtual DistanceType GetDistance(Tuple<NodeType, NodeType> key, int gen=0)
         {
             return Distances[key];
         }
@@ -131,7 +131,24 @@ namespace CirculationToolkit.Util
         {
             return 0;
         }
-        #endregion
+        #endregion           
+    }
+
+    /// <summary>
+    /// The SearchGraph Class is an extension to the Graph class that has
+    /// search methods implemented
+    /// </summary>
+    /// <typeparam name="NodeType"></typeparam>
+    public class SearchGraph<NodeType> : Graph<NodeType, double>
+    {
+        /// <summary>
+        /// SearchGraph Constructor that inherits Graph functionality
+        /// and has search methods implemented
+        /// </summary>
+        public SearchGraph()
+            : base ()
+        {
+        }
 
         #region search methods
         /// <summary>
@@ -144,9 +161,9 @@ namespace CirculationToolkit.Util
         /// <param name="to"></param>
         /// <param name="from"></param>
         /// <returns></returns>
-        private Dictionary<K,V> MergeDict<K, V>(Dictionary<K,V> to, Dictionary<K, V> from)
+        private Dictionary<K, V> MergeDict<K, V>(Dictionary<K, V> to, Dictionary<K, V> from)
         {
-            foreach(K key in from.Keys)
+            foreach (K key in from.Keys)
             {
                 if (!to.ContainsKey(key))
                 {
@@ -168,34 +185,35 @@ namespace CirculationToolkit.Util
         /// <param name="depth"></param>
         /// <param name="maxDepth"></param>
         /// <returns></returns>
-        public Dictionary<NodeType, int?> DeepSearch(NodeType key, 
-            Func<NodeType, bool> func, 
+        public Dictionary<NodeType, int?> DeepSearch(NodeType key,
+            Func<NodeType, bool> func,
             Dictionary<NodeType, int?> visited = null,
-            int depth=0,
-            int maxDepth=10)
+            int depth = 0,
+            int maxDepth = 10)
         {
-            if(visited == null)
+            if (visited == null)
             {
                 visited = new Dictionary<NodeType, int?>();
             }
             visited[key] = null;
 
-            if(func(key))
+            if (func(key))
             {
                 visited[key] = depth;
             }
-            else if(depth < maxDepth) {
-                if(Edges.ContainsKey(key))
+            else if (depth < maxDepth)
+            {
+                if (Edges.ContainsKey(key))
                 {
                     foreach (NodeType edge in Edges[key])
                     {
                         if (!visited.ContainsKey(edge))
                         {
-                            visited = MergeDict(visited, 
-                                DeepSearch(edge, 
-                                func, 
-                                visited, 
-                                depth+1));
+                            visited = MergeDict(visited,
+                                DeepSearch(edge,
+                                func,
+                                visited,
+                                depth + 1));
                         }
                     }
                 }
@@ -214,17 +232,17 @@ namespace CirculationToolkit.Util
         /// <param name="depth"></param>
         /// <param name="maxDepth"></param>
         /// <returns></returns>
-        public Dictionary<NodeType, int?> ShallowSearch(List<NodeType> keys, 
-            Func<NodeType, bool> func, 
+        public Dictionary<NodeType, int?> ShallowSearch(List<NodeType> keys,
+            Func<NodeType, bool> func,
             Dictionary<NodeType, int?> visited = null,
-            int depth=0,
-            int maxDepth=int.MaxValue)
+            int depth = 0,
+            int maxDepth = int.MaxValue)
         {
             if (visited == null)
             {
                 visited = new Dictionary<NodeType, int?>();
             }
-            foreach(NodeType key in keys)
+            foreach (NodeType key in keys)
             {
                 if (!visited.ContainsKey(key))
                 {
@@ -234,25 +252,25 @@ namespace CirculationToolkit.Util
                 {
                     visited[key] = depth;
                     return visited;
-                } 
+                }
             }
             if (depth < maxDepth)
             {
                 HashSet<NodeType> keySet = new HashSet<NodeType>();
 
-                foreach(NodeType key in keys)
+                foreach (NodeType key in keys)
                 {
-                    foreach(NodeType k in Edges[key])
+                    foreach (NodeType k in Edges[key])
                     {
                         keySet.Add(k);
                     }
                 }
 
-                visited = MergeDict(visited, 
+                visited = MergeDict(visited,
                     ShallowSearch(keySet.ToList(),
                     func,
                     visited,
-                    depth+1));
+                    depth + 1));
             }
             return visited;
         }
@@ -268,9 +286,9 @@ namespace CirculationToolkit.Util
         /// <param name="startIndex"></param>
         /// <returns></returns>
         public Tuple<Dictionary<NodeType, double>, Dictionary<NodeType, NodeType>>
-            Dijsktra(NodeType initial, NodeType goal, int startIndex=0)
+            Dijsktra(NodeType initial, NodeType goal, int startIndex = 0)
         {
-            Dictionary<NodeType, double> visited = new Dictionary<NodeType, double>() {{initial, 0}};
+            Dictionary<NodeType, double> visited = new Dictionary<NodeType, double>() { { initial, 0 } };
             Dictionary<NodeType, NodeType> path = new Dictionary<NodeType, NodeType>();
             HashSet<NodeType> nodes = new HashSet<NodeType>(Nodes);
             Tuple<Dictionary<NodeType, double>, Dictionary<NodeType, NodeType>> tup =
@@ -352,7 +370,7 @@ namespace CirculationToolkit.Util
             {
                 goal
             };
-            while(!goal.Equals(initial))
+            while (!goal.Equals(initial))
             {
                 route.Add(path[goal]);
                 goal = path[goal];
@@ -362,13 +380,13 @@ namespace CirculationToolkit.Util
             return route;
         }
         #endregion
-
     }
 
     /// <summary>
-    /// Map Graph that handles Graphs on a Floor
+    /// The FloorGraph Class is an extension to the Graph class that has
+    /// Floor specific methods implemeted
     /// </summary>
-    public class Map<NodeType> : Graph<NodeType>
+    public class FloorGraph<NodeType> : SearchGraph<NodeType>
     {
 
         private Floor _floor;
@@ -376,16 +394,15 @@ namespace CirculationToolkit.Util
         private Dictionary<NodeType, Dictionary<int, int>> _occupancyMap;
 
         /// <summary>
-        /// Map class Constructor that inherits graph functionality and applies it
+        /// FloorGraph Constructor that inherits graph functionality and applies it
         /// to a Floor Entity
         /// </summary>
         /// <param name="floor"></param>
-        public Map(Floor floor)
+        public FloorGraph(Floor floor)
         {
             Floor = floor;
             BarrierMap = new Dictionary<NodeType, double>();
             OccupancyMap = new Dictionary<NodeType, Dictionary<int, int>>();
-
         }
 
         #region properties

@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Agent_GH.cs" />
     <Compile Include="Components\Barrier_GH.cs" />
     <Compile Include="Components\Entity_Goo.cs" />
     <Compile Include="Components\Entity_Param.cs" />

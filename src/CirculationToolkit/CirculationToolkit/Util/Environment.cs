@@ -22,8 +22,8 @@ namespace CirculationToolkit
                 {"agent", new List<Entity>() },
             };
 
-        private Dictionary<Tuple<Node, Node>, List<int>> _nodeConnections =
-            new Dictionary<Tuple<Node, Node>, List<int>>();
+        private Graph<Node, List<int>> _nodeGraph =
+            new Graph<Node, List<int>>();
 
         private Dictionary<Node, Dictionary<int, int>> _nodeShortestPaths =
             new Dictionary<Node, Dictionary<int, int>>();
@@ -44,11 +44,12 @@ namespace CirculationToolkit
         public override string ToString()
         {
             return "Environment: " +
-                " {" +
-                Floors.Count + "f" + 
-                Barriers.Count + "b" +
-                Nodes.Count + "n" +
-                " }";
+                " { " +
+                Floors.Count + "f, " + 
+                Barriers.Count + "b, " +
+                Nodes.Count + "n, " +
+                Agents.Count + "a " +
+                "}";
         }
 
         #region properties
@@ -70,11 +71,11 @@ namespace CirculationToolkit
         /// <summary>
         /// Returns the dictionary of connections between Node Entities
         /// </summary>
-        public Dictionary<Tuple<Node, Node>, List<int>> NodeConnections
+        public Graph<Node, List<int>> NodeGraph
         {
             get
             {
-                return _nodeConnections;
+                return _nodeGraph;
             }
         }
 
@@ -141,6 +142,17 @@ namespace CirculationToolkit
             get
             {
                 return Entities["template"];
+            }
+        }
+
+        /// <summary>
+        /// Returns a list of all the Agent Entities in this Environment
+        /// </summary>
+        public List<Entity> Agents
+        {
+            get
+            {
+                return Entities["agent"];
             }
         }
         #endregion
@@ -285,7 +297,7 @@ namespace CirculationToolkit
                     if (toNodeGridIndex != null && fromNodeGridIndex != null)
                     {
                         List<int> path =
-                            floor.Map.ShortestPath((int)fromNodeGridIndex, (int)toNodeGridIndex);
+                            floor.FloorGraph.ShortestPath((int)fromNodeGridIndex, (int)toNodeGridIndex);
 
                         return path;
                     }
@@ -342,7 +354,7 @@ namespace CirculationToolkit
                     if (nodeGridIndex != null)
                     {
                         Dictionary<int, int> paths = 
-                            floor.Map.Dijsktra((int)nodeGridIndex, (int)nodeGridIndex).Item2;
+                            floor.FloorGraph.Dijsktra((int)nodeGridIndex, (int)nodeGridIndex).Item2;
 
                         SetNodeShortestPaths(node, paths);
                     }    
@@ -369,13 +381,13 @@ namespace CirculationToolkit
                         if (fromNode != null && toNode != null)
                         {
                             List<int> path = GetNodeShortestPath(fromNode, toNode);
-                            NodeConnections[new Tuple<Node, Node>(fromNode, toNode)] = path;
+                            NodeGraph.AddEdge(fromNode, toNode, path);
 
                             if (!directed)
                             {
                                 List<int> reversedPath = new List<int>(path);
                                 reversedPath.Reverse();
-                                NodeConnections[new Tuple<Node, Node>(toNode, fromNode)] = path;
+                                NodeGraph.AddEdge(toNode, fromNode, reversedPath);
                             }
                         }
                     }
@@ -390,10 +402,21 @@ namespace CirculationToolkit
                         if (!fromNode.Equals(toNode))
                         {
                             List<int> path = GetNodeShortestPath(fromNode, toNode);
-                            NodeConnections[new Tuple<Node, Node>(fromNode, toNode)] = path;
+                            NodeGraph.AddEdge(fromNode, toNode, path);
                         }
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Handles all processes needed to integrate Agents in the Environment
+        /// </summary>
+        private void BuildAgents()
+        {
+            foreach (Agent agent in Agents)
+            {
+                agent.Init(this);
             }
         }
 
@@ -406,6 +429,34 @@ namespace CirculationToolkit
             BuildBarriers();
             BuildNodes();
             BuildTemplates();
+            BuildAgents();
+        }
+
+        /// <summary>
+        /// Steps one generation of the Environment Entities
+        /// </summary>
+        private void Step()
+        {
+            foreach( Agent agent in Agents)
+            {
+                agent.Step();
+            }
+        }
+
+        /// <summary>
+        /// Runs the Environment
+        /// </summary>
+        public void RunEnvironment()
+        {
+            int generations = 0;
+
+            while (generations < 1000)
+            {
+                Step();
+
+                generations++;
+            }
+
         }
         #endregion
 

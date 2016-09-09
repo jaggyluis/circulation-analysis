@@ -108,9 +108,10 @@ namespace CirculationToolkit.Util
         /// AgentProfile Constructor for Agent Entities that 
         /// extends the Profile class with Agent methods
         /// </summary>
-        public AgentProfile()
-            : base ("agent")
+        public AgentProfile(string name)
+            : base ("agent", name)
         {
+            _propensities = new Dictionary<string, double>();
         }
 
         #region properties

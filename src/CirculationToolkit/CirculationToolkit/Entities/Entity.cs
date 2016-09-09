@@ -135,7 +135,7 @@ namespace CirculationToolkit.Entities
                 {
                     Positions[0] = value;
                 }
-                Positions[Positions.Last().Key] = value;
+                Positions[Positions.Last().Key + 1] = value;
             }
         }
 
@@ -196,7 +196,7 @@ namespace CirculationToolkit.Entities
         }
 
         /// <summary>
-        /// Gats and attribute from the Entity's Profile
+        /// Gets an attribute from the Entity's Profile
         /// </summary>
         /// <param name="attribute"></param>
         /// <returns></returns>

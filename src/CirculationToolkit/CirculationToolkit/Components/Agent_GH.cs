@@ -3,18 +3,19 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using CirculationToolkit.Util;
 using CirculationToolkit.Entities;
 
 namespace CirculationToolkit.Components
 {
-    public class Environment_GH : GH_Component
+    public class Agent_GH : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the Environment_GH class.
+        /// Initializes a new instance of the Agent_GH class.
         /// </summary>
-        public Environment_GH()
-          : base("Environment", "Environment",
-              "The Simulation Environment",
+        public Agent_GH()
+          : base("Agent", "Agent",
+              "An Agent Entity for circulation analysis",
               "Circulation", "Simulation")
         {
         }
@@ -24,8 +25,9 @@ namespace CirculationToolkit.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddParameter(new Entity_Param(), "Entities", "E", "Environment Entities", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Resolution", "R", "Environment Resolution", GH_ParamAccess.item);
+            pManager.AddTextParameter("Name", "N", "The name of this Agent", GH_ParamAccess.item);
+            pManager.AddTextParameter("Origin", "O", "The name of the Origin Node this Agent is on", GH_ParamAccess.item);
+            pManager.AddTextParameter("Destination", "D", "The name of this Agent's Destination Node", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -33,9 +35,7 @@ namespace CirculationToolkit.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddTextParameter("test", "test", "test", GH_ParamAccess.item);
-            pManager.AddMeshParameter("sdf", "sdf", "sdf", GH_ParamAccess.item);
-            pManager.AddNumberParameter("agent", "cs", "asc", GH_ParamAccess.list);
+            pManager.RegisterParam(new Entity_Param(), "Agent", "A", "Agent Entity");
         }
 
         /// <summary>
@@ -44,37 +44,22 @@ namespace CirculationToolkit.Components
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            List<Entity_Goo> entityGoos = new List<Entity_Goo>();
-            double resolution = default(double);
+            string name = null;
+            string origin = null;
+            string destination = null;
 
-            DA.GetDataList(0, entityGoos);
-            DA.GetData(1, ref resolution);
+            DA.GetData(0, ref name);
+            DA.GetData(1, ref origin);
+            DA.GetData(2, ref destination);
 
-            SimulationEnvironment env = new SimulationEnvironment(resolution);
+            AgentProfile profile = new AgentProfile(name);
+            profile.SetAttribute("origin", origin);
+            profile.SetAttribute("destination", destination);
 
-            foreach (Entity_Goo g in entityGoos)
-            {
-                env.AddEntity(g.Value);
-            }
+            Agent agent = new Agent(profile);
 
-            env.BuildEnvironment();
+            DA.SetData(0, agent);
 
-            env.RunEnvironment();
-
-            Floor fl = (Floor)env.Floors[0];
-
-            if (env.Agents.Count > 0)
-            {
-                Agent a1 = (Agent)env.Agents[0];
-                              
-
-                DA.SetDataList(2, a1.Path);
-
-            }
-            
-
-            DA.SetData(0, env.ToString());
-            DA.SetData(1, fl.Mesh);
         }
 
         /// <summary>
@@ -95,7 +80,7 @@ namespace CirculationToolkit.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("{574ae86e-0540-4d04-a950-446193c2ad2f}"); }
+            get { return new Guid("{e2438adb-6b90-48df-8c91-3c5bb75683eb}"); }
         }
     }
 }

@@ -19,7 +19,7 @@ namespace CirculationToolkit.Entities
         private Mesh _mesh;
         private List<Point3d> _grid;
         private double _gridSize;
-        private Map<int> _map;
+        private FloorGraph<int> _floorGraph;
         private Dictionary<Tuple<double, double>, int> _coordinates;            
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace CirculationToolkit.Entities
             duplicate.Mesh = Mesh;
             duplicate.Grid = Grid;
             duplicate.GridSize = GridSize;
-            duplicate.Map = Map;
+            duplicate.FloorGraph = FloorGraph;
             duplicate.Coordinates = Coordinates;
 
             return duplicate;
@@ -135,17 +135,17 @@ namespace CirculationToolkit.Entities
         }
 
         /// <summary>
-        /// Returns the Floor Entity Map Graph
+        /// Returns the Floor Entity FloorGraph
         /// </summary>
-        public Map<int> Map
+        public FloorGraph<int> FloorGraph
         {
             get
             {
-                return _map;
+                return _floorGraph;
             }
             set
             {
-                _map = value;
+                _floorGraph = value;
             }
         }
 
@@ -174,7 +174,7 @@ namespace CirculationToolkit.Entities
         {
             GridSize = gridSize;
             Mesh = Bounds.GetGrid(gridSize);
-            Map = new Map<int>(this);
+            FloorGraph = new FloorGraph<int>(this);
 
             List<int> indexes = new List<int>();
             double denom = Math.Sqrt(2 * Math.Pow(gridSize, 2));
@@ -216,7 +216,7 @@ namespace CirculationToolkit.Entities
                         if (e1 != e2)
                         {
                             double weight = Grid[e1].DistanceTo(Grid[e2]);
-                            Map.AddEdge(e1,e2, weight);
+                            FloorGraph.AddEdge(e1,e2, weight);
                         }
                     }
                 }
@@ -303,9 +303,11 @@ namespace CirculationToolkit.Entities
         /// <returns></returns>
         private int? GetCoordGridIndex(Tuple<double, double> key, Point3d pt)
         {
+            int? index = null;
+
             if (Coordinates.ContainsKey(key))
             {
-                return Coordinates[key];
+                index = Coordinates[key];
             }
             else
             {
@@ -313,14 +315,11 @@ namespace CirculationToolkit.Entities
 
                 if (nearest != null)
                 {
-                    return Coordinates[nearest];
+                    index = Coordinates[nearest];
                 }
-                else
-                {
-                    return null;
-                }
-
             }
+
+            return index;
         }
 
         /// <summary>
@@ -407,7 +406,7 @@ namespace CirculationToolkit.Entities
         }
         #endregion
 
-        #region Map methods
+        #region FloorGraph methods
         /// <summary>
         /// Tests a Floor point for edge conditions
         /// </summary>
@@ -417,9 +416,9 @@ namespace CirculationToolkit.Entities
         {
             List<double> barrierValues = new List<double>();
 
-            foreach(int nodeIndex in Map.Edges[testIndex])
+            foreach(int nodeIndex in FloorGraph.Edges[testIndex])
             {
-                barrierValues.Add(Map.GetBarrierMapNodeValue(nodeIndex));
+                barrierValues.Add(FloorGraph.GetBarrierMapNodeValue(nodeIndex));
             }
             if (barrierValues.Count != 8 || barrierValues.Contains(double.MaxValue))
             {
@@ -436,9 +435,9 @@ namespace CirculationToolkit.Entities
         {
             for (var i=0; i<Grid.Count; i++)
             {
-                if (Map.GetBarrierMapNodeValue(i) != double.MaxValue)
+                if (FloorGraph.GetBarrierMapNodeValue(i) != double.MaxValue)
                 {
-                    Dictionary<int, int?> search = Map.ShallowSearch(new List<int>(i), IsEdgeVertex);
+                    Dictionary<int, int?> search = FloorGraph.ShallowSearch(new List<int>(i), IsEdgeVertex);
                     List<int> values = new List<int>();
 
                     foreach (int? v in search.Values)
@@ -452,7 +451,7 @@ namespace CirculationToolkit.Entities
                     if (values.Count > 0)
                     {
                         double weight = 1 / Math.Pow((GridSize * (values[0] + 1)), 2);
-                        Map.AddBarrierMapNodeValue(i, weight);
+                        FloorGraph.AddBarrierMapNodeValue(i, weight);
                     }
                 }
             }
@@ -470,7 +469,7 @@ namespace CirculationToolkit.Entities
                 {
                     if (barrier.Geometry.Contains(Grid[i]) == PointContainment.Inside)
                     {
-                        Map.AddBarrierMapNodeValue(i, double.MaxValue);
+                        FloorGraph.AddBarrierMapNodeValue(i, double.MaxValue);
                     }
                 }
                 else
@@ -483,7 +482,7 @@ namespace CirculationToolkit.Entities
                         {
                             if (barrier.Geometry.Contains(pt) == PointContainment.Inside)
                             {
-                                Map.AddBarrierMapNodeValue(i, double.MaxValue);
+                                FloorGraph.AddBarrierMapNodeValue(i, double.MaxValue);
                                 break;
                             }
                         }
