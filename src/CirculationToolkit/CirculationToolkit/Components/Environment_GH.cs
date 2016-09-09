@@ -33,9 +33,10 @@ namespace CirculationToolkit.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddTextParameter("test", "test", "test", GH_ParamAccess.item);
-            pManager.AddMeshParameter("sdf", "sdf", "sdf", GH_ParamAccess.item);
-            pManager.AddNumberParameter("agent", "cs", "asc", GH_ParamAccess.list);
+            pManager.AddTextParameter("Info", "I", "Envionment Information", GH_ParamAccess.item);
+            pManager.AddMeshParameter("Floors", "F", "Environment Floors", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Agent Paths", "P", "Agent path floor indexes", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Barrier Map", "M", "Barrier Map values", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -54,27 +55,38 @@ namespace CirculationToolkit.Components
 
             foreach (Entity_Goo g in entityGoos)
             {
-                env.AddEntity(g.Value);
+                env.AddEntity(g.Value.Duplicate());
             }
 
             env.BuildEnvironment();
-
             env.RunEnvironment();
 
-            Floor fl = (Floor)env.Floors[0];
+            DA.SetData(0, env.ToString());
+
+            if (env.Floors.Count > 0)
+            {
+                Floor fl = (Floor)env.Floors[0];
+                List<double> values = new List<double>();
+                List<int> keys = new List<int>(fl.FloorGraph.BarrierMap.Keys);
+
+                keys.Sort();
+
+                for (int i=0; i<keys.Count; i++)
+                {
+                    values.Add(fl.FloorGraph.BarrierMap[keys[i]]);
+                }
+
+                DA.SetData(1, fl.Mesh);
+                DA.SetDataList(3, values);
+            }
 
             if (env.Agents.Count > 0)
             {
                 Agent a1 = (Agent)env.Agents[0];
-                              
 
                 DA.SetDataList(2, a1.Path);
 
             }
-            
-
-            DA.SetData(0, env.ToString());
-            DA.SetData(1, fl.Mesh);
         }
 
         /// <summary>

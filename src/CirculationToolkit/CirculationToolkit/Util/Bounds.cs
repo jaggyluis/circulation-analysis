@@ -240,10 +240,7 @@ namespace CirculationToolkit.Util
         /// <returns></returns>
         public bool Contains(Point3d point)
         {
-            return (point.X > Corners["x1"] &&
-                point.X < Corners["x2"] &&
-                point.Y > Corners["y1"] &&
-                point.Y < Corners["y2"]);
+            return (IvalX.Includes(point.X) && IvalY.Includes(point.Y));
         }
 
         /// <summary>
@@ -270,10 +267,10 @@ namespace CirculationToolkit.Util
         {
             List<Point3d> points = new List<Point3d>()
             {
-                new Point3d(center.X-dimX/2, center.X-dimY/2, center.Z),
-                new Point3d(center.X+dimX/2, center.X-dimY/2, center.Z),
-                new Point3d(center.X+dimX/2, center.X+dimY/2, center.Z),
-                new Point3d(center.X-dimX/2, center.X+dimY/2, center.Z),
+                new Point3d(center.X-dimX/2, center.Y-dimY/2, center.Z),
+                new Point3d(center.X+dimX/2, center.Y-dimY/2, center.Z),
+                new Point3d(center.X+dimX/2, center.Y+dimY/2, center.Z),
+                new Point3d(center.X-dimX/2, center.Y+dimY/2, center.Z),
             };
 
             return new Bounds2d(points);

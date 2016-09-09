@@ -465,26 +465,26 @@ namespace CirculationToolkit.Entities
         {
             for (var i=0; i<Grid.Count; i++)
             {
+                Bounds2d unitBounds = GetGridUnit(Grid[i]);
+                bool contains = false;
+
                 if (barrier.Bounds.Contains(Grid[i]))
                 {
                     if (barrier.Geometry.Contains(Grid[i]) == PointContainment.Inside)
                     {
                         FloorGraph.AddBarrierMapNodeValue(i, double.MaxValue);
+                        contains = true;
                     }
                 }
                 else
                 {
-                    Bounds2d unitBounds = GetGridUnit(Grid[i]);
-
-                    if (barrier.Bounds.Intersects(unitBounds))
+                    for (int j=0; j < unitBounds.Points.Count; j++)
                     {
-                        foreach (Point3d pt in unitBounds.Points)
+                        if (barrier.Bounds.Contains(unitBounds.Points[j]))
                         {
-                            if (barrier.Geometry.Contains(pt) == PointContainment.Inside)
-                            {
-                                FloorGraph.AddBarrierMapNodeValue(i, double.MaxValue);
-                                break;
-                            }
+                            FloorGraph.AddBarrierMapNodeValue(i, double.MaxValue);
+                            contains = true;
+                            break;
                         }
                     }
                 }

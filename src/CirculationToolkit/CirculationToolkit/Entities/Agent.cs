@@ -32,6 +32,23 @@ namespace CirculationToolkit.Entities
             Visited = new List<Node>();
         }
 
+        public override Entity Duplicate()
+        {
+            Agent duplicate = new Agent((AgentProfile)Profile);
+
+            duplicate.Paths = Paths;
+            duplicate.Visited = Visited;
+
+            duplicate.Age = Age;
+            duplicate.State = State;
+            duplicate.IsActive = IsActive;
+            duplicate.IsComplete = IsComplete;
+
+            duplicate.Stack = Stack;
+
+            return duplicate;
+        }
+
         #region properties
         /// <summary>
         /// This is the Accessor for all things environment related for
@@ -396,12 +413,15 @@ namespace CirculationToolkit.Entities
         public void Init(SimulationEnvironment environment)
         {
             Environment = environment;
-
-            ToggleActive();
+            
+            Paths = new List<List<int>>();
+            Visited = new List<Node>();
 
             Visited.Add(Origin);
             Position = Origin.Position;
             State = "waiting";
+
+            ToggleActive();
         }
 
         /// <summary>
