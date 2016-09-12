@@ -340,7 +340,7 @@ namespace CirculationToolkit.Util
         /// <returns></returns>
         public bool Includes(double num)
         {
-            return Min < num && num < Max;
+            return Min <= num && num <= Max;
         }
 
         /// <summary>

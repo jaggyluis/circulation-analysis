@@ -242,32 +242,34 @@ namespace CirculationToolkit.Util
             {
                 visited = new Dictionary<NodeType, int?>();
             }
-            foreach (NodeType key in keys)
+            for (int i=0; i<keys.Count; i++)
             {
-                if (!visited.ContainsKey(key))
+                if (!visited.ContainsKey(keys[i]))
                 {
-                    visited[key] = null;
+                    visited[keys[i]] = null;
                 }
-                if (func(key))
+                if (func(keys[i]))
                 {
-                    visited[key] = depth;
+                    visited[keys[i]] = depth;
                     return visited;
                 }
             }
             if (depth < maxDepth)
             {
-                HashSet<NodeType> keySet = new HashSet<NodeType>();
+                HashSet<NodeType> nextKeys = new HashSet<NodeType>();
 
-                foreach (NodeType key in keys)
+                for(int i=0; i<keys.Count; i++)
                 {
-                    foreach (NodeType k in Edges[key])
+                    List<NodeType> edges = Edges[keys[i]].ToList();
+
+                    for(int j=0; j<edges.Count; j++)
                     {
-                        keySet.Add(k);
+                        nextKeys.Add(edges[j]);
                     }
                 }
 
                 visited = MergeDict(visited,
-                    ShallowSearch(keySet.ToList(),
+                    ShallowSearch(nextKeys.ToList(),
                     func,
                     visited,
                     depth + 1));
@@ -298,22 +300,27 @@ namespace CirculationToolkit.Util
             while (nodes.Count > 0)
             {
                 NodeType minNode = default(NodeType);
+                bool isMinNodeSet = false;
 
                 foreach (NodeType node in nodes)
                 {
                     if (visited.ContainsKey(node))
                     {
-                        if (minNode.Equals(default(NodeType)))
+                        if (!isMinNodeSet)
                         {
                             minNode = node;
+                            isMinNodeSet = true;
                         }
-                        else if (visited[node] < visited[minNode])
+                        else 
                         {
-                            minNode = node;
+                            if (visited[node] < visited[minNode])
+                            {
+                                minNode = node;
+                            }
                         }
                     }
                 }
-                if (minNode.Equals(default(NodeType)))
+                if (!isMinNodeSet)
                 {
                     break;
                 }
@@ -488,7 +495,17 @@ namespace CirculationToolkit.Util
             {
                 BarrierMap[key] = 0;
             }
-            BarrierMap[key] += value;
+            if (BarrierMap[key] != double.MaxValue)
+            {
+                if (BarrierMap[key] + value >= double.MaxValue)
+                {
+                    BarrierMap[key] = double.MaxValue;
+                }
+                else
+                {
+                    BarrierMap[key] += value;
+                }
+            }
         }
 
         /// <summary>

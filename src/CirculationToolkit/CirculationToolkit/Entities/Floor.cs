@@ -173,6 +173,7 @@ namespace CirculationToolkit.Entities
         public void SetGrid(double gridSize)
         {
             GridSize = gridSize;
+            Grid = new List<Point3d>();
             Mesh = Bounds.GetGrid(gridSize);
             FloorGraph = new FloorGraph<int>(this);
 
@@ -437,7 +438,9 @@ namespace CirculationToolkit.Entities
             {
                 if (FloorGraph.GetBarrierMapNodeValue(i) != double.MaxValue)
                 {
-                    Dictionary<int, int?> search = FloorGraph.ShallowSearch(new List<int>(i), IsEdgeVertex);
+                    List<int> keys = new List<int> { i };
+                    int maxSearchDepth = 5;
+                    Dictionary<int, int?> search = FloorGraph.ShallowSearch(keys, IsEdgeVertex, maxDepth: maxSearchDepth);
                     List<int> values = new List<int>();
 
                     foreach (int? v in search.Values)
@@ -459,28 +462,36 @@ namespace CirculationToolkit.Entities
 
         /// <summary>
         /// Adds Barrier Entities to the floor
+        /// This should be upadated to use a quad-tree
         /// </summary>
         /// <param name="barrier"></param>
         public void AddBarrierMap(Barrier barrier)
         {
+            List<Point3d> points = barrier.Geometry.DivideEquidistant(GridSize).ToList();
+
             for (var i=0; i<Grid.Count; i++)
             {
                 Bounds2d unitBounds = GetGridUnit(Grid[i]);
-                bool contains = false;
 
-                if (barrier.Bounds.Contains(Grid[i]))
+                if (barrier.Bounds.Intersects(unitBounds))
                 {
-                    if (barrier.Geometry.Contains(Grid[i]) == PointContainment.Inside)
+                    bool contains = false;
+                    
+                    for (int j = 0; j < unitBounds.Points.Count; j++)
                     {
-                        FloorGraph.AddBarrierMapNodeValue(i, double.MaxValue);
-                        contains = true;
+                        if (barrier.Geometry.Contains(unitBounds.Points[j]) == PointContainment.Inside)
+                        {
+                            FloorGraph.AddBarrierMapNodeValue(i, double.MaxValue);
+                            contains = true;
+                            break;
+                        }
                     }
-                }
-                else
-                {
-                    for (int j=0; j < unitBounds.Points.Count; j++)
+
+                    if (contains) continue;
+                                     
+                    for (int k = 0; k < points.Count; k++)
                     {
-                        if (barrier.Bounds.Contains(unitBounds.Points[j]))
+                        if (unitBounds.Contains(points[k]))
                         {
                             FloorGraph.AddBarrierMapNodeValue(i, double.MaxValue);
                             contains = true;
@@ -488,11 +499,8 @@ namespace CirculationToolkit.Entities
                         }
                     }
                 }
-            }
+            }          
         }
         #endregion
-
     }
-
-
 }

@@ -53,17 +53,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\Agent_GH.cs" />
-    <Compile Include="Components\Barrier_GH.cs" />
-    <Compile Include="Components\Entity_Goo.cs" />
-    <Compile Include="Components\Entity_Param.cs" />
-    <Compile Include="Components\Environment_GH.cs" />
-    <Compile Include="Components\Node_GH.cs" />
-    <Compile Include="Components\Template_GH.cs" />
+    <Compile Include="Components\Analysis\AgentPaths_GH.cs" />
+    <Compile Include="Components\Analysis\BarrierMap_GH.cs" />
+    <Compile Include="Components\Entities\Agent_GH.cs" />
+    <Compile Include="Components\Entities\Barrier_GH.cs" />
+    <Compile Include="Components\Entities\Goo\Entity_Goo.cs" />
+    <Compile Include="Components\Entities\Param\Entity_Param.cs" />
+    <Compile Include="Components\Environment\Env_GH.cs" />
+    <Compile Include="Components\Entities\Node_GH.cs" />
+    <Compile Include="Components\Entities\Template_GH.cs" />
+    <Compile Include="Components\Environment\Goo\Env_Goo.cs" />
+    <Compile Include="Components\Environment\Param\Env_Param.cs" />
     <Compile Include="Entities\Agent.cs" />
     <Compile Include="Entities\Barrier.cs" />
     <Compile Include="Entities\Entity.cs" />
-    <Compile Include="Components\Floor_GH.cs" />
+    <Compile Include="Components\Entities\Floor_GH.cs" />
     <Compile Include="Entities\Floor.cs" />
     <Compile Include="Entities\Node.cs" />
     <Compile Include="Entities\Template.cs" />
@@ -74,6 +78,7 @@
     <Compile Include="Util\Bounds.cs" />
     <Compile Include="Util\Graph.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -29,12 +29,31 @@ namespace CirculationToolkit
             new Dictionary<Node, Dictionary<int, int>>();
 
         /// <summary>
-        /// 
+        /// Constructor for a Simulation Environment that handles null Environments
+        /// </summary>
+        public SimulationEnvironment()
+        {
+            // Null constructor for GUI
+        }
+
+        /// <summary>
+        /// Constructor for a Simulation Environment Object
         /// </summary>
         /// <param name="resolution"></param>
         public SimulationEnvironment(double resolution)
         {
             Resolution = resolution;          
+        }
+
+        public SimulationEnvironment Duplicate()
+        {
+            SimulationEnvironment duplicate = new SimulationEnvironment(Resolution);
+
+            duplicate.Entities = Entities;
+            duplicate.NodeGraph = NodeGraph;
+            duplicate.NodeShortestPaths = NodeShortestPaths;
+
+            return duplicate;
         }
 
         /// <summary>
@@ -77,6 +96,10 @@ namespace CirculationToolkit
             {
                 return _nodeGraph;
             }
+            set
+            {
+                _nodeGraph = value;
+            }
         }
 
         /// <summary>
@@ -88,6 +111,10 @@ namespace CirculationToolkit
             {
                 return _nodeShortestPaths;
             }
+            set
+            {
+                _nodeShortestPaths = value;
+            }
         }
 
         /// <summary>
@@ -98,6 +125,10 @@ namespace CirculationToolkit
             get
             {
                 return _entities;
+            }
+            set
+            {
+                _entities = value;
             }
         }
 
@@ -318,7 +349,6 @@ namespace CirculationToolkit
             foreach (Floor floor in Floors)
             {
                 floor.SetGrid(Resolution);
-                //floor.AddEdgeMap();
             }
         }
 
@@ -335,6 +365,10 @@ namespace CirculationToolkit
                 {
                     floor.AddBarrierMap(barrier);
                 }
+            }
+            foreach (Floor floor in Floors)
+            {
+                floor.AddEdgeMap();
             }
         }
 
