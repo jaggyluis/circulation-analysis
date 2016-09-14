@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using CirculationToolkit.Entities;
+using Grasshopper;
+using Grasshopper.Kernel.Data;
 
 namespace CirculationToolkit.Components.Analysis
 {
@@ -25,6 +27,7 @@ namespace CirculationToolkit.Components.Analysis
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddParameter(new Env_Param(), "Environment", "E", "Simulation Environment", GH_ParamAccess.item);
+            pManager.AddTextParameter("Agent Name", "N", "The name of the Agent to output paths for", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -33,7 +36,8 @@ namespace CirculationToolkit.Components.Analysis
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddMeshParameter("Mesh", "M", "Floor as Mesh", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Indexes", "I", "AgentPath Indexes", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Indexes", "I", "AgentPath Indexes", GH_ParamAccess.tree);
+            pManager.AddTextParameter("Log", "L", "Agent Log", GH_ParamAccess.tree);
         }
 
         /// <summary>
@@ -43,19 +47,42 @@ namespace CirculationToolkit.Components.Analysis
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             Env_Goo envGoo = null;
+            string agentName = null;
+
             if (!DA.GetData(0, ref envGoo)) { return; }
+            if (!DA.GetData(1, ref agentName)) { return; }
 
-            if (envGoo.Value.Floors.Count > 0)
+            List<Agent> agents = envGoo.Value.GetAgents(agentName);
+
+            DataTree<int> pathTree = new DataTree<int>();
+            DataTree<string> logTree = new DataTree<string>();
+
+            if (agents.Count > 0)
             {
-                Floor fl = (Floor)envGoo.Value.Floors[0];
-                DA.SetData(0, fl.Mesh);
+                DA.SetData(0, agents[0].Floor.Mesh);
             }
 
-            if (envGoo.Value.Agents.Count > 0)
+            for (int i=0; i<agents.Count; i++)
             {
-                Agent a1 = (Agent)envGoo.Value.Agents[0];
-                DA.SetDataList(1, a1.Path);
+                Agent agent = agents[i];
+                List<string> agentLog = new List<string> (agent.Log());
+                List<int> agentPath = agent.Path;
+
+                GH_Path path = new GH_Path(i);
+
+                for (int j=0; j<agentPath.Count; j++)
+                {
+                    pathTree.Add(agentPath[j], path);
+                }
+
+                for (int k=0; k<agentLog.Count; k++)
+                {
+                    logTree.Add(agentLog[k], path);
+                }
             }
+
+            DA.SetDataTree(1, pathTree);
+            DA.SetDataTree(2, logTree);
         }
 
         /// <summary>

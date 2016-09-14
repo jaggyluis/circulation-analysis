@@ -229,9 +229,42 @@ namespace CirculationToolkit.Entities
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public Point3d GetGridPoint(Tuple<double, double> key)
+        public Point3d GetCoordPoint(Tuple<double, double> coord)
         {
-            return Grid[Coordinates[key]];
+            return Grid[Coordinates[coord]];
+        }
+
+        /// <summary>
+        /// Returns the Point3d on the grid at the given index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public Point3d? GetGridIndexPoint(int index)
+        {
+            if (Grid[index] != null)
+            {
+                return Grid[index];
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the grid coordinate of a grid index
+        /// - this should be optimized
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public Tuple<double, double> GetGridIndexCoord(int index)
+        {
+            Dictionary<int, Tuple<double, double>> mappedDict = new Dictionary<int, Tuple<double, double>>();
+
+            foreach (Tuple<double, double> key in Coordinates.Keys)
+            {
+                mappedDict[Coordinates[key]] = key;
+            }
+
+            return mappedDict[index];
         }
 
         /// <summary>
@@ -256,7 +289,7 @@ namespace CirculationToolkit.Entities
         }
 
         /// <summary>
-        /// Returns the (X,Y) coordinates of a Point3d in the Coordinates
+        /// Returns the (X,Y) coordinates of a Point3d
         /// </summary>
         /// <param name="pt"></param>
         /// <returns></returns>
@@ -352,7 +385,7 @@ namespace CirculationToolkit.Entities
             {
                 if (Coordinates.ContainsKey(n))
                 {
-                    values.Add(new Tuple<Tuple<double, double>, Point3d>(n, GetGridPoint(n)));
+                    values.Add(new Tuple<Tuple<double, double>, Point3d>(n, GetCoordPoint(n)));
                 }
             }
 
@@ -500,6 +533,27 @@ namespace CirculationToolkit.Entities
                     }
                 }
             }          
+        }
+
+        /// <summary>
+        /// Adds Occupancy at specific generations
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="gen"></param>
+        public void AddOccupancy(int index, int gen)
+        {
+            FloorGraph.AddOccupancyMapNodeValue(index, gen);
+        }
+
+        /// <summary>
+        /// Returns the Occupancy at a grid index at a generation
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="gen"></param>
+        /// <returns></returns>
+        public int GetOccupancy(int index, int gen)
+        {
+            return FloorGraph.GetOccupancyMapNodeValue(index, gen);
         }
         #endregion
     }

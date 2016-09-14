@@ -398,7 +398,7 @@ namespace CirculationToolkit.Util
 
         private Floor _floor;
         private Dictionary<NodeType, double> _barrierMap;
-        private Dictionary<NodeType, Dictionary<int, int>> _occupancyMap;
+        private Dictionary<int, Dictionary<NodeType, int>> _occupancyMap;
 
         /// <summary>
         /// FloorGraph Constructor that inherits graph functionality and applies it
@@ -409,7 +409,7 @@ namespace CirculationToolkit.Util
         {
             Floor = floor;
             BarrierMap = new Dictionary<NodeType, double>();
-            OccupancyMap = new Dictionary<NodeType, Dictionary<int, int>>();
+            OccupancyMap = new Dictionary<int, Dictionary<NodeType, int>>();
         }
 
         #region properties
@@ -447,7 +447,7 @@ namespace CirculationToolkit.Util
         /// Returns the Occupancy at all grid points for all generations of
         /// the simulation
         /// </summary>
-        public Dictionary<NodeType, Dictionary<int, int>> OccupancyMap
+        public Dictionary<int, Dictionary<NodeType, int>> OccupancyMap
         {
             get
             {
@@ -534,16 +534,16 @@ namespace CirculationToolkit.Util
         /// <returns></returns>
         public int GetOccupancyMapNodeValue(NodeType key, int gen)
         {
-            if (!OccupancyMap.ContainsKey(key))
+            if (!OccupancyMap.ContainsKey(gen))
             {
-                OccupancyMap[key] = new Dictionary<int, int>();
+                OccupancyMap[gen] = new Dictionary<NodeType, int>();
             }
-            if (!OccupancyMap[key].ContainsKey(gen))
+            if (!OccupancyMap[gen].ContainsKey(key))
             {
-                OccupancyMap[key][gen] = 0;
+                OccupancyMap[gen][key] = 0;
             }
 
-            return OccupancyMap[key][gen];
+            return OccupancyMap[gen][key];
         }
 
         /// <summary>
@@ -553,16 +553,16 @@ namespace CirculationToolkit.Util
         /// <param name="gen"></param>
         public void AddOccupancyMapNodeValue(NodeType key, int gen)
         {
-            if (!OccupancyMap.ContainsKey(key))
+            if (!OccupancyMap.ContainsKey(gen))
             {
-                OccupancyMap[key] = new Dictionary<int, int>();
+                OccupancyMap[gen] = new Dictionary<NodeType, int>();
             }
-            if (!OccupancyMap[key].ContainsKey(gen))
+            if (!OccupancyMap[gen].ContainsKey(key))
             {
-                OccupancyMap[key][gen] = 0;
+                OccupancyMap[gen][key] = 0;
             }
 
-            OccupancyMap[key][gen]++;
+            OccupancyMap[gen][key]++;
         }
         #endregion
 

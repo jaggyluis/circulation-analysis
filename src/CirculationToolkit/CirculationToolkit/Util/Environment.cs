@@ -198,7 +198,44 @@ namespace CirculationToolkit
         {
             Entities[entity.Type].Add(entity);
         }
-                
+
+        /// <summary>
+        /// Returns a mapped dictionary of all Agent Entities by name
+        /// </summary>
+        /// <returns></returns>
+        private Dictionary<string, List<Agent>> GetAgentDictByName()
+        {
+            Dictionary<string, List<Agent>> agentDict = new Dictionary<string, List<Agent>>();
+
+            foreach(Agent agent in Agents)
+            {
+                if (!agentDict.ContainsKey(agent.Name))
+                {
+                    agentDict[agent.Name] = new List<Agent>();
+                }
+                agentDict[agent.Name].Add(agent);
+            }
+
+            return agentDict;
+        }
+
+        /// <summary>
+        /// Returns a list of Agent Entities by name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public List<Agent> GetAgents(string name)
+        {
+            Dictionary<string, List<Agent>> agentDict = GetAgentDictByName();
+
+            if (agentDict.ContainsKey(name))
+            {
+                return agentDict[name];
+            }
+
+            return new List<Agent>();
+        }
+               
         /// <summary>
         /// Returns a mapped dictionary of all Floor Entities by name
         /// </summary>
@@ -332,7 +369,6 @@ namespace CirculationToolkit
 
                         return path;
                     }
-
                 }
             }
 
@@ -469,12 +505,21 @@ namespace CirculationToolkit
         /// <summary>
         /// Steps one generation of the Environment Entities
         /// </summary>
-        private void Step()
+        private bool Step()
         {
-            foreach( Agent agent in Agents)
+            bool isComplete = true;
+
+            foreach (Agent agent in Agents)
             {
                 agent.Step();
+
+                if (!agent.IsComplete)
+                {
+                    isComplete = false;
+                }
             }
+
+            return isComplete;
         }
 
         /// <summary>
@@ -483,10 +528,18 @@ namespace CirculationToolkit
         public void RunEnvironment()
         {
             int generations = 0;
+            bool isComplete = false;
 
-            while (generations < 1000)
+            while (!isComplete)
             {
-                Step();
+                isComplete = Step();
+
+                if (generations >= 1000)
+                {
+                    // force the simulation to end after 1000 generations
+                    // as a precauction
+                    break;
+                }
 
                 generations++;
             }

@@ -5,10 +5,10 @@ X fix points not on mesh
 - freezes when agent does not have a node type that it is on
 - what happens if a path is not possible?
 
-- all entities should have an environment variable
+X all entities should have an environment variable
 X components need an internalized "name"
 X barriers should be recogized with resolution too small
-- agents need a floor property
+X agents need a floor property
 X fix bound on density maps for output
 - nodes need wait times
 X bidirectional template
@@ -16,3 +16,8 @@ X lost agents in void
 X do not default to original choice when capacity is met
 
 - implement time remainder on agents
+
+------------------------------------------- c# versioning changes
+
+Environment
+- getter and setter methods should be generalized to entity rather than type

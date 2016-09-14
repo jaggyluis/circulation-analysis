@@ -29,7 +29,7 @@ namespace CirculationToolkit.Components
             pManager.AddPointParameter("Position", "P", "The position of this Node", GH_ParamAccess.item);
             pManager.AddTextParameter("Name", "N", "The name of this Node", GH_ParamAccess.item);
             pManager.AddTextParameter("Floor", "F", "The name of the Floor this Node is on", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Capacity", "C", "The Agent Capacity at this Node", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Capacity", "C", "The maximum Agent count at this Node", GH_ParamAccess.item);
 
             pManager[3].Optional = true;
         }

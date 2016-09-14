@@ -12,14 +12,17 @@ namespace CirculationToolkit.Entities
         private SimulationEnvironment _environment;
 
         private int _age;
-        private string _state;
+     
         private bool _isActive;
         private bool _isComplete;
 
+        private List<string> _states;
         private List<List<int>> _paths;
         private List<Node> _visited;
 
         private Stack<int> _stack;
+
+        private List<string> _log;
 
         private Node _last;
         private Node _curr;
@@ -30,6 +33,11 @@ namespace CirculationToolkit.Entities
         {
             Paths = new List<List<int>>();
             Visited = new List<Node>();
+
+            //
+            // output information
+            //
+            _log = new List<string>();
         }
 
         public override Entity Duplicate()
@@ -40,11 +48,16 @@ namespace CirculationToolkit.Entities
             duplicate.Visited = Visited;
 
             duplicate.Age = Age;
-            duplicate.State = State;
+            duplicate._states = _states;
             duplicate.IsActive = IsActive;
             duplicate.IsComplete = IsComplete;
 
             duplicate.Stack = Stack;
+
+            duplicate.Last = Last;
+            duplicate.Current = Current;
+            duplicate.Next = Next;
+
 
             return duplicate;
         }
@@ -104,15 +117,59 @@ namespace CirculationToolkit.Entities
         }
 
         /// <summary>
+        /// Returns the last Node this Agent was at
+        /// </summary>
+        public Node Last
+        {
+            get
+            {
+                return _last;
+            }
+            set
+            {
+                _last = value;
+            }
+        }
+
+        /// <summary>
+        /// Returns the current Node this Agent is at,
+        /// which is used during path calculations and floor calculations
+        /// </summary>
+        public Node Current
+        {
+            get
+            {
+                return _curr;
+            }
+            set
+            {
+                _curr = value;
+            }
+        }
+
+        /// <summary>
+        /// Returns the next node this Agent will be at
+        /// </summary>
+        public Node Next
+        {
+            get
+            {
+                return _next;
+            }
+            set
+            {
+                _next = value;
+            }
+        }
+
+        /// <summary>
         /// The Floor Entity that this Agent is currently on
         /// </summary>
         public Floor Floor
         {
             get
             {
-                Node position = Environment.GetNode(Position);
-
-                return Environment.GetFloor(position.Floor);
+                return Environment.GetFloor(Current.Floor);
             }
         }
 
@@ -134,11 +191,13 @@ namespace CirculationToolkit.Entities
         {
             get
             {
-                return _state;
+                return _states.Count > 0 ? _states[_states.Count - 1] : "None";
             }
             set
             {
-                _state = value;
+                Log("state change - " + State + " to " + value + " at age " + Age.ToString());
+
+                _states.Add(value);
             }
         }
 
@@ -266,6 +325,22 @@ namespace CirculationToolkit.Entities
         }
 
         /// <summary>
+        /// Return the previous state
+        /// </summary>
+        /// <returns></returns>
+        public string GetLastState()
+        {
+            if (_states.Count > 1)
+            {
+                return _states[_states.Count - 2];
+            }
+            else
+            {
+                return _states[0];
+            }
+        }
+
+        /// <summary>
         /// Adds a list of grid indexes to the Agent paths
         /// </summary>
         /// <param name="path"></param>
@@ -297,13 +372,11 @@ namespace CirculationToolkit.Entities
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        private Tuple<Node, List<int>> Wait(int time)
+        private Tuple<Node, List<int>> Wait(Node position)
         {
             List<int> path = new List<int>();
 
-            Node position = Environment.GetNode(Position);
-
-            for (int i=0; i<time; i++)
+            for (int i=0; i<3; i++)
             {
                 path.Add((int)GridIndex);
             }
@@ -316,13 +389,12 @@ namespace CirculationToolkit.Entities
         /// </summary>
         /// <param name="nodes"></param>
         /// <returns></returns>
-        private Tuple<Node, List<int>> Move(List<Node> nodes)
+        private Tuple<Node, List<int>> Move(Node position)
         {
-            List<int> path = new List<int>();
-            List<Node> goalNodes = new List<Node>(nodes);
-
-            Node position = Environment.GetNode(Position);
+            List<Node> goalNodes = Environment.NodeGraph.Edges[position].ToList();
             Node goal = Destination;
+
+            int positionIndex = (int)Floor.GetPointGridIndex(position.Position);           
 
             for (int i=goalNodes.Count-1; i>=0; i--)
             {
@@ -377,9 +449,7 @@ namespace CirculationToolkit.Entities
                         else
                         {
                             if (random.NextDouble() < GetPropensity("queuing"))
-                            {
-                                path = Environment.GetNodeShortestPath(position, goal);
-
+                            {                              
                                 break;
                             }
                             else
@@ -392,21 +462,42 @@ namespace CirculationToolkit.Entities
                 else
                 {
                     goal = Destination;
-                    path = Environment.GetNodeShortestPath(position, goal);
                 }
             }
             else
             {
-                goal = Destination;
-                path = Environment.GetNodeShortestPath(position, goal);
+                goal = Destination;               
                 ToggleComplete();
             }
+            
+            int goalIndex = (int)Floor.GetPointGridIndex(goal.Position);
+            //List<int> path = Environment.GetNodeShortestPath(position, goal);
+            List<int> path = Floor.FloorGraph.ShortestPath(positionIndex, goalIndex, startIndex:Age);
+
+            path.Reverse();
 
             return new Tuple<Node, List<int>>(goal, path);
         }
         #endregion
 
         #region main methods
+        /// <summary>
+        /// Sets a string to the log
+        /// </summary>
+        /// <param name="logInfo"></param>
+        public void Log(string logInfo)
+        {
+            _log.Add(logInfo);
+        }
+
+        /// <summary>
+        /// Returns the Agent log
+        /// </summary>
+        /// <returns></returns>
+        public List<string> Log()
+        {
+            return _log;
+        }
         /// <summary>
         /// Initialize this Agent on the Environment
         /// </summary>
@@ -416,12 +507,47 @@ namespace CirculationToolkit.Entities
             
             Paths = new List<List<int>>();
             Visited = new List<Node>();
+            _states = new List<string>();
 
             Visited.Add(Origin);
             Position = Origin.Position;
+            Current = Origin;
+            Age = 0;
+
             State = "waiting";
 
             ToggleActive();
+        }
+
+        /// <summary>
+        /// Shift the Agent path
+        /// </summary>
+        public void Shift()
+        {
+            Log("shift");
+        }
+
+        /// <summary>
+        /// Sets the position and directive during the active state
+        /// of the Agent
+        /// </summary>
+        /// <param name="directive"></param>
+        private void SetDirective(Tuple<Node, List<int>> directive)
+        {
+            Next = directive.Item1;
+            List<int> path = directive.Item2;
+
+            Stack = new Stack<int>(path);
+            Paths.Add(path);
+            path.Reverse();
+
+            for (int i = 0; i < path.Count; i++)
+            {
+                Floor.AddOccupancy(path[i], Age + i);
+                SetPosition((Point3d)Floor.GetGridIndexPoint(path[i]), Age + i);
+            }       
+            
+            State = "active";
         }
 
         /// <summary>
@@ -433,52 +559,64 @@ namespace CirculationToolkit.Entities
             {
                 if (State == "ready")
                 {
-                    Node position = Environment.GetNode(Position);
-                    List<Node> edges = Environment.NodeGraph.Edges[position].ToList();
-                    Tuple<Node, List<int>> move = Move(edges);
-
-                    // add density here
-
-                    Node goal = move.Item1;
-                    List<int> path = move.Item2;
-
-                    Paths.Add(path);
-                    path.Reverse();
-
-                    Stack = new Stack<int>(path);
-                    State = "active";
-
+                    SetDirective(Move(Current));
                 }
                 else if (State == "waiting")
                 {
-                    Node position = Environment.GetNode(Position);
-                    Tuple<Node, List<int>> wait = Wait(1);
-
-                    // add density here
-
-                    Node goal = wait.Item1;
-                    List<int> path = wait.Item2;
-
-                    Paths.Add(path);
-                    path.Reverse();
-
-                    Stack = new Stack<int>(path);
-                    State = "active";
-
+                    SetDirective(Wait(Current));
                 }
                 else if (State == "active")
                 {
                     if (Stack.Count > 0)
                     {
-                        int next = Stack.Pop();
+                        int nextIndex = Stack.Pop();
 
-                        // do shifting calculations here
+                        int currCountAtCurrIndex = Floor.GetOccupancy((int)GridIndex, Age);
+                        int currCountAtNextIndex = Floor.GetOccupancy(nextIndex, Age);
+
+                        int nextCountAtCurrIndex = Floor.GetOccupancy((int)GridIndex, Age + 1);
+                        int nextCountAtNextIndex = Floor.GetOccupancy(nextIndex, Age + 1);
+
+                        int maxDensity = (int)Math.Floor(2 * Math.Pow(Floor.GridSize, 2));
+
+                        string lastState = GetLastState();
+
+                        if (GetLastState() == "ready" )
+                        {
+                            if (Stack.Count > 0)
+                            {
+                                // do velocity calculations here?
+
+                                if (currCountAtNextIndex >= maxDensity ||
+                                    nextCountAtNextIndex >= maxDensity &&
+                                    nextCountAtCurrIndex < maxDensity)
+                                {
+                                    Shift();
+                                }                                
+                            }
+                            else
+                            {
+                                int nextCapacity = Next.Capacity;
+                                
+                                if (currCountAtNextIndex >= maxDensity ||
+                                    nextCountAtNextIndex >= maxDensity)
+                                {
+                                    Shift();
+                                }
+                            }
+                        }
+                        else if (GetLastState() == "waiting")
+                        {
+
+                        }
 
                         Age++;
-
                     }
                     else
                     {
+                        Last = Current;
+                        Current = Next;
+
                         if (false)
                         {
                             State = "waiting";

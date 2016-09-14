@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Analysis\AgentPaths_GH.cs" />
+    <Compile Include="Components\Analysis\OccupancyMap_GH.cs" />
     <Compile Include="Components\Analysis\BarrierMap_GH.cs" />
     <Compile Include="Components\Entities\Agent_GH.cs" />
     <Compile Include="Components\Entities\Barrier_GH.cs" />

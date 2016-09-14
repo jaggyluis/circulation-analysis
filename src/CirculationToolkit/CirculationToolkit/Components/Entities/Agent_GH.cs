@@ -28,6 +28,9 @@ namespace CirculationToolkit.Components
             pManager.AddTextParameter("Name", "N", "The name of this Agent", GH_ParamAccess.item);
             pManager.AddTextParameter("Origin", "O", "The name of the Origin Node this Agent is on", GH_ParamAccess.item);
             pManager.AddTextParameter("Destination", "D", "The name of this Agent's Destination Node", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Count", "C", "Optional number of Agents to create", GH_ParamAccess.item);
+
+            pManager[3].Optional = true;
         }
 
         /// <summary>
@@ -35,7 +38,7 @@ namespace CirculationToolkit.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.RegisterParam(new Entity_Param(), "Agent", "A", "Agent Entity");
+            pManager.RegisterParam(new Entity_Param(), "Agent", "A", "Agent Entity", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -47,18 +50,26 @@ namespace CirculationToolkit.Components
             string name = null;
             string origin = null;
             string destination = null;
+            int count = 1;
 
-            DA.GetData(0, ref name);
-            DA.GetData(1, ref origin);
-            DA.GetData(2, ref destination);
+            if (!DA.GetData(0, ref name)) { return; }
+            if (!DA.GetData(1, ref origin)) { return; }
+            if (!DA.GetData(2, ref destination)) { return; }
+            if (!DA.GetData(3, ref count)) { count = 1; }
 
             AgentProfile profile = new AgentProfile(name);
             profile.SetAttribute("origin", origin);
             profile.SetAttribute("destination", destination);
 
-            Agent agent = new Agent(profile);
+            List<Entity> agentlist = new List<Entity>();
 
-            DA.SetData(0, agent);
+            for (int i=0; i<count; i++)
+            {
+                Agent agent = new Agent(profile);
+                agentlist.Add(agent);
+            }
+
+            DA.SetDataList(0, agentlist);
 
         }
 

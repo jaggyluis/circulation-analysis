@@ -25,6 +25,7 @@ namespace CirculationToolkit.Components.Analysis
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddParameter(new Env_Param(), "Environment", "E", "Simulation Environment", GH_ParamAccess.item);
+            pManager.AddTextParameter("Floor Name", "N", "The name of the Floor Entity to generate the Barrier Map on", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace CirculationToolkit.Components.Analysis
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddMeshParameter("Mesh", "M", "Floor as Mesh", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Values", "V", "BarrierMap Values", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Values", "V", "Barrier Map Values", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -43,22 +44,25 @@ namespace CirculationToolkit.Components.Analysis
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             Env_Goo envGoo = null;
-            if (!DA.GetData(0, ref envGoo)) { return; }
+            string floorName = null;
 
-            if (envGoo.Value.Floors.Count > 0)
+            if (!DA.GetData(0, ref envGoo)) { return; }
+            if (!DA.GetData(1, ref floorName)) { return; }
+
+            if (envGoo.Value.GetFloor(floorName) != null)
             {
-                Floor fl = (Floor)envGoo.Value.Floors[0];
+                Floor floor = envGoo.Value.GetFloor(floorName);
                 List<double> values = new List<double>();
-                List<int> keys = new List<int>(fl.FloorGraph.BarrierMap.Keys);
+                List<int> keys = new List<int>(floor.FloorGraph.BarrierMap.Keys);
 
                 keys.Sort();
 
                 for (int i = 0; i < keys.Count; i++)
                 {
-                    values.Add(fl.FloorGraph.BarrierMap[keys[i]]);
+                    values.Add(floor.FloorGraph.BarrierMap[keys[i]]);
                 }
 
-                DA.SetData(0, fl.Mesh);
+                DA.SetData(0, floor.Mesh);
                 DA.SetDataList(1, values);
             }
         }
