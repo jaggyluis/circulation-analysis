@@ -48,10 +48,10 @@
             <chunk name="Projection">
               <items count="2">
                 <item name="Target" type_name="gh_drawing_point" type_code="30">
-                  <X>120</X>
-                  <Y>-837</Y>
+                  <X>-505</X>
+                  <Y>-1617</Y>
                 </item>
-                <item name="Zoom" type_name="gh_single" type_code="5">0.64</item>
+                <item name="Zoom" type_name="gh_single" type_code="5">1</item>
               </items>
             </chunk>
             <chunk name="Views">
@@ -12005,30 +12005,6 @@ if build :
         
 class Agent(Entity):
     
-    def __init__(self, pos=None, attr={}, env=None):
-        super(Agent, self).__init__(attr)
-        self._attr = attr
-        self._env = env
-        
-        self._history = []
-        self._path = []
-        
-        self.set_position(pos)
-        self.set_type('agent')
-        
-        self._speed = float(self.get_attribute('speed')['default'])
-        self._velocity = int(m.floor(self.environment.resolution / self.speed)) if env else None
-        self._min_velocity = None
-        self._max_velocity = None
-        self._state = None
-        
-        self.age = 0
-        self.is_active = True
-        self.is_complete = False
-        
-        self.goal_position = None
-        self.next_position = None
-                
         
     def shift(self, num=1):
         
@@ -12046,172 +12022,7 @@ class Agent(Entity):
                 self.environment.floors[0].map.density_map[keys[ki]+1][self._pos[keys[ki]]] += 1
                 self._pos[keys[ki]+1] = self._pos[keys[ki]]  
     
-    @property
-    def history(self):
-        return self._history
-    
-    @property
-    def visited(self):
-        return [n.name for n in self.history if not type(n) == int]
-    
-    def step(self):        
-        
-        def wait(time):
-            return self.goal_position, [self.goal_position] * time
-            
-        def move(lst):
-            
-            lst = [l for l in lst if not l.get_attribute('name') in self.visited]
-            
-            if len(lst):
-            
-                properties = self.get_attribute('properties')
-                keys = properties.keys()
-                n_percs = [k for k in keys if random.randint(0,100) &lt;= float(properties[k])]
-                
-                lst = [(l, self.environment.graph.get_distance((self.position, l))) for l in lst if l.get_attribute('name') in n_percs]
-            
-                if len(lst):
-                    
-                    lst.sort(key = lambda tup: len(tup[1]), reverse = True)
-                    
-                    while len(lst):
-                        
-                        tup = lst.pop()
-                        n_choice = tup[0]
-                        n_path = tup[1] # TEMP
-                        num_people = len([a for a in self.environment.agents if self.goal_position == a.goal_position and a != self])
-                        capacity = n_choice.get_attribute('capacity')
 
-                        if capacity != None:
-                            if num_people &lt; float(capacity):
-                                break
-                            else:
-                                if random.randint(0,100) &lt; float(self.get_attribute('queuing')):
-                                    break
-                                else: 
-                                    continue
-                        else:
-                            break
-                else:
-                    n_choice = self.destination
-                    n_path = self.environment.graph.get_distance((self.position, n_choice))
-            else:
-                n_choice = self.destination
-                try: n_path = self.environment.graph.get_distance((self.position, n_choice))
-                except: n_path = self.environment.graph.get_distance((n_choice, self.position))[::-1]
-                self.toggle_complete()
-            
-            """
-                TODO - replace with entity.to_grid_index(environment)
-                    nodes need floor property !! important
-            """ 
-            """
-            n_index = self.environment.floors[0].to_grid_index(n_choice.position)
-            n_path = self.environment.floors[0].map.shortest_path(self.grid_index, n_index, start_idx=self.age+1)
-            """
-            return n_choice, n_path
-
-        if self.state == None:
-
-            start_node = self.get_attribute('origin')
-            start_positions = self.environment.get_nodes_with_value(start_node)
-            start_position = random.choice(start_positions)
-            
-            self._min_velocity = int(m.floor(self.environment.resolution / float(self.get_attribute('speed')['min'])))
-            self._max_velocity = int(m.floor(self.environment.resolution / float(self.get_attribute('speed')['max'])))
-            
-            self.goal_position = start_position
-            self.set_state('waiting')
-            
-        else:
-
-            if self.is_active:
-                
-                if self.state == 'ready':
-                                        
-                    self.goal_position, path = move(self.environment.graph.edges[self.position])
-                    self.add_path(path)
-                    path = [self.position] + path + [self.goal_position]
-                    
-                    for pi in range(len(path)):
-                        self.environment.floors[0].map.add_density(path[pi], self.age+pi)
-                        self.set_position(path[pi], self.age+pi)
-                    
-                    path.reverse()
-                    self.set_state(path[:-1])
-                    
-               
-                elif self.state == 'waiting':
-                                        
-                    wait_time = 1 if len(self._path) != 0 else random.randint(1,10)
-                    
-                    self.goal_position, path = wait(wait_time)
-                    self.add_path([self.environment.floors[0].to_grid_index(self.goal_position.position)] * (wait_time))                    
-                    path = [self.goal_position] + path + [self.goal_position]
-                    
-                    for pi in range(len(path)):
-                        self.environment.floors[0].map.add_density(path[pi], self.age+pi)
-                        self.set_position(path[pi], self.age+pi)
-                    
-                    path.reverse()
-                    self.set_state(path[:-1])
-                      
-                else:
-
-                    if len(self.state):
-                                                 
-                        self.next_position = self.state.pop()
-                        
-                        curr_people_pos = len(self.environment.agents_at_position(self.position, self.age))
-                        next_people_pos = len(self.environment.agents_at_position(self.position, self.age+1))
-                        
-                        curr_people_npos = len(self.environment.agents_at_position(self.next_position, self.age))
-                        next_people_npos = len(self.environment.agents_at_position(self.next_position, self.age+1))
-                                                                       
-                        
-                        #print curr_people_pos, next_people_pos, curr_people_npos, next_people_npos
-                        
-                        if type(self.position) != Node:
-                            
-                            if type(self.next_position) != Node:
-                                
-                                source_ival = Interval(1,  2 * self.environment.resolution**2)
-                                target_ival = Interval(self._max_velocity, self._min_velocity)
-                                val = int(round(Interval.remap(source_ival, target_ival, curr_people_pos, bounded=True)))
-                                max_density = 2 * self.environment.resolution**2
-                                
-                                #if next_people_pos &gt; max_density and next_people_npos &gt; max_density:
-                                #    max_density *= 2
-                                
-                                if curr_people_npos &gt;= max_density or next_people_npos &gt;= max_density:
-                                    if not next_people_pos &gt;= max_density:
-                                                                                
-                                        self.shift()
-                                        
-                            elif type(self.next_position) == Node:
-                                                              
-                                capacity = self.next_position.get_attribute('capacity')
-                                max_density = int(capacity) if capacity != None else float('inf')
-                                
-                                if curr_people_npos &gt;= max_density or next_people_npos &gt;= max_density:
-                                    self.shift()
-                        
-                        
-                        self.history.append(self.position)
-                        self.age+=1
-                        
-                    else:
-                        
-                        if type(self.get_position(self.age-1)) != Node:
-                            self.set_state('waiting')
-                         
-                        elif type(self.get_position(self.age-1)) == Node:
-                            self.set_state('ready')
-                                
-                        if self.is_complete:
-                            self.set_state('complete')
-                            self.toggle_active()
 
 </item>
                     <item name="Description" type_name="gh_string" type_code="10">A python scriptable component</item>
@@ -12412,7 +12223,7 @@ class Agent(Entity):
     <chunk name="Thumbnail">
       <items count="1">
         <item name="Thumbnail" type_name="gh_drawing_bitmap" type_code="37">
-          <bitmap length="3889">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</bitmap>
+          <bitmap length="2517">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</bitmap>
         </item>
       </items>
     </chunk>

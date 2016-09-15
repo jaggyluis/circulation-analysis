@@ -564,6 +564,26 @@ namespace CirculationToolkit.Util
 
             OccupancyMap[gen][key]++;
         }
+
+        /// <summary>
+        /// Decrease the Map node OccupancyMap value at a generation
+        /// This is used primarily for agent path shifting
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="gen"></param>
+        public void RemoveOccupancyMapNodeValue(NodeType key, int gen)
+        {
+            if (OccupancyMap.ContainsKey(gen))
+            {
+                if (OccupancyMap[gen].ContainsKey(key))
+                {
+                    if (OccupancyMap[gen][key] != 0)
+                    {
+                        OccupancyMap[gen][key]--;
+                    }
+                }
+            }
+        }
         #endregion
 
         #region shortest path methods

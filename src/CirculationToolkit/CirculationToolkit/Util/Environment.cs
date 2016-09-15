@@ -507,7 +507,7 @@ namespace CirculationToolkit
         /// </summary>
         private bool Step()
         {
-            bool isComplete = true;
+            bool isComplete = false; // fix this later
 
             foreach (Agent agent in Agents)
             {

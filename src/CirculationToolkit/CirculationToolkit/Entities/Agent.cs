@@ -31,13 +31,6 @@ namespace CirculationToolkit.Entities
         public Agent(AgentProfile profile)
             : base (profile)
         {
-            Paths = new List<List<int>>();
-            Visited = new List<Node>();
-
-            //
-            // output information
-            //
-            _log = new List<string>();
         }
 
         public override Entity Duplicate()
@@ -374,9 +367,18 @@ namespace CirculationToolkit.Entities
         /// <returns></returns>
         private Tuple<Node, List<int>> Wait(Node position)
         {
-            List<int> path = new List<int>();
+            //
+            // waiting distribution needs to be implemeted
+            //
 
-            for (int i=0; i<3; i++)
+            List<int> path = new List<int>();
+            Random random = new Random(Guid.NewGuid().GetHashCode());
+
+            double waitTime = random.Next(1, 10);
+
+            Log("waiting " + waitTime.ToString());
+
+            for (int i=0; i<waitTime; i++)
             {
                 path.Add((int)GridIndex);
             }
@@ -398,8 +400,7 @@ namespace CirculationToolkit.Entities
 
             for (int i=goalNodes.Count-1; i>=0; i--)
             {
-                if (Visited.Contains(goalNodes[i]) ||
-                    !Propensities.Keys.Contains(goalNodes[i].Name))
+                if (Visited.Contains(goalNodes[i]) || !Propensities.Keys.Contains(goalNodes[i].Name))
                 {
                     goalNodes.RemoveAt(i);
                 }
@@ -466,16 +467,14 @@ namespace CirculationToolkit.Entities
             }
             else
             {
-                goal = Destination;               
+                goal = Destination;
+                              
                 ToggleComplete();
             }
             
             int goalIndex = (int)Floor.GetPointGridIndex(goal.Position);
-            //List<int> path = Environment.GetNodeShortestPath(position, goal);
-            List<int> path = Floor.FloorGraph.ShortestPath(positionIndex, goalIndex, startIndex:Age);
-
-            path.Reverse();
-
+            List<int> path = Floor.FloorGraph.ShortestPath(positionIndex, goalIndex, startIndex:Age);           
+            
             return new Tuple<Node, List<int>>(goal, path);
         }
         #endregion
@@ -508,6 +507,7 @@ namespace CirculationToolkit.Entities
             Paths = new List<List<int>>();
             Visited = new List<Node>();
             _states = new List<string>();
+            _log = new List<string>();
 
             Visited.Add(Origin);
             Position = Origin.Position;
@@ -520,11 +520,36 @@ namespace CirculationToolkit.Entities
         }
 
         /// <summary>
-        /// Shift the Agent path
+        /// Shift the Agent Path based on density and velocity
         /// </summary>
-        public void Shift()
+        /// <param name="path"></param>
+        /// <param name="age"></param>
+        /// <returns></returns>
+        private List<int> Shift(List<int> path, int age)
         {
-            Log("shift");
+            List<int> shiftedPath = new List<int>();
+
+            int maxDensity = 1;
+            int maxCount = (int)Math.Floor(maxDensity * Math.Pow(Floor.GridSize, 2));
+            int i = 0;
+            int j = age;
+
+            while (i < path.Count)
+            {
+                int count = Floor.GetOccupancy(path[i], j);
+
+                if (count > maxCount && i > 1)
+                {
+                    i--;
+                }
+
+                shiftedPath.Add(path[i]);
+
+                i++;
+                j++;
+            }
+
+            return shiftedPath;
         }
 
         /// <summary>
@@ -537,9 +562,16 @@ namespace CirculationToolkit.Entities
             Next = directive.Item1;
             List<int> path = directive.Item2;
 
-            Stack = new Stack<int>(path);
-            Paths.Add(path);
+            if (State != "waiting")
+            {
+                path = Shift(path, Age);
+            }            
+
             path.Reverse();
+            Stack = new Stack<int>(path);
+            
+            path.Reverse();
+            Paths.Add(path);
 
             for (int i = 0; i < path.Count; i++)
             {
@@ -569,47 +601,7 @@ namespace CirculationToolkit.Entities
                 {
                     if (Stack.Count > 0)
                     {
-                        int nextIndex = Stack.Pop();
-
-                        int currCountAtCurrIndex = Floor.GetOccupancy((int)GridIndex, Age);
-                        int currCountAtNextIndex = Floor.GetOccupancy(nextIndex, Age);
-
-                        int nextCountAtCurrIndex = Floor.GetOccupancy((int)GridIndex, Age + 1);
-                        int nextCountAtNextIndex = Floor.GetOccupancy(nextIndex, Age + 1);
-
-                        int maxDensity = (int)Math.Floor(2 * Math.Pow(Floor.GridSize, 2));
-
-                        string lastState = GetLastState();
-
-                        if (GetLastState() == "ready" )
-                        {
-                            if (Stack.Count > 0)
-                            {
-                                // do velocity calculations here?
-
-                                if (currCountAtNextIndex >= maxDensity ||
-                                    nextCountAtNextIndex >= maxDensity &&
-                                    nextCountAtCurrIndex < maxDensity)
-                                {
-                                    Shift();
-                                }                                
-                            }
-                            else
-                            {
-                                int nextCapacity = Next.Capacity;
-                                
-                                if (currCountAtNextIndex >= maxDensity ||
-                                    nextCountAtNextIndex >= maxDensity)
-                                {
-                                    Shift();
-                                }
-                            }
-                        }
-                        else if (GetLastState() == "waiting")
-                        {
-
-                        }
-
+                        Stack.Pop();
                         Age++;
                     }
                     else
@@ -617,11 +609,11 @@ namespace CirculationToolkit.Entities
                         Last = Current;
                         Current = Next;
 
-                        if (false)
+                        if (GetLastState() == "ready")
                         {
                             State = "waiting";
                         }
-                        else if (true)
+                        else if (GetLastState() == "waiting")
                         {
                             State = "ready";
                         }

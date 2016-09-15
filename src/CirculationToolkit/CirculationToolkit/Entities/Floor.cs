@@ -545,6 +545,11 @@ namespace CirculationToolkit.Entities
             FloorGraph.AddOccupancyMapNodeValue(index, gen);
         }
 
+        public void RemoveOccupancy(int index, int gen)
+        {
+            FloorGraph.RemoveOccupancyMapNodeValue(index, gen);
+        }
+
         /// <summary>
         /// Returns the Occupancy at a grid index at a generation
         /// </summary>

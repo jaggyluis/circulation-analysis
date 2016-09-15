@@ -366,7 +366,7 @@ namespace CirculationToolkit.Util
         /// <param name="num"></param>
         /// <param name="bounded"></param>
         /// <returns></returns>
-        static double Remap(Interval source, Interval target, double num, bool bounded=false)
+        public static double Remap(Interval source, Interval target, double num, bool bounded=false)
         {
             if (source.Range == 0)
             {
