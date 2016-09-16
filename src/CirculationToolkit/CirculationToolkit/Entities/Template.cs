@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using CirculationToolkit.Util;
+using CirculationToolkit.Profiles;
 using Rhino.Geometry;
 
 namespace CirculationToolkit.Entities

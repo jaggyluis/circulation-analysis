@@ -331,8 +331,8 @@ namespace CirculationToolkit.Util
 
                 foreach (NodeType edge in Edges[minNode])
                 {
-                    double distance = GetDistance(new Tuple<NodeType, NodeType>(minNode, edge),
-                        currGeneration + startIndex);
+                    int gen = currGeneration + startIndex;
+                    double distance = GetDistance(new Tuple<NodeType, NodeType>(minNode, edge), gen);
                     double weight = currWeight + distance;
 
                     if (!visited.ContainsKey(edge) || weight < visited[edge])
@@ -619,12 +619,15 @@ namespace CirculationToolkit.Util
         public override double GetDistance(Tuple<NodeType, NodeType> key, int gen = 0)
         {
             double distance = Distances[key];
+            double weight = distance / Floor.GridSize;
+
             double area = Math.Pow(Floor.GridSize, 2);
             double occupancy = GetOccupancyMapNodeValue(key.Item2, gen);
             double density = occupancy / area;
+
             double barriers = GetBarrierMapNodeValue(key.Item2);
 
-            return distance + barriers + density;
+            return weight + barriers + density;
         }
         #endregion
     }

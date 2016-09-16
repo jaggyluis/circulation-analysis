@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using CirculationToolkit.Entities;
+using Grasshopper.Kernel.Data;
 
 namespace CirculationToolkit.Components
 {
@@ -24,7 +25,7 @@ namespace CirculationToolkit.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddParameter(new Entity_Param(), "Entities", "E", "Environment Entities", GH_ParamAccess.list);
+            pManager.AddParameter(new Entity_Param(), "Entities", "E", "Environment Entities", GH_ParamAccess.tree);
             pManager.AddNumberParameter("Resolution", "R", "Environment Resolution", GH_ParamAccess.item);
             pManager.AddBooleanParameter("Run", "R", "Run the simulation", GH_ParamAccess.item);
 
@@ -45,17 +46,19 @@ namespace CirculationToolkit.Components
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            List<Entity_Goo> entityGoos = new List<Entity_Goo>();
+            GH_Structure<Entity_Goo> entityGoos = new GH_Structure<Entity_Goo>();
             double resolution = default(double);
             bool run = false;
 
-            DA.GetDataList(0, entityGoos);
-            DA.GetData(1, ref resolution);
-            DA.GetData(2, ref run);
+            if (!DA.GetDataTree(0, out entityGoos)) { return; };
+            if (!DA.GetData(1, ref resolution)) { return; } ;
+            if (!DA.GetData(2, ref run)) { return; };
+
+            if (resolution <= 0) { return;  }
 
             SimulationEnvironment env = new SimulationEnvironment(resolution);
 
-            foreach (Entity_Goo g in entityGoos)
+            foreach (Entity_Goo g in entityGoos.AllData(true))
             {
                 env.AddEntity(g.Value.Duplicate());
             }

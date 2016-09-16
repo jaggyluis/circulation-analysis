@@ -42,7 +42,7 @@ namespace Circulation_Toolkit
         get
         {
             //Return a string identifying you or your company.
-            return "Microsoft";
+            return "Luis Jaggy";
         }
     }
     public override string AuthorContact

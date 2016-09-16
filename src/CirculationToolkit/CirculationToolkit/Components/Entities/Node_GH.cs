@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using CirculationToolkit.Util;
+using CirculationToolkit.Profiles;
 using CirculationToolkit.Entities;
 using Grasshopper.Kernel.Types;
 

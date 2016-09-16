@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CirculationToolkit.Util
+namespace CirculationToolkit.Profiles
 {
     /// <summary>
     /// Main Profile class for storing input information
@@ -11,30 +11,80 @@ namespace CirculationToolkit.Util
     /// </summary>
     public class Profile
     {
-        public string Name;
-        public string Type;
-        public Dictionary<string, string> Attributes;
+        private string _name;
+        private string _type;
+        private Dictionary<string, string> _attributes;
+
+        #region constructors
+        /// <summary>
+        /// Profile Constructors
+        /// </summary>
+        /// <param name="type"></param>
+        public Profile(string type, string name, Dictionary<string, string> attributes)
+        {
+            _name = name;
+            _type = type;
+            _attributes = new Dictionary<string, string>();
+        }
+
+        public Profile(string type, string name)
+            : this (type, name, new Dictionary<string, string>())
+        {
+        }
+
+        public Profile(string type)
+            : this (type, null, new Dictionary<string, string>())
+        {
+        }
+        #endregion
+
+        #region properties
+        /// <summary>
+        /// Return the name of the Entity
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+            }
+        }
 
         /// <summary>
-        /// Profile Constructor that takes a type only
+        /// Return the Entity Type
         /// </summary>
-        /// <param name="type"></param>
-        public Profile(string type)
+        public string Type
         {
-            Type = type;
-            Attributes = new Dictionary<string, string>();
+            get
+            {
+                return _type;
+            }
+            set
+            {
+                _type = value;
+            }
         }
+
         /// <summary>
-        /// Profile Constructor that takes a name and type
+        /// Return the Entity Attributes
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="type"></param>
-        public Profile(string type, string name)
+        public Dictionary<string, string> Attributes
         {
-            Name = name;
-            Type = type;
-            Attributes = new Dictionary<string, string>();
+            get
+            {
+                return _attributes;
+            }
+
+            set
+            {
+                _attributes = value;
+            }
         }
+        #endregion
 
         #region utiliy methods
         /// <summary>
@@ -98,62 +148,5 @@ namespace CirculationToolkit.Util
             }
         }
         #endregion
-    }
-
-    public class AgentProfile : Profile
-    {
-        private Dictionary<string, double> _propensities;
-
-        /// <summary>
-        /// AgentProfile Constructor for Agent Entities that 
-        /// extends the Profile class with Agent methods
-        /// </summary>
-        public AgentProfile(string name)
-            : base ("agent", name)
-        {
-            _propensities = new Dictionary<string, double>();
-        }
-
-        #region properties
-        /// <summary>
-        /// Returns the dictionary of key value pairs for Agent Entity
-        /// Decision making
-        /// </summary>
-        public Dictionary<string, double> Propensities
-        {
-            get
-            {
-                return _propensities;
-            }
-        }
-        #endregion
-
-        #region utility methods
-        /// <summary>
-        /// Returns the propensity of an Agent to make a certain decision
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public double GetPropensity(string type)
-        {
-            if (Propensities.ContainsKey(type))
-            {
-                return Propensities[type];
-            }
-
-            return 1;
-        }
-
-        /// <summary>
-        /// Adds a propensity to the Agent's profile for decision making
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="value"></param>
-        public void AddPropensity(string type, double value)
-        {
-            Propensities[type] = value;
-        }
-        #endregion
-
     }
 }

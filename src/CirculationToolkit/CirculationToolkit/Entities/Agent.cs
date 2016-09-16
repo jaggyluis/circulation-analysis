@@ -1,4 +1,5 @@
 ﻿using CirculationToolkit.Util;
+using CirculationToolkit.Profiles;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
@@ -400,7 +401,7 @@ namespace CirculationToolkit.Entities
 
             for (int i=goalNodes.Count-1; i>=0; i--)
             {
-                if (Visited.Contains(goalNodes[i]) || !Propensities.Keys.Contains(goalNodes[i].Name))
+                if (Visited.Contains(goalNodes[i]))
                 {
                     goalNodes.RemoveAt(i);
                 }
@@ -535,18 +536,84 @@ namespace CirculationToolkit.Entities
             int j = age;
 
             while (i < path.Count)
-            {
-                int count = Floor.GetOccupancy(path[i], j);
+            {            
+                if (1 < i  && i < path.Count-1)
+                {                 
+                    int lastCount = Floor.GetOccupancy(path[i - 1], j-1);
+                    int nextCount = Floor.GetOccupancy(path[i], j);
 
-                if (count > maxCount && i > 1)
-                {
-                    i--;
+                    if (nextCount > maxCount &&
+                        lastCount <= maxCount)
+                    {
+                        i--;
+                    }
+                    else if (nextCount >= 4*maxCount)
+                    {
+                        i--;
+                    }
                 }
 
                 shiftedPath.Add(path[i]);
 
                 i++;
                 j++;
+            }
+
+            return shiftedPath;
+        }
+
+        private List<int> Flow(List<int> path, int age)
+        {
+            /// Pedestrian Traffic flow equation : f = s/a where
+            /// f = volume in pedestrians per width per minute
+            /// s = average pedestrian speed in meters per min. Average is 1.26
+            /// a = average area per pedestrian in square meters. Average is 2.32
+
+            List<int> shiftedPath = new List<int>();
+            
+            double speed = (Floor.GridSize / 1);
+            double area = Math.Pow(Floor.GridSize, 2);
+
+            int i = 0;
+
+            while (i < path.Count)
+            {
+                if (1 < i && i < path.Count -1 )
+                {
+                    int j = 0;   
+                                           
+                    while (j < speed)
+                    {
+                        shiftedPath.Add(path[i]);
+                        age++;
+                        j++;
+
+                        /*
+                        if (j == speed - 1 )
+                        {
+                            int lastCount = Floor.GetOccupancy(path[i - 1], age - 1);
+                            int nextCount = Floor.GetOccupancy(path[i], age);
+
+                            if (nextCount > maxCount &&
+                                lastCount <= maxCount)
+                            {
+                                j--;
+                            }
+                            else if (nextCount >= 2 * maxCount)
+                            {
+                                j--;
+                            }
+                        }
+                        */                      
+                    }                  
+                }
+                else
+                {
+                    shiftedPath.Add(path[i]);
+                    age++;
+                }
+
+                i++;
             }
 
             return shiftedPath;
@@ -565,6 +632,7 @@ namespace CirculationToolkit.Entities
             if (State != "waiting")
             {
                 path = Shift(path, Age);
+                //path = Flow(path, Age);
             }            
 
             path.Reverse();
@@ -606,6 +674,7 @@ namespace CirculationToolkit.Entities
                     }
                     else
                     {
+                        Visited.Add(Current);
                         Last = Current;
                         Current = Next;
 

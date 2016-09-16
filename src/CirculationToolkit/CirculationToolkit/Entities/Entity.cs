@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using CirculationToolkit.Util;
+using CirculationToolkit.Profiles;
 using Rhino.Geometry;
 
 namespace CirculationToolkit.Entities
@@ -16,12 +16,16 @@ namespace CirculationToolkit.Entities
         private Profile _profile;
         private Dictionary<int, Point3d> _positions;
 
+        #region constructors
         /// <summary>
-        /// Entity Constructor that handles Null Entities
+        /// Entitiy Constructor
         /// </summary>
-        public Entity()
+        /// <param name="profile"></param>
+        /// <param name="positions"></param>
+        public Entity(Profile profile, Dictionary<int, Point3d> positions)
         {
-            // Null constructor for GUI
+            _profile = profile;
+            _positions = positions;
         }
 
         /// <summary>
@@ -29,9 +33,15 @@ namespace CirculationToolkit.Entities
         /// </summary>
         /// <param name="profile"></param>
         public Entity(Profile profile)
+            : this (profile, new Dictionary<int, Point3d>())
         {
-            Profile = profile;
-            Positions = new Dictionary<int, Point3d>();
+        }
+
+        /// <summary>
+        /// Entity Constructor that handles Null Entities
+        /// </summary>
+        public Entity()
+        {
         }
 
         /// <summary>
@@ -42,6 +52,7 @@ namespace CirculationToolkit.Entities
         {
             return Profile != null ? new Entity(Profile) : new Entity(); 
         }
+        #endregion
 
         #region properties
         /// <summary>

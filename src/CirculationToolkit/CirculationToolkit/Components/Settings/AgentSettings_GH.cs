@@ -3,21 +3,18 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using CirculationToolkit.Profiles;
-using CirculationToolkit.Entities;
-using Grasshopper.Kernel.Types;
 
-namespace CirculationToolkit.Components
+namespace CirculationToolkit.Components.Settings
 {
-    public class Template_GH : GH_Component
+    public class AgentSettings_GH : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the Template_GH class.
+        /// Initializes a new instance of the AgentSettings_GH class.
         /// </summary>
-        public Template_GH()
-          : base("Template", "Template",
-              "A Template for Node Entity graph direction",
-              "Circulation", "Entities")
+        public AgentSettings_GH()
+          : base("Agent Settings", "Agent Settings",
+              "Settings for the Agent Entities",
+              "Circulation", "Settings")
         {
         }
 
@@ -26,10 +23,15 @@ namespace CirculationToolkit.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddCurveParameter("Lines", "L", "A collection of lines describing connections between nodes", GH_ParamAccess.list);
-            pManager.AddBooleanParameter("Directed", "D", "Optional directed graph toggle. Default is False", GH_ParamAccess.item);
+            pManager.AddTextParameter("Path Nodes", "N", "The name of the Nodes to mvoe to", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Node Propensities", "P", "The likelyhood of an Agent to visit this node", GH_ParamAccess.list);
+            pManager.AddIntervalParameter("Distribution", "D", "the amount of time these agents take to start", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Count", "C", "The number of Agents to generate. The default is 1", GH_ParamAccess.item);
 
+            pManager[0].Optional = true;
             pManager[1].Optional = true;
+            pManager[2].Optional = true;
+            pManager[3].Optional = true;
         }
 
         /// <summary>
@@ -37,7 +39,6 @@ namespace CirculationToolkit.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.RegisterParam(new Entity_Param(), "Template", "T", "Template Entity");
         }
 
         /// <summary>
@@ -46,26 +47,20 @@ namespace CirculationToolkit.Components
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            List<Curve> lines = new List<Curve>();
-            List<Tuple<Point3d, Point3d>> edges = new List<Tuple<Point3d, Point3d>>();
-            bool directed = false;
+            List<string> nodes = new List<string>();
+            List<double> propensities = new List<double>();
+            Interval ival = default(Interval);
+            int count = 1;
 
-            DA.GetDataList(0, lines);
-            DA.GetData(1, ref directed);
+            if (!DA.GetDataList(0, nodes) && !DA.GetDataList(1, propensities)) { return; }
+            if (nodes.Count != propensities.Count) { return; } // for now
 
-            foreach(Curve line in lines)
-            {
-                Point3d spt = line.PointAtStart;
-                Point3d ept = line.PointAtEnd;
+            if (!DA.GetData(2, ref ival)) {  }
+            if (!DA.GetData(3, ref count)) {  }
 
-                edges.Add(new Tuple<Point3d, Point3d>(spt, ept));
-            }
 
-            Profile profile = new Profile("template");
-            profile.SetAttribute("directed", directed.ToString());
-            Template template = new Template(profile, edges);
 
-            DA.SetData(0, template);
+
         }
 
         /// <summary>
@@ -86,7 +81,7 @@ namespace CirculationToolkit.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("{00267260-3b60-4c27-bbc7-820f0ec8bf1c}"); }
+            get { return new Guid("{5e0fad35-6a66-4298-8acf-832923cb0fa3}"); }
         }
     }
 }

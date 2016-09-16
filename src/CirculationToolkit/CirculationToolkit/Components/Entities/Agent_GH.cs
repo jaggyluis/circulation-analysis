@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using CirculationToolkit.Util;
+using CirculationToolkit.Profiles;
 using CirculationToolkit.Entities;
 
 namespace CirculationToolkit.Components
@@ -28,7 +28,7 @@ namespace CirculationToolkit.Components
             pManager.AddTextParameter("Name", "N", "The name of this Agent", GH_ParamAccess.item);
             pManager.AddTextParameter("Origin", "O", "The name of the Origin Node this Agent is on", GH_ParamAccess.item);
             pManager.AddTextParameter("Destination", "D", "The name of this Agent's Destination Node", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Count", "C", "Optional number of Agents to create", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Settings", "S", "Optional Agent Entity Settings", GH_ParamAccess.item);
 
             pManager[3].Optional = true;
         }

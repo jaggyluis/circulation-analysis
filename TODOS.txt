@@ -21,3 +21,4 @@ X do not default to original choice when capacity is met
 
 Environment
 - getter and setter methods should be generalized to entity rather than type
+- write all warning messages
