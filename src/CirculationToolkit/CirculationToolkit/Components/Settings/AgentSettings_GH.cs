@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
+using CirculationToolkit.Profiles;
+
 namespace CirculationToolkit.Components.Settings
 {
     public class AgentSettings_GH : GH_Component
@@ -12,7 +14,7 @@ namespace CirculationToolkit.Components.Settings
         /// Initializes a new instance of the AgentSettings_GH class.
         /// </summary>
         public AgentSettings_GH()
-          : base("Agent Settings", "Agent Settings",
+          : base("Agent Settings", "Settings",
               "Settings for the Agent Entities",
               "Circulation", "Settings")
         {
@@ -23,9 +25,9 @@ namespace CirculationToolkit.Components.Settings
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("Path Nodes", "N", "The name of the Nodes to mvoe to", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Node Propensities", "P", "The likelyhood of an Agent to visit this node", GH_ParamAccess.list);
-            pManager.AddIntervalParameter("Distribution", "D", "the amount of time these agents take to start", GH_ParamAccess.item);
+            pManager.AddTextParameter("Path Nodes", "N", "The name of the Nodes to move to", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Node Propensities", "P", "The likelyhood of an Agent to visit this node (0 to 1)", GH_ParamAccess.list);
+            pManager.AddIntervalParameter("Distribution", "D", "The Agent Entity spawning distribution", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Count", "C", "The number of Agents to generate. The default is 1", GH_ParamAccess.item);
 
             pManager[0].Optional = true;
@@ -39,6 +41,7 @@ namespace CirculationToolkit.Components.Settings
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
+            pManager.RegisterParam(new Settings_Param(), "Settings", "S", "Agent Settings", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -48,19 +51,45 @@ namespace CirculationToolkit.Components.Settings
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             List<string> nodes = new List<string>();
-            List<double> propensities = new List<double>();
-            Interval ival = default(Interval);
+            List<double> values = new List<double>();
+            Interval ival = new Interval(0,10);
             int count = 1;
 
-            if (!DA.GetDataList(0, nodes) && !DA.GetDataList(1, propensities)) { return; }
-            if (nodes.Count != propensities.Count) { return; } // for now
-
+            if (!DA.GetDataList(0, nodes)) { return; }
+            if (!DA.GetDataList(1, values)) { values.Add(1); }
             if (!DA.GetData(2, ref ival)) {  }
             if (!DA.GetData(3, ref count)) {  }
 
+            nodes.Reverse();
+            values.Reverse();
 
+            Stack<string> nodeStack = new Stack<string>(nodes);
+            Stack<double> valueStack = new Stack<double>(values);
 
+            Tuple<int, int> distribution = new Tuple<int, int>((int)ival.T0, (int)ival.T1);
+            Dictionary<string, double> propensities = new Dictionary<string, double>();
+            Dictionary<string, string> attributes = new Dictionary<string, string>(); // this could be added to later
 
+            while (nodeStack.Count > 0)
+            {
+                string node = nodeStack.Pop();
+                double value;
+
+                if (valueStack.Count > 1)
+                {
+                    value = valueStack.Pop();
+                }
+                else
+                {
+                    value = valueStack.Peek();
+                }
+
+                propensities[node] = value;    
+            }
+
+            AgentProfile profile = new AgentProfile(null, attributes, propensities, distribution, count);
+
+            DA.SetData(0, profile);
         }
 
         /// <summary>

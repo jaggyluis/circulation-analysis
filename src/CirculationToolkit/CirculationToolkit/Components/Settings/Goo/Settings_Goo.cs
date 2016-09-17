@@ -1,4 +1,5 @@
 ﻿using CirculationToolkit.Environment;
+using CirculationToolkit.Profiles;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
@@ -9,20 +10,20 @@ using System.Text;
 
 namespace CirculationToolkit.Components
 {
-    class Env_Goo : GH_Goo<SimulationEnvironment>, IGH_PreviewData
+    class Settings_Goo : GH_Goo<Profile>, IGH_PreviewData
     {
         #region constructors
-        public Env_Goo()
+        public Settings_Goo()
         {
-            Value = new SimulationEnvironment();
+            Value = new Profile();
         }
-        public Env_Goo(SimulationEnvironment environment)
+        public Settings_Goo(Profile profile)
         {
-            if (environment == null)
+            if (profile == null)
             {
-                environment = new SimulationEnvironment();
+                profile = new Profile();
             }
-            Value = environment;
+            Value = profile;
         }
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace CirculationToolkit.Components
         {
             if (Value == null)
             {
-                return "Null Environment";
+                return "Null Profile";
             }
             else
             {
@@ -79,7 +80,7 @@ namespace CirculationToolkit.Components
         {
             get
             {
-                return ("Defines an Environment for Circulation Simulation");
+                return ("Defines an Agent Settings for more control of Agent behavior");
             }
         }
 
@@ -90,7 +91,7 @@ namespace CirculationToolkit.Components
         {
             get
             {
-                return ("Environment");
+                return ("Settings");
             }
         }
         #endregion
@@ -101,7 +102,7 @@ namespace CirculationToolkit.Components
         /// </summary>
         public bool CastTo<Q>(out Q target)
         {
-            if (typeof(Q).IsAssignableFrom(typeof(SimulationEnvironment)))
+            if (typeof(Q).IsAssignableFrom(typeof(Profile)))
             {
                 if (Value == null)
                 {
@@ -124,9 +125,9 @@ namespace CirculationToolkit.Components
             {
                 return false;
             }
-            if (typeof(SimulationEnvironment).IsAssignableFrom(source.GetType()))
+            if (typeof(Profile).IsAssignableFrom(source.GetType()))
             {
-                Value = (SimulationEnvironment)source;
+                Value = (Profile)source;
                 return true;
             }
 
@@ -157,7 +158,7 @@ namespace CirculationToolkit.Components
         /// <returns></returns>
         public override IGH_Goo Duplicate()
         {
-            return new Env_Goo(Value == null ? new SimulationEnvironment() : Value.Duplicate());
+            return new Settings_Goo(Value == null ? new Profile() : Value.Duplicate());
         }
         #endregion
     }

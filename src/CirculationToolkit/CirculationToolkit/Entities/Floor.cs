@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using CirculationToolkit.Util;
+using CirculationToolkit.Graph;
+using CirculationToolkit.Geometry;
 using CirculationToolkit.Profiles;
 using Rhino.Geometry;
 
@@ -21,22 +22,36 @@ namespace CirculationToolkit.Entities
         private List<Point3d> _grid;
         private double _gridSize;
         private FloorGraph<int> _floorGraph;
-        private Dictionary<Tuple<double, double>, int> _coordinates;            
+        private Dictionary<Tuple<double, double>, int> _coordinates;
+
+        #region constructors
+        /// <summary>
+        /// Floor Entity constructor
+        /// </summary>
+        /// <param name="profile"></param>
+        /// <param name="geometry"></param>
+        /// <param name="coordinates"></param>
+        /// <param name="grid"></param>
+        private Floor(Profile profile, Curve geometry, Dictionary<Tuple<double, double>, int> coordinates, List<Point3d> grid)
+            : base (profile)
+        {
+            _geometry = geometry;
+            _coordinates = coordinates;
+            _grid = grid;
+            _bounds = new Bounds2d(geometry);
+
+            Position = Bounds.Origin;
+        }
 
         /// <summary>
-        /// Floor Entity Constructor that takes a FloorProfile and a Geometry curve
+        /// Floor Entity constructor that takes a FloorProfile and a Geometry curve
         /// representing the edge of the floor
         /// </summary>
         /// <param name="profile"></param>
         /// <param name="geometry"></param>
         public Floor(Profile profile, Curve geometry)
-            : base(profile)
+            : this (profile, geometry, new Dictionary<Tuple<double, double>, int>(), new List<Point3d>())
         {
-            Geometry = geometry;
-            Coordinates = new Dictionary<Tuple<double,double>, int>();
-            Grid = new List<Point3d>();
-            Bounds = new Bounds2d(Geometry);
-            Position = Bounds.Origin;
         }
 
         /// <summary>
@@ -45,18 +60,15 @@ namespace CirculationToolkit.Entities
         /// <returns></returns>
         public override Entity Duplicate()
         {
-            Floor duplicate = new Floor(Profile, Geometry);
+            Floor floor = new Floor(Profile, Geometry, Coordinates, Grid);
 
-            duplicate.Geometry = Geometry;
-            duplicate.Bounds = Bounds;
-            duplicate.Mesh = Mesh;
-            duplicate.Grid = Grid;
-            duplicate.GridSize = GridSize;
-            duplicate.FloorGraph = FloorGraph;
-            duplicate.Coordinates = Coordinates;
+            floor.Mesh = Mesh;
+            floor.GridSize = GridSize;
+            floor.FloorGraph = FloorGraph;
 
-            return duplicate;
+            return floor;
         }
+        #endregion
 
         #region properties
         /// <summary>
@@ -419,7 +431,6 @@ namespace CirculationToolkit.Entities
                 return null;
             }
         }
-
         #endregion
 
         #region tests
@@ -499,7 +510,7 @@ namespace CirculationToolkit.Entities
         /// This should be upadated to use a quad-tree
         /// </summary>
         /// <param name="barrier"></param>
-        public void AddBarrierMap(Barrier barrier)
+        public void _AddBarrierMap(Barrier barrier)
         {
             List<Point3d> points = barrier.Geometry.DivideEquidistant(GridSize).ToList();
 
@@ -535,6 +546,21 @@ namespace CirculationToolkit.Entities
                 }
             }          
         }
+
+        /// <summary>
+        /// Temporary quick fix
+        /// </summary>
+        /// <param name="barrier"></param>
+        public void AddBarrierMap(Barrier barrier)
+        {
+            for (var i = 0; i < Grid.Count; i++)
+            {
+                if (barrier.Geometry.Contains(Grid[i]) == PointContainment.Inside)
+                {
+                    FloorGraph.AddBarrierMapNodeValue(i, double.MaxValue);
+                }
+            }
+        } 
 
         /// <summary>
         /// Adds Occupancy at specific generations

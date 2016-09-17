@@ -29,7 +29,7 @@ namespace CirculationToolkit.Components
             pManager.AddPointParameter("Position", "P", "The position of this Node", GH_ParamAccess.item);
             pManager.AddTextParameter("Name", "N", "The name of this Node", GH_ParamAccess.item);
             pManager.AddTextParameter("Floor", "F", "The name of the Floor this Node is on", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Capacity", "C", "The maximum Agent count at this Node", GH_ParamAccess.item);
+            pManager.AddParameter(new Settings_Param(), "Settings", "S", " Optional Node Settings", GH_ParamAccess.item);
 
             pManager[3].Optional = true;
         }
@@ -51,18 +51,24 @@ namespace CirculationToolkit.Components
             Point3d position = new Point3d();
             string name = null;
             string floorName = null;
-            int? capacity = null;
+            Settings_Goo settings = null;
+            NodeProfile profile;
 
-            DA.GetData(0, ref position);
-            DA.GetData(1, ref name);
-            DA.GetData(2, ref floorName);
-            DA.GetData(3, ref capacity);
+            if (!DA.GetData(0, ref position)) { return; }
+            if (!DA.GetData(1, ref name)) { return; }
+            if (!DA.GetData(2, ref floorName)) { return; }
+            if (!DA.GetData(3, ref settings)) { }
 
-            Profile profile = new Profile("node", name);
-            if (capacity != null)
+            if (settings == null)
             {
-                profile.SetAttribute("capacity", capacity.ToString());
+                profile = new NodeProfile(name);
             }
+            else
+            {
+                profile = (NodeProfile)settings.Value;
+                profile.Name = name;
+            }
+
             profile.SetAttribute("floor", floorName);
 
             Node node = new Node(profile, position);

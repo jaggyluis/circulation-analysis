@@ -28,7 +28,7 @@ namespace CirculationToolkit.Components
             pManager.AddTextParameter("Name", "N", "The name of this Agent", GH_ParamAccess.item);
             pManager.AddTextParameter("Origin", "O", "The name of the Origin Node this Agent is on", GH_ParamAccess.item);
             pManager.AddTextParameter("Destination", "D", "The name of this Agent's Destination Node", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Settings", "S", "Optional Agent Entity Settings", GH_ParamAccess.item);
+            pManager.AddParameter(new Settings_Param(), "Settings", "S", " Optional Agent Settings", GH_ParamAccess.item);
 
             pManager[3].Optional = true;
         }
@@ -50,20 +50,31 @@ namespace CirculationToolkit.Components
             string name = null;
             string origin = null;
             string destination = null;
-            int count = 1;
+            Settings_Goo settings = null;
+            AgentProfile profile;
 
             if (!DA.GetData(0, ref name)) { return; }
             if (!DA.GetData(1, ref origin)) { return; }
             if (!DA.GetData(2, ref destination)) { return; }
-            if (!DA.GetData(3, ref count)) { count = 1; }
+            if (!DA.GetData(3, ref settings)) { }
 
-            AgentProfile profile = new AgentProfile(name);
+            if (settings == null)
+            {
+                profile = new AgentProfile(name);
+                profile.Count = 1;
+            }
+            else
+            {
+                profile = (AgentProfile) settings.Value;
+                profile.Name = name;
+            }
+            
             profile.SetAttribute("origin", origin);
             profile.SetAttribute("destination", destination);
 
             List<Entity> agentlist = new List<Entity>();
 
-            for (int i=0; i<count; i++)
+            for (int i=0; i<profile.Count; i++)
             {
                 Agent agent = new Agent(profile);
                 agentlist.Add(agent);

@@ -1,24 +1,34 @@
-
-X fix points not on mesh
-- finish recursive search for points not on mesh
-
-- freezes when agent does not have a node type that it is on
-- what happens if a path is not possible?
-
+ 
 X all entities should have an environment variable
 X components need an internalized "name"
 X barriers should be recogized with resolution too small
 X agents need a floor property
 X fix bound on density maps for output
-- nodes need wait times
+X nodes need wait times
 X bidirectional template
 X lost agents in void
 X do not default to original choice when capacity is met
 
-- implement time remainder on agents
-
 ------------------------------------------- c# versioning changes
+
+X fix all constructors
+
+Agent
+- freezes when agent does not have a node type that it is on
+- what happens if a path is not possible?
 
 Environment
 - getter and setter methods should be generalized to entity rather than type
 - write all warning messages
+- implement simulation distribution - environment settings?
+
+Node
+- finish recursive search for points not on mesh
+- node zones
+
+Analysis
+- zone density per generation / total
+- maybe remove zones from search similar to barriers?
+
+Optimization:
+- can shortest path be precalculated?

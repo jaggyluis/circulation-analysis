@@ -15,6 +15,7 @@ namespace CirculationToolkit.Entities
     {
         private List<Tuple<Point3d, Point3d>> _edges;
 
+        #region constructors
         /// <summary>
         /// Template Entity Constructor that takes a TemplateProfile and a list of
         /// edges as Tuples of Point3ds
@@ -24,7 +25,7 @@ namespace CirculationToolkit.Entities
         public Template(Profile profile, List<Tuple<Point3d, Point3d>> edges)
             : base(profile)
         {
-            Edges = edges;
+            _edges = edges;
         }
 
         /// <summary>
@@ -33,10 +34,9 @@ namespace CirculationToolkit.Entities
         /// <returns></returns>
         public override Entity Duplicate()
         {
-            Template duplicate = new Template(Profile, Edges);
-
-            return duplicate;
+            return new Template(Profile, Edges); ;
         }
+        #endregion
 
         #region properties
         /// <summary>

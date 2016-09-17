@@ -12,7 +12,6 @@ namespace CirculationToolkit.Profiles
     public class AgentProfile : Profile
     {
         private Dictionary<string, double> _propensities;
-        private List<string> _nodes;
         private Tuple<int, int> _distribution;
         private int _count;
 
@@ -21,17 +20,21 @@ namespace CirculationToolkit.Profiles
         /// AgentProfile Constructors for Agent Entities that 
         /// extend the Profile class with Agent methods
         /// </summary>
-        public AgentProfile(string name, Dictionary<string, double> propensities, List<string> nodes, Tuple<int, int> distribution, int count)
-            : base("agent", name)
+        public AgentProfile(string name, Dictionary<string, string> attributes, Dictionary<string, double> propensities, Tuple<int, int> distribution, int count)
+            : base("agent", name, attributes)
         {
             _propensities = propensities;
-            _nodes = nodes;
             _distribution = distribution;
             _count = count;
         }
 
+        /// <summary>
+        /// AgentProfile Constructors for Agent Entities that 
+        /// extend the Profile class with Agent methods
+        /// </summary>
+        /// <param name="name"></param>
         public AgentProfile(string name)
-            : this(name, new Dictionary<string, double>(), new List<string>(), new Tuple<int, int>(0, 10), 1)
+            : this(name, new Dictionary<string, string>(),  new Dictionary<string, double>(), new Tuple<int, int>(0, 10), 1)
         {
         }
         #endregion
@@ -54,21 +57,6 @@ namespace CirculationToolkit.Profiles
         }
 
         /// <summary>
-        /// Returns the list of all portals to visit
-        /// </summary>
-        public List<string> Nodes
-        {
-            get
-            {
-                return _nodes;
-            }
-            set
-            {
-                _nodes = value;
-            }
-        }
-
-        /// <summary>
         /// Accessor for the amount of agents of this type to create
         /// </summary>
         public int Count
@@ -80,6 +68,17 @@ namespace CirculationToolkit.Profiles
             set
             {
                 _count = value;
+            }
+        }
+
+        /// <summary>
+        /// Returns the distribution for this Agent initialization
+        /// </summary>
+        public Tuple<int,int> Distribution
+        {
+            get
+            {
+                return _distribution;
             }
         }
         #endregion
@@ -97,7 +96,7 @@ namespace CirculationToolkit.Profiles
                 return Propensities[type];
             }
 
-            return 1;
+            return 0;
         }
 
         /// <summary>
@@ -108,18 +107,6 @@ namespace CirculationToolkit.Profiles
         public void AddPropensity(string type, double value)
         {
             Propensities[type] = value;
-        }
-
-        /// <summary>
-        /// Adds a portal to the list of 
-        /// </summary>
-        /// <param name="portal"></param>
-        public void AddNode(string name)
-        {
-            if (!Nodes.Contains(name))
-            {
-                Nodes.Add(name);
-            }
         }
         #endregion
 

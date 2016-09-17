@@ -17,7 +17,7 @@ namespace CirculationToolkit.Profiles
 
         #region constructors
         /// <summary>
-        /// Profile Constructors
+        /// Profile Constructor
         /// </summary>
         /// <param name="type"></param>
         public Profile(string type, string name, Dictionary<string, string> attributes)
@@ -27,14 +27,40 @@ namespace CirculationToolkit.Profiles
             _attributes = new Dictionary<string, string>();
         }
 
+        /// <summary>
+        /// Profile Constructor
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="name"></param>
         public Profile(string type, string name)
             : this (type, name, new Dictionary<string, string>())
         {
         }
 
+        /// <summary>
+        /// Profile Constructor
+        /// </summary>
+        /// <param name="type"></param>
         public Profile(string type)
             : this (type, null, new Dictionary<string, string>())
         {
+        }
+
+        /// <summary>
+        /// Null Profile Constructor for GUI
+        /// </summary>
+        public Profile()
+            : this (null, null, new Dictionary<string, string>())
+        {
+        }
+
+        /// <summary>
+        /// Duplicate this Profile
+        /// </summary>
+        /// <returns></returns>
+        public Profile Duplicate()
+        {
+            return new Profile(Name, Type, Attributes);
         }
         #endregion
 

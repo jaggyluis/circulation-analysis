@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using CirculationToolkit.Util;
+using CirculationToolkit.Geometry;
 using CirculationToolkit.Profiles;
 using Rhino.Geometry;
 
@@ -18,6 +18,7 @@ namespace CirculationToolkit.Entities
         private Curve _geometry;
         private Bounds2d _bounds;
 
+        #region constructors
         /// <summary>
         /// Barrier Entity Constructor that takes a Barrier Profile and a Curve
         /// representing the edge of the Barrier
@@ -27,8 +28,8 @@ namespace CirculationToolkit.Entities
         public Barrier(Profile profile, Curve geometry)
             : base (profile)
         { 
-            Geometry = geometry;
-            Bounds = new Bounds2d(Geometry);
+            _geometry = geometry;
+            _bounds = new Bounds2d(Geometry);
         }
 
         /// <summary>
@@ -37,10 +38,9 @@ namespace CirculationToolkit.Entities
         /// <returns></returns>
         public override Entity Duplicate()
         {
-            Barrier duplicate = new Barrier(Profile, Geometry);
-
-            return duplicate;
+            return new Barrier(Profile, Geometry);
         }
+        #endregion
 
         #region properties
         /// <summary>

@@ -1,12 +1,13 @@
 ﻿using CirculationToolkit.Entities;
-using CirculationToolkit.Util;
+using CirculationToolkit.Graph;
+using CirculationToolkit.Profiles;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CirculationToolkit
+namespace CirculationToolkit.Environment
 {
     public class SimulationEnvironment
     {
@@ -355,7 +356,7 @@ namespace CirculationToolkit
         {
             if (toNode.Floor == fromNode.Floor)
             {
-                Floor floor = GetFloor(toNode.Floor);
+                Floor floor = toNode.Floor;
 
                 if (floor != null)
                 {
@@ -415,7 +416,9 @@ namespace CirculationToolkit
         {
             foreach (Node node in Nodes)
             {
-                Floor floor = GetFloor(node.Floor);
+                Floor floor = GetFloor(node.GetAttribute("floor"));
+
+                node.Init(floor);
 
                 if (floor != null && floor.ContainsPoint(node.Position))
                 {
@@ -427,7 +430,14 @@ namespace CirculationToolkit
                             floor.FloorGraph.Dijsktra((int)nodeGridIndex, (int)nodeGridIndex).Item2;
 
                         SetNodeShortestPaths(node, paths);
-                    }    
+                    }
+
+                    if (node.Geometry != null)
+                    {
+                        Barrier barrier = new Barrier(new Profile("barrier"), node.Geometry);
+
+                        floor.AddBarrierMap(barrier);
+                    }
                 }
             }
         }

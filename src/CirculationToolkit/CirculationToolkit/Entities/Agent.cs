@@ -1,4 +1,4 @@
-﻿using CirculationToolkit.Util;
+﻿using CirculationToolkit.Environment;
 using CirculationToolkit.Profiles;
 using Rhino.Geometry;
 using System;
@@ -29,32 +29,41 @@ namespace CirculationToolkit.Entities
         private Node _curr;
         private Node _next;
 
+        #region constructors
+        /// <summary>
+        /// Agent Entity constructor
+        /// </summary>
+        /// <param name="profile"></param>
         public Agent(AgentProfile profile)
             : base (profile)
         {
         }
 
+        /// <summary>
+        /// Duplicate this Agent Entity
+        /// </summary>
+        /// <returns></returns>
         public override Entity Duplicate()
         {
-            Agent duplicate = new Agent((AgentProfile)Profile);
+            Agent agent = new Agent((AgentProfile)Profile);
 
-            duplicate.Paths = Paths;
-            duplicate.Visited = Visited;
+            agent.Paths = Paths;
+            agent.Visited = Visited;
 
-            duplicate.Age = Age;
-            duplicate._states = _states;
-            duplicate.IsActive = IsActive;
-            duplicate.IsComplete = IsComplete;
+            agent.Age = Age;
+            agent._states = _states;
+            agent.IsActive = IsActive;
+            agent.IsComplete = IsComplete;
 
-            duplicate.Stack = Stack;
+            agent.Stack = Stack;
 
-            duplicate.Last = Last;
-            duplicate.Current = Current;
-            duplicate.Next = Next;
+            agent.Last = Last;
+            agent.Current = Current;
+            agent.Next = Next;
 
-
-            return duplicate;
+            return agent;
         }
+        #endregion
 
         #region properties
         /// <summary>
@@ -66,10 +75,6 @@ namespace CirculationToolkit.Entities
             get
             {
                 return _environment;
-            }
-            set
-            {
-                _environment = value;
             }
         }
 
@@ -163,7 +168,7 @@ namespace CirculationToolkit.Entities
         {
             get
             {
-                return Environment.GetFloor(Current.Floor);
+                return Current.Floor;
             }
         }
 
@@ -358,6 +363,24 @@ namespace CirculationToolkit.Entities
         {
             _isComplete = !_isComplete;
         }
+
+        /// <summary>
+        /// Sets a string to the log
+        /// </summary>
+        /// <param name="logInfo"></param>
+        public void Log(string logInfo)
+        {
+            _log.Add(logInfo);
+        }
+
+        /// <summary>
+        /// Returns the Agent log
+        /// </summary>
+        /// <returns></returns>
+        public List<string> Log()
+        {
+            return _log;
+        }
         #endregion
 
         #region step methods
@@ -368,17 +391,23 @@ namespace CirculationToolkit.Entities
         /// <returns></returns>
         private Tuple<Node, List<int>> Wait(Node position)
         {
-            //
-            // waiting distribution needs to be implemeted
-            //
-
             List<int> path = new List<int>();
             Random random = new Random(Guid.NewGuid().GetHashCode());
+            double waitTime;
 
-            double waitTime = random.Next(1, 10);
-
-            Log("waiting " + waitTime.ToString());
-
+            if (GetLastState() == "init")
+            {
+                AgentProfile profile = (AgentProfile)Profile;
+                waitTime = random.Next(profile.Distribution.Item1, profile.Distribution.Item2);
+                Log("initializing " + waitTime.ToString());
+            }
+            else 
+            {
+                NodeProfile profile = (NodeProfile)position.Profile;
+                waitTime = random.Next(profile.Distribution.Item1, profile.Distribution.Item2);
+                Log("waiting " + waitTime.ToString());
+            }
+         
             for (int i=0; i<waitTime; i++)
             {
                 path.Add((int)GridIndex);
@@ -413,7 +442,10 @@ namespace CirculationToolkit.Entities
                 
                 for (int i = goalNodes.Count - 1; i >= 0; i--)
                 {
-                    if (random.NextDouble() > GetPropensity(goalNodes[i].Name))
+                    double rand = random.NextDouble();
+                    double prop = GetPropensity(goalNodes[i].Name);
+
+                    if (rand > prop)
                     {
                         goalNodes.RemoveAt(i);
                     }
@@ -439,12 +471,10 @@ namespace CirculationToolkit.Entities
                     {
                         goal = goalNodesStack.Pop();
 
-                        //int goalPopulation = goal.Population;
-
-                        int goalPopulation = 0;
+                        int goalCount = goal.Count(10); // arbitrary
                         int goalCapacity = goal.Capacity;
 
-                        if (goalPopulation < goalCapacity)
+                        if (goalCount < goalCapacity)
                         {
                             break;
                         }
@@ -464,6 +494,8 @@ namespace CirculationToolkit.Entities
                 else
                 {
                     goal = Destination;
+
+                    ToggleComplete();
                 }
             }
             else
@@ -482,33 +514,17 @@ namespace CirculationToolkit.Entities
 
         #region main methods
         /// <summary>
-        /// Sets a string to the log
-        /// </summary>
-        /// <param name="logInfo"></param>
-        public void Log(string logInfo)
-        {
-            _log.Add(logInfo);
-        }
-
-        /// <summary>
-        /// Returns the Agent log
-        /// </summary>
-        /// <returns></returns>
-        public List<string> Log()
-        {
-            return _log;
-        }
-        /// <summary>
         /// Initialize this Agent on the Environment
         /// </summary>
         public void Init(SimulationEnvironment environment)
         {
-            Environment = environment;
-            
-            Paths = new List<List<int>>();
-            Visited = new List<Node>();
+            _environment = environment;           
+            _paths = new List<List<int>>();
+            _visited = new List<Node>();
             _states = new List<string>();
             _log = new List<string>();
+
+            State = "init";
 
             Visited.Add(Origin);
             Position = Origin.Position;
@@ -536,84 +552,37 @@ namespace CirculationToolkit.Entities
             int j = age;
 
             while (i < path.Count)
-            {            
-                if (1 < i  && i < path.Count-1)
-                {                 
-                    int lastCount = Floor.GetOccupancy(path[i - 1], j-1);
-                    int nextCount = Floor.GetOccupancy(path[i], j);
+            {
+                shiftedPath.Add(path[i]);
 
-                    if (nextCount > maxCount &&
-                        lastCount <= maxCount)
+                if (1 < i  && i < path.Count - 1)
+                {                 
+                    int currCount = Floor.GetOccupancy(path[i], j);
+                    int nextCount = Floor.GetOccupancy(path[i+1], j+1);
+
+                    if (nextCount >= maxCount &&
+                        currCount < maxCount)
                     {
                         i--;
                     }
-                    else if (nextCount >= 4*maxCount)
+                    else if (nextCount >= 2*maxCount)
                     {
                         i--;
                     }
                 }
+                else if (i == path.Count - 1 && Next != Destination)
+                {
+                    int nextCount = Next.Count(j+1);
+                    int nextCapacity = Next.Capacity;
 
-                shiftedPath.Add(path[i]);
+                    if (nextCount >= nextCapacity)
+                    {
+                        i--;
+                    }
+                }
 
                 i++;
                 j++;
-            }
-
-            return shiftedPath;
-        }
-
-        private List<int> Flow(List<int> path, int age)
-        {
-            /// Pedestrian Traffic flow equation : f = s/a where
-            /// f = volume in pedestrians per width per minute
-            /// s = average pedestrian speed in meters per min. Average is 1.26
-            /// a = average area per pedestrian in square meters. Average is 2.32
-
-            List<int> shiftedPath = new List<int>();
-            
-            double speed = (Floor.GridSize / 1);
-            double area = Math.Pow(Floor.GridSize, 2);
-
-            int i = 0;
-
-            while (i < path.Count)
-            {
-                if (1 < i && i < path.Count -1 )
-                {
-                    int j = 0;   
-                                           
-                    while (j < speed)
-                    {
-                        shiftedPath.Add(path[i]);
-                        age++;
-                        j++;
-
-                        /*
-                        if (j == speed - 1 )
-                        {
-                            int lastCount = Floor.GetOccupancy(path[i - 1], age - 1);
-                            int nextCount = Floor.GetOccupancy(path[i], age);
-
-                            if (nextCount > maxCount &&
-                                lastCount <= maxCount)
-                            {
-                                j--;
-                            }
-                            else if (nextCount >= 2 * maxCount)
-                            {
-                                j--;
-                            }
-                        }
-                        */                      
-                    }                  
-                }
-                else
-                {
-                    shiftedPath.Add(path[i]);
-                    age++;
-                }
-
-                i++;
             }
 
             return shiftedPath;
@@ -631,8 +600,7 @@ namespace CirculationToolkit.Entities
 
             if (State != "waiting")
             {
-                path = Shift(path, Age);
-                //path = Flow(path, Age);
+                //path = Shift(path, Age);
             }            
 
             path.Reverse();
@@ -657,6 +625,10 @@ namespace CirculationToolkit.Entities
         {
             if (IsActive)
             {
+                if (State == "init")
+                {
+                    SetDirective(Wait(Current));
+                }
                 if (State == "ready")
                 {
                     SetDirective(Move(Current));

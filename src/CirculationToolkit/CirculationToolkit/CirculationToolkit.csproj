@@ -67,6 +67,9 @@
     <Compile Include="Components\Environment\Goo\Env_Goo.cs" />
     <Compile Include="Components\Environment\Param\Env_Param.cs" />
     <Compile Include="Components\Settings\AgentSettings_GH.cs" />
+    <Compile Include="Components\Settings\NodeSettings_GH.cs" />
+    <Compile Include="Components\Settings\Goo\Settings_Goo.cs" />
+    <Compile Include="Components\Settings\Param\Settings_Param.cs" />
     <Compile Include="Entities\Agent.cs" />
     <Compile Include="Entities\Barrier.cs" />
     <Compile Include="Entities\Entity.cs" />
@@ -74,12 +77,16 @@
     <Compile Include="Entities\Floor.cs" />
     <Compile Include="Entities\Node.cs" />
     <Compile Include="Entities\Template.cs" />
+    <Compile Include="Geometry\Interval.cs" />
+    <Compile Include="Graph\FloorGraph.cs" />
+    <Compile Include="Graph\SearchGraph.cs" />
     <Compile Include="Profiles\AgentProfile.cs" />
-    <Compile Include="Util\Environment.cs" />
+    <Compile Include="Environment\Environment.cs" />
+    <Compile Include="Profiles\NodeProfile.cs" />
     <Compile Include="ToolkitInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Util\Bounds.cs" />
-    <Compile Include="Util\Graph.cs" />
+    <Compile Include="Geometry\Bounds.cs" />
+    <Compile Include="Graph\Graph.cs" />
     <Compile Include="Profiles\Profile.cs" />
   </ItemGroup>
   <ItemGroup />

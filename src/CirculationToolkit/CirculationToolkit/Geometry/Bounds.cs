@@ -5,16 +5,16 @@ using System.Text;
 
 using Rhino.Geometry;
 
-namespace CirculationToolkit.Util
+namespace CirculationToolkit.Geometry
 {
     /// <summary>
     /// 2 Dimensional Bounds Class
     /// </summary>
     public class Bounds2d
     {
-
         private Dictionary<string, double> _corners;
 
+        #region constructors
         /// <summary>
         /// Bounds2d Constructor that takes a Curve as geometry
         /// </summary>
@@ -23,7 +23,8 @@ namespace CirculationToolkit.Util
         {
             Polyline pline = null;
             geo.TryGetPolyline(out pline);
-            Corners = GetCorners(pline.ToList());
+
+            _corners = GetCorners(pline.ToList());
         }
         /// <summary>
         /// Bounds2d Constructor that takes a list of Point3ds as geometry
@@ -31,8 +32,9 @@ namespace CirculationToolkit.Util
         /// <param name="points"></param>
         public Bounds2d(List<Point3d> points)
         {
-            Corners = GetCorners(points);
+            _corners = GetCorners(points);
         }
+        #endregion
 
         #region properties
         /// <summary>
@@ -274,121 +276,6 @@ namespace CirculationToolkit.Util
             };
 
             return new Bounds2d(points);
-        }
-        #endregion
-    }
-
-    /// <summary>
-    /// 2 Dimensional Interval Class
-    /// </summary>
-    public class Interval
-    {
-        public double Start;
-        public double End;
-
-        /// <summary>
-        /// Interval Constructor that takes a start number and end number
-        /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        public Interval(double start, double end)
-        {
-            Start = start;
-            End = end;
-        }
-
-        #region properties
-        /// <summary>
-        /// Returns the smaller value of the interval range
-        /// </summary>
-        public double Min
-        {
-            get
-            {
-                return Start <= End ? Start : End;
-            }
-        }
-
-        /// <summary>
-        /// Returns the larger value of the interval range
-        /// </summary>
-        public double Max
-        {
-            get
-            {
-                return Start >= End ? Start : End;
-            }
-        }
-
-        /// <summary>
-        /// Returns thesize of the interval range
-        /// </summary>
-        public double Range
-        {
-            get
-            {
-                return Max - Min;
-            }
-        }
-        #endregion
-
-        #region tests
-        /// <summary>
-        /// Tests number inclusion within the Interval
-        /// </summary>
-        /// <param name="num"></param>
-        /// <returns></returns>
-        public bool Includes(double num)
-        {
-            return Min <= num && num <= Max;
-        }
-
-        /// <summary>
-        /// Tests intersection with another Interval
-        /// </summary>
-        /// <param name="ival"></param>
-        /// <returns></returns>
-        public bool Intersects(Interval ival)
-        {
-            return (Includes(ival.Start) ||
-                Includes(ival.End) ||
-                ival.Includes(Start) ||
-                ival.Includes(End));
-        }
-        #endregion
-
-        #region static methods
-        /// <summary>
-        /// Remaps a number from one Interval to another
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        /// <param name="num"></param>
-        /// <param name="bounded"></param>
-        /// <returns></returns>
-        public static double Remap(Interval source, Interval target, double num, bool bounded=false)
-        {
-            if (source.Range == 0)
-            {
-                return target.Min;
-            }
-            else
-            {
-                double ret = (((num - source.Min) * target.Range) / source.Range) + target.Min;
-
-                if (bounded)
-                {
-                    if (ret > target.Max)
-                    {
-                        return target.Max;
-                    }
-                    else if (ret < target.Min)
-                    {
-                        return target.Min;
-                    }
-                }
-                return ret;
-            }
         }
         #endregion
     }
