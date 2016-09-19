@@ -5,6 +5,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using CirculationToolkit.Entities;
 using CirculationToolkit.Profiles;
+using CirculationToolkit.Geometry;
 
 namespace CirculationToolkit.Components.Analysis
 {
@@ -66,7 +67,7 @@ namespace CirculationToolkit.Components.Analysis
             {
                 List<Node> nodes = envGoo.Value.GetNodes(nodeName);      
 
-                if (nodes.Count != 0)
+                if (nodes.Count > 0)
                 {
                     for (int i=0; i<nodes.Count; i++)
                     {
@@ -74,20 +75,29 @@ namespace CirculationToolkit.Components.Analysis
 
                         if (node.Geometry == null) { continue; }
 
-                        Floor nodeGeometryFloor = new Floor(new Profile("floor"), node.Geometry);
-                        Floor nodeFloor = node.Floor;
-
-                        nodeGeometryFloor.SetGrid(nodeFloor.GridSize);
-
-                        double area = nodeGeometryFloor.Mesh.Faces.Count * Math.Pow(nodeGeometryFloor.GridSize, 2);
+                        double area = AreaMassProperties.Compute(node.Geometry).Area;
 
                         if (gen != -1)
                         {
-                            if (nodeFloor.FloorGraph.OccupancyMap.ContainsKey(gen))
+                            if (node.Floor.FloorGraph.OccupancyMap.ContainsKey(gen))
                             {
                                 int nodeCount = node.Count(gen);
 
-                                outMeshes.Add(nodeGeometryFloor.Mesh);
+                                Mesh mesh = new Mesh();
+                                mesh.CopyFrom(node.Floor.Mesh);
+                                List<int> removeIndexes = new List<int>();
+
+                                for (int j=0; j<mesh.Faces.Count; j++)
+                                {
+                                    if (!node.Indexes.Contains(j))
+                                    {
+                                        removeIndexes.Add(j);
+                                    }
+                                }
+
+                                mesh.Faces.DeleteFaces(removeIndexes);
+
+                                outMeshes.Add(mesh);
                                 outValues.Add(nodeCount / area);
                             }
                         }
@@ -96,7 +106,21 @@ namespace CirculationToolkit.Components.Analysis
                             List<double> values = new List<double>();
                             double sum = 0;
 
-                            foreach (int generation in nodeFloor.FloorGraph.OccupancyMap.Keys)
+                            Mesh mesh = new Mesh();
+                            mesh.CopyFrom(node.Floor.Mesh);
+                            List<int> removeIndexes = new List<int>();
+
+                            for (int j = 0; j < mesh.Faces.Count; j++)
+                            {
+                                if (!node.Indexes.Contains(j))
+                                {
+                                    removeIndexes.Add(j);
+                                }
+                            }
+
+                            mesh.Faces.DeleteFaces(removeIndexes);
+
+                            foreach (int generation in node.Floor.FloorGraph.OccupancyMap.Keys)
                             {
                                 int count = node.Count(generation);
 
@@ -106,7 +130,7 @@ namespace CirculationToolkit.Components.Analysis
                                 }
                                 else
                                 {
-                                    if (nonZero)
+                                    if (!nonZero)
                                     {
                                         values.Add(count);
                                     }
@@ -118,7 +142,7 @@ namespace CirculationToolkit.Components.Analysis
                                 sum += values[j];
                             }
 
-                            outMeshes.Add(nodeGeometryFloor.Mesh);
+                            outMeshes.Add(mesh);
                             outValues.Add(sum / values.Count);
                         }
                     }

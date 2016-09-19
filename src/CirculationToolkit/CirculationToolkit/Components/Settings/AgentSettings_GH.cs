@@ -27,7 +27,7 @@ namespace CirculationToolkit.Components.Settings
         {
             pManager.AddTextParameter("Path Nodes", "N", "The name of the Nodes to move to", GH_ParamAccess.list);
             pManager.AddNumberParameter("Node Propensities", "P", "The likelyhood of an Agent to visit this node (0 to 1)", GH_ParamAccess.list);
-            pManager.AddIntervalParameter("Distribution", "D", "The Agent Entity spawning distribution", GH_ParamAccess.item);
+            pManager.AddIntervalParameter("Distribution Interval", "I", "The Agent Entity spawning distribution", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Count", "C", "The number of Agents to generate. The default is 1", GH_ParamAccess.item);
 
             pManager[0].Optional = true;

@@ -447,7 +447,7 @@ namespace CirculationToolkit.Entities
             Node goal = Destination;
 
             int positionIndex = (int)Floor.GetPointGridIndex(position.Position);
-            List<string> visitedTypes = Visited.Select(node => node.Type).ToList();
+            List<string> visitedTypes = Visited.Select(node => node.Name).ToList();
 
             for (int i=goalNodes.Count-1; i>=0; i--)
             {              
@@ -620,25 +620,19 @@ namespace CirculationToolkit.Entities
         private void SetDirective(Tuple<Node, List<int>> directive)
         {
             Next = directive.Item1;
-            List<int> path = directive.Item2;
+            List<int> path = directive.Item2;          
 
-            if (State != "waiting")
-            {
-                //path = Shift(path, Age);
-            }            
-
-            path.Reverse();
-            Stack = new Stack<int>(path);
-            
-            path.Reverse();
             Paths.Add(path);
 
             for (int i = 0; i < path.Count; i++)
             {
                 Floor.AddOccupancy(path[i], Age + i);
                 SetPosition((Point3d)Floor.GetGridIndexPoint(path[i]), Age + i);
-            }       
-            
+            }
+
+            path.Reverse();
+            Stack = new Stack<int>(path);
+
             State = "active";
         }
 

@@ -510,9 +510,10 @@ namespace CirculationToolkit.Entities
         /// This should be upadated to use a quad-tree
         /// </summary>
         /// <param name="barrier"></param>
-        public void _AddBarrierMap(Barrier barrier)
+        public List<int> _AddBarrierMap(Barrier barrier)
         {
             List<Point3d> points = barrier.Geometry.DivideEquidistant(GridSize).ToList();
+            List<int> indexes = new List<int>();
 
             for (var i=0; i<Grid.Count; i++)
             {
@@ -527,6 +528,7 @@ namespace CirculationToolkit.Entities
                         if (barrier.Geometry.Contains(unitBounds.Points[j]) == PointContainment.Inside)
                         {
                             FloorGraph.AddBarrierMapNodeValue(i, double.MaxValue);
+                            indexes.Add(i);
                             contains = true;
                             break;
                         }
@@ -539,27 +541,35 @@ namespace CirculationToolkit.Entities
                         if (unitBounds.Contains(points[k]))
                         {
                             FloorGraph.AddBarrierMapNodeValue(i, double.MaxValue);
+                            indexes.Add(i);
                             contains = true;
                             break;
                         }
                     }
                 }
-            }          
+            }
+
+            return indexes;        
         }
 
         /// <summary>
         /// Temporary quick fix
         /// </summary>
         /// <param name="barrier"></param>
-        public void AddBarrierMap(Barrier barrier)
+        public List<int> AddBarrierMap(Barrier barrier)
         {
+            List<int> indexes = new List<int>();
+
             for (var i = 0; i < Grid.Count; i++)
             {
                 if (barrier.Geometry.Contains(Grid[i]) == PointContainment.Inside)
                 {
                     FloorGraph.AddBarrierMapNodeValue(i, double.MaxValue);
+                    indexes.Add(i);
                 }
             }
+
+            return indexes;
         } 
 
         /// <summary>

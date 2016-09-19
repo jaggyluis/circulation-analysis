@@ -251,7 +251,7 @@ namespace CirculationToolkit.Graph
         public override double GetDistance(Tuple<NodeType, NodeType> key, int gen = 0)
         {
             double distance = Distances[key];
-            double weight = distance / Floor.GridSize;
+            double weight = distance; // distance / Floor.GridSize;
 
             double area = Math.Pow(Floor.GridSize, 2);
             double occupancy = GetOccupancyMapNodeValue(key.Item2, gen);

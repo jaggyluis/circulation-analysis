@@ -25,9 +25,9 @@ namespace CirculationToolkit.Components.Settings
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Capacity", "C", "The number of Entities this Node can hold at any time. If left blank, Geometry will be used to determine max density.", GH_ParamAccess.item);
-            pManager.AddIntervalParameter("Distribution", "D", "The amount of time spent at this Node", GH_ParamAccess.item);
-            pManager.AddCurveParameter("Geometry", "G", "An optional Geometry for density analysis.", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Max Density", "D", "The Maximum Density at this Node. If left blank, default will be 0.4.", GH_ParamAccess.item);
+            pManager.AddIntervalParameter("Distribution Interval", "I", "The amount of time spent at this Node. If left blank, the default will be 0 to 1 generations.", GH_ParamAccess.item);
+            pManager.AddCurveParameter("Geometry", "G", "An optional Geometry for density analysis. If left blank, max density will defualt to infinite.", GH_ParamAccess.item);
 
             pManager[0].Optional = true;
             pManager[1].Optional = true;
@@ -49,27 +49,31 @@ namespace CirculationToolkit.Components.Settings
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             int capacity = -1;
+            double maxDensity = 0.4;
             Interval ival = new Interval(0, 1);
             Curve geometry = null;
+
             Dictionary<string, string> attributes = new Dictionary<string, string>();
 
-            if (!DA.GetData(0, ref capacity)) { }
+            if (!DA.GetData(0, ref maxDensity)) { }
             if (!DA.GetData(1, ref ival)) { }
             if (!DA.GetData(2, ref geometry)) { }
 
             Tuple<int, int> distribution = new Tuple<int, int>((int)ival.T0, (int)ival.T1);
             
-            if (capacity == -1 && geometry != null)
+
+            if (geometry != null)
             {
-                // TODO                
+                if (geometry.IsClosed && geometry.IsPlanar())
+                {
+                    double area = AreaMassProperties.Compute(geometry).Area;
+
+                    capacity = (int)Math.Floor(area * maxDensity);
+                }
             }
 
             NodeProfile profile = new NodeProfile(null, attributes, distribution, capacity);
-
-            if (geometry != null && geometry.IsClosed)
-            {
-                profile.Geometry = geometry;                
-            }
+            profile.Geometry = geometry;
 
             DA.SetData(0, profile);
         }

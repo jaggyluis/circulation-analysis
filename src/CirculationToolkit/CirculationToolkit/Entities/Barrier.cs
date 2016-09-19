@@ -17,6 +17,7 @@ namespace CirculationToolkit.Entities
     {
         private Curve _geometry;
         private Bounds2d _bounds;
+        private List<int> _indexes;
 
         #region constructors
         /// <summary>
@@ -30,6 +31,7 @@ namespace CirculationToolkit.Entities
         { 
             _geometry = geometry;
             _bounds = new Bounds2d(Geometry);
+            _indexes = new List<int>();
         }
 
         /// <summary>
@@ -81,6 +83,22 @@ namespace CirculationToolkit.Entities
             get
             {
                 return GetAttribute("floor");
+            }
+        }
+
+        /// <summary>
+        /// Returns a list of indexes for this barrier's geometry on the floor
+        /// </summary>
+        public List<int> Indexes
+        {
+            get
+            {
+                return _indexes;
+            }
+
+            set
+            {
+                _indexes = value;
             }
         }
         #endregion

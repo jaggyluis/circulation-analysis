@@ -15,6 +15,7 @@ namespace CirculationToolkit.Entities
     public class Node : Entity
     {
         private Floor _floor;
+        private List<int> _indexes;
 
         #region constructors
         /// <summary>
@@ -26,6 +27,8 @@ namespace CirculationToolkit.Entities
         public Node(Profile profile, Point3d geometry)
             : base(profile)
         {
+            _indexes = new List<int>();
+
             Position = geometry;
         }
 
@@ -104,6 +107,22 @@ namespace CirculationToolkit.Entities
                 {
                     return null;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Returns a list of indexes for this node's geometry location on the floor,
+        /// if any.
+        /// </summary>
+        public List<int> Indexes
+        {
+            get
+            {
+                return _indexes;
+            }
+            set
+            {
+                _indexes = value;
             }
         }
         #endregion

@@ -419,7 +419,7 @@ namespace CirculationToolkit.Environment
 
                     if (floor != null)
                     {
-                        floor.AddBarrierMap(barrier);
+                        barrier.Indexes = floor.AddBarrierMap(barrier);
                     }
                 }
                 foreach (Floor floor in Floors)
@@ -463,8 +463,7 @@ namespace CirculationToolkit.Environment
                         if (node.Geometry != null)
                         {
                             Barrier barrier = new Barrier(new Profile("barrier"), node.Geometry);
-
-                            floor.AddBarrierMap(barrier);
+                            node.Indexes = floor.AddBarrierMap(barrier);
                         }
                     }
                 }

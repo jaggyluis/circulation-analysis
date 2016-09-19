@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Analysis\AgentPaths_GH.cs" />
-    <Compile Include="Components\Analysis\ZoneMap_GH.cs" />
+    <Compile Include="Components\Analysis\NodeMap_GH.cs" />
     <Compile Include="Components\Analysis\OccupancyMap_GH.cs" />
     <Compile Include="Components\Analysis\DensityMap_GH.cs" />
     <Compile Include="Components\Analysis\BarrierMap_GH.cs" />
