@@ -34,7 +34,7 @@ namespace CirculationToolkit.Profiles
         /// </summary>
         /// <param name="name"></param>
         public AgentProfile(string name)
-            : this(name, new Dictionary<string, string>(),  new Dictionary<string, double>(), new Tuple<int, int>(0, 10), 1)
+            : this(name, new Dictionary<string, string>(),  new Dictionary<string, double>(), new Tuple<int, int>(0, 1), 1)
         {
         }
         #endregion

@@ -274,13 +274,17 @@ namespace CirculationToolkit.Environment
         /// Returns a mapped Dictionary of all Node Entities by name
         /// </summary>
         /// <returns></returns>
-        private Dictionary<string, Node> GetNodeDictByName()
+        private Dictionary<string, List<Node>> GetNodeDictByName()
         {
-            Dictionary<string, Node> nodeDict = new Dictionary<string, Node>();
+            Dictionary<string, List<Node>> nodeDict = new Dictionary<string, List<Node>>();
 
             foreach (Node node in Nodes)
             {
-                nodeDict[node.Name] = node;
+                if (!nodeDict.ContainsKey(node.Name))
+                {
+                    nodeDict[node.Name] = new List<Node>();
+                }
+                nodeDict[node.Name].Add(node);
             }
 
             return nodeDict;
@@ -290,13 +294,17 @@ namespace CirculationToolkit.Environment
         /// Returns a mapped Dictionary of all Node Entities by position
         /// </summary>
         /// <returns></returns>
-        private Dictionary<Point3d, Node> GetNodeDictByPosition()
+        private Dictionary<Point3d, List<Node>> GetNodeDictByPosition()
         {
-            Dictionary<Point3d, Node> nodeDict = new Dictionary<Point3d, Node>();
+            Dictionary<Point3d, List<Node>> nodeDict = new Dictionary<Point3d, List<Node>>();
 
             foreach (Node node in Nodes)
             {
-                nodeDict[node.Position] = node;
+                if (!nodeDict.ContainsKey(node.Position))
+                {
+                    nodeDict[node.Position] = new List<Node>();
+                }
+                nodeDict[node.Position].Add(node);
             }
 
             return nodeDict;
@@ -307,9 +315,9 @@ namespace CirculationToolkit.Environment
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Node GetNode(string name)
+        public List<Node> GetNodes(string name)
         {
-            Dictionary<string, Node> nodeDict = GetNodeDictByName();
+            Dictionary<string, List<Node>> nodeDict = GetNodeDictByName();
 
             if (nodeDict.ContainsKey(name))
             {
@@ -324,9 +332,9 @@ namespace CirculationToolkit.Environment
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Node GetNode(Point3d position)
+        public List<Node> GetNodes(Point3d position)
         {
-            Dictionary<Point3d, Node> nodeDict = GetNodeDictByPosition();
+            Dictionary<Point3d, List<Node>> nodeDict = GetNodeDictByPosition();
 
             if (nodeDict.ContainsKey(position))
             {
@@ -381,73 +389,101 @@ namespace CirculationToolkit.Environment
         /// <summary>
         /// Handles all processess needed to integrate Floors in the Environment
         /// </summary>
-        private void BuildFloors()
+        private bool BuildFloors()
         {
-            foreach (Floor floor in Floors)
+            if (Floors.Count > 0)
             {
-                floor.SetGrid(Resolution);
+                foreach (Floor floor in Floors)
+                {
+                    floor.SetGrid(Resolution);
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
         /// <summary>
         /// Handles all processess needed to integrate Barriers in the Environment
         /// </summary>
-        private void BuildBarriers()
+        private bool BuildBarriers()
         {
-            foreach (Barrier barrier in Barriers)
+            if (Barriers.Count > 0)
             {
-                Floor floor = GetFloor(barrier.Floor);
-
-                if (floor != null)
+                foreach (Barrier barrier in Barriers)
                 {
-                    floor.AddBarrierMap(barrier);
+                    Floor floor = GetFloor(barrier.Floor);
+
+                    if (floor != null)
+                    {
+                        floor.AddBarrierMap(barrier);
+                    }
                 }
+                foreach (Floor floor in Floors)
+                {
+                    floor.AddEdgeMap();
+                }
+
+                return true;
             }
-            foreach (Floor floor in Floors)
+            else
             {
-                floor.AddEdgeMap();
+                return false;
             }
         }
 
         /// <summary>
         /// Handles all processes needed to integrate Nodes into the Environment
         /// </summary>
-        private void BuildNodes()
+        private bool BuildNodes()
         {
-            foreach (Node node in Nodes)
+            if (Nodes.Count > 0)
             {
-                Floor floor = GetFloor(node.GetAttribute("floor"));
-
-                node.Init(floor);
-
-                if (floor != null && floor.ContainsPoint(node.Position))
+                foreach (Node node in Nodes)
                 {
-                    int? nodeGridIndex = floor.GetPointGridIndex(node.Position);
+                    Floor floor = GetFloor(node.GetAttribute("floor"));
 
-                    if (nodeGridIndex != null)
+                    node.Init(floor);
+
+                    if (floor != null && floor.ContainsPoint(node.Position))
                     {
-                        Dictionary<int, int> paths = 
-                            floor.FloorGraph.Dijsktra((int)nodeGridIndex, (int)nodeGridIndex).Item2;
+                        int? nodeGridIndex = floor.GetPointGridIndex(node.Position);
 
-                        SetNodeShortestPaths(node, paths);
-                    }
+                        if (nodeGridIndex != null)
+                        {
+                            Dictionary<int, int> paths =
+                                floor.FloorGraph.Dijsktra((int)nodeGridIndex, (int)nodeGridIndex).Item2;
 
-                    if (node.Geometry != null)
-                    {
-                        Barrier barrier = new Barrier(new Profile("barrier"), node.Geometry);
+                            SetNodeShortestPaths(node, paths);
+                        }
 
-                        floor.AddBarrierMap(barrier);
+                        if (node.Geometry != null)
+                        {
+                            Barrier barrier = new Barrier(new Profile("barrier"), node.Geometry);
+
+                            floor.AddBarrierMap(barrier);
+                        }
                     }
                 }
+
+                return true;
             }
+            else
+            {
+                return false;
+            }
+
         }
 
         /// <summary>
         /// Handles all processes needed to integrate Templates in the Environment
         /// </summary>
-        private void BuildTemplates()
+        private bool BuildTemplates()
         {
-            if (Templates.Count != 0)
+            if (Templates.Count > 0)
             {
                 foreach (Template template in Templates)
                 {
@@ -455,23 +491,34 @@ namespace CirculationToolkit.Environment
 
                     foreach (Tuple<Point3d, Point3d> edge in template.Edges)
                     {
-                        Node fromNode = GetNode(edge.Item1);
-                        Node toNode = GetNode(edge.Item2);
+                        List<Node> fromNodes = GetNodes(edge.Item1);
+                        List<Node> toNodes = GetNodes(edge.Item2);
 
-                        if (fromNode != null && toNode != null)
-                        {
-                            List<int> path = GetNodeShortestPath(fromNode, toNode);
-                            NodeGraph.AddEdge(fromNode, toNode, path);
-
-                            if (!directed)
+                        if (fromNodes.Count != 0 && toNodes.Count != 0)
+                        {                           
+                            for (int i=0; i<fromNodes.Count; i++)
                             {
-                                List<int> reversedPath = new List<int>(path);
-                                reversedPath.Reverse();
-                                NodeGraph.AddEdge(toNode, fromNode, reversedPath);
+                                for (int j=0; j<toNodes.Count; j++)
+                                {
+                                    Node fromNode = fromNodes[i];
+                                    Node toNode = toNodes[j];
+
+                                    List<int> path = GetNodeShortestPath(fromNode, toNode);
+                                    NodeGraph.AddEdge(fromNode, toNode, path);
+
+                                    if (!directed)
+                                    {
+                                        List<int> reversedPath = new List<int>(path);
+                                        reversedPath.Reverse();
+                                        NodeGraph.AddEdge(toNode, fromNode, reversedPath);
+                                    }
+                                }
                             }
                         }
                     }
                 }
+
+                return true;
             }
             else
             {
@@ -486,30 +533,43 @@ namespace CirculationToolkit.Environment
                         }
                     }
                 }
+
+                return false;
             }
         }
 
         /// <summary>
         /// Handles all processes needed to integrate Agents in the Environment
         /// </summary>
-        private void BuildAgents()
+        private bool BuildAgents()
         {
-            foreach (Agent agent in Agents)
+            if (Agents.Count > 0)
             {
-                agent.Init(this);
+                foreach (Agent agent in Agents)
+                {
+                    agent.Init(this);
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
         /// <summary>
         /// Builds the Environment
         /// </summary>
-        public void BuildEnvironment()
+        public bool BuildEnvironment()
         {
-            BuildFloors();
-            BuildBarriers();
-            BuildNodes();
-            BuildTemplates();
-            BuildAgents();
+            if (!BuildFloors()) { return false; }
+            if (!BuildBarriers()) { };
+            if (!BuildNodes()) { return false; };
+            if (!BuildTemplates()) { }
+            if (!BuildAgents()) { return false; };
+
+            return true;
         }
 
         /// <summary>

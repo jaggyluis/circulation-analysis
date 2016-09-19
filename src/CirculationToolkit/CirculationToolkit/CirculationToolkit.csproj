@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Analysis\AgentPaths_GH.cs" />
+    <Compile Include="Components\Analysis\ZoneMap_GH.cs" />
     <Compile Include="Components\Analysis\OccupancyMap_GH.cs" />
     <Compile Include="Components\Analysis\DensityMap_GH.cs" />
     <Compile Include="Components\Analysis\BarrierMap_GH.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Components\Entities\Barrier_GH.cs" />
     <Compile Include="Components\Entities\Goo\Entity_Goo.cs" />
     <Compile Include="Components\Entities\Param\Entity_Param.cs" />
+    <Compile Include="Components\Environment\FluxEnv_GH.cs" />
     <Compile Include="Components\Environment\Env_GH.cs" />
     <Compile Include="Components\Entities\Node_GH.cs" />
     <Compile Include="Components\Entities\Template_GH.cs" />

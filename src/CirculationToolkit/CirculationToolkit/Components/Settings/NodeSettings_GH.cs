@@ -49,7 +49,7 @@ namespace CirculationToolkit.Components.Settings
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             int capacity = -1;
-            Interval ival = new Interval(0, 10);
+            Interval ival = new Interval(0, 1);
             Curve geometry = null;
             Dictionary<string, string> attributes = new Dictionary<string, string>();
 

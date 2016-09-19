@@ -24,11 +24,11 @@ Environment
 
 Node
 - finish recursive search for points not on mesh
-- node zones
+X node zones
 
 Analysis
-- zone density per generation / total
-- maybe remove zones from search similar to barriers?
+X zone density per generation / total
+X maybe remove zones from search similar to barriers?
 
 Optimization:
 - can shortest path be precalculated?

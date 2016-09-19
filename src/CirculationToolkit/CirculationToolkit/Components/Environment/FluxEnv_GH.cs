@@ -8,14 +8,14 @@ using Grasshopper.Kernel.Data;
 
 namespace CirculationToolkit.Components
 {
-    public class Env_GH : GH_Component
+    public class FluxEnv_GH : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the Environment_GH class.
         /// </summary>
-        public Env_GH()
-          : base("Environment", "Env",
-              "The Simulation Environment",
+        public FluxEnv_GH()
+          : base("Flux Environment", "FEnv",
+              "WIP",
               "Circulation", "Environment")
         {
         }
@@ -92,7 +92,7 @@ namespace CirculationToolkit.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("{574ae86e-0540-4d04-a950-446193c2ad2f}"); }
+            get { return new Guid("{bc72c065-1e23-488e-b20f-e8a050f7156e}"); }
         }
     }
 }

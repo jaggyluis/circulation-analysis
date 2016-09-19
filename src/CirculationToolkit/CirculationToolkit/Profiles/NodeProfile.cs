@@ -32,7 +32,7 @@ namespace CirculationToolkit.Profiles
         /// </summary>
         /// <param name="name"></param>
         public NodeProfile(string name)
-            : this (name, new Dictionary<string, string>(), new Tuple<int, int>(0, 10), int.MaxValue)
+            : this (name, new Dictionary<string, string>(), new Tuple<int, int>(0, 1), int.MaxValue)
         {
         }
         #endregion

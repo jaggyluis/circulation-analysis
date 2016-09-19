@@ -85,7 +85,17 @@ namespace CirculationToolkit.Entities
         {
             get
             {
-                return Environment.GetNode(GetAttribute("origin"));
+                List<Node> origins = Environment.GetNodes(GetAttribute("origin"));
+                Random random = new Random(Guid.NewGuid().GetHashCode());
+
+                if (origins.Count != 0)
+                {
+                    return origins[random.Next(origins.Count - 1)];
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
@@ -96,7 +106,17 @@ namespace CirculationToolkit.Entities
         {
             get
             {
-                return Environment.GetNode(GetAttribute("destination"));
+                List<Node> destinations = Environment.GetNodes(GetAttribute("destination"));
+                Random random = new Random(Guid.NewGuid().GetHashCode());
+
+                if (destinations.Count != 0)
+                {
+                    return destinations[random.Next(destinations.Count - 1)];
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
@@ -426,11 +446,12 @@ namespace CirculationToolkit.Entities
             List<Node> goalNodes = Environment.NodeGraph.Edges[position].ToList();
             Node goal = Destination;
 
-            int positionIndex = (int)Floor.GetPointGridIndex(position.Position);           
+            int positionIndex = (int)Floor.GetPointGridIndex(position.Position);
+            List<string> visitedTypes = Visited.Select(node => node.Type).ToList();
 
             for (int i=goalNodes.Count-1; i>=0; i--)
-            {
-                if (Visited.Contains(goalNodes[i]))
+            {              
+                if (visitedTypes.Contains(goalNodes[i].Type))
                 {
                     goalNodes.RemoveAt(i);
                 }
@@ -471,7 +492,10 @@ namespace CirculationToolkit.Entities
                     {
                         goal = goalNodesStack.Pop();
 
-                        int goalCount = goal.Count(10); // arbitrary
+                        Tuple<Node, Node> key = new Tuple<Node, Node>(position, goal);
+
+                        int pathCount = Environment.NodeGraph.Distances[key].Count;
+                        int goalCount = goal.Count(Age + pathCount);
                         int goalCapacity = goal.Capacity;
 
                         if (goalCount < goalCapacity)

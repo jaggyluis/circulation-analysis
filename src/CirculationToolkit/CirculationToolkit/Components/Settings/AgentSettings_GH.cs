@@ -52,7 +52,7 @@ namespace CirculationToolkit.Components.Settings
         {
             List<string> nodes = new List<string>();
             List<double> values = new List<double>();
-            Interval ival = new Interval(0,10);
+            Interval ival = new Interval(0,1);
             int count = 1;
 
             if (!DA.GetDataList(0, nodes)) { return; }

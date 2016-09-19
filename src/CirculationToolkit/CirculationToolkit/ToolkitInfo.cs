@@ -26,7 +26,7 @@ namespace Circulation_Toolkit
         get
         {
             //Return a short string describing the purpose of this GHA library.
-            return "";
+            return "The Circulation toolkit is a set of components that run circulation analysis on building floors.";
         }
     }
     public override Guid Id
@@ -50,7 +50,7 @@ namespace Circulation_Toolkit
         get
         {
             //Return a string representing your preferred contact details.
-            return "";
+            return "Woods Bagot Architects";
         }
     }
 }
