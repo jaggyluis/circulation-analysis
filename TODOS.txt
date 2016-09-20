@@ -16,6 +16,7 @@ X fix all constructors
 Agent
 - freezes when agent does not have a node type that it is on
 - what happens if a path is not possible?
+- add queuing time propensity
 
 Environment
 - getter and setter methods should be generalized to entity rather than type

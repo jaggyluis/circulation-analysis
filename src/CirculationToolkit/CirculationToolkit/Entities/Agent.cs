@@ -451,7 +451,7 @@ namespace CirculationToolkit.Entities
 
             for (int i=goalNodes.Count-1; i>=0; i--)
             {              
-                if (visitedTypes.Contains(goalNodes[i].Type))
+                if (visitedTypes.Contains(goalNodes[i].Name))
                 {
                     goalNodes.RemoveAt(i);
                 }
@@ -488,7 +488,7 @@ namespace CirculationToolkit.Entities
 
                     Stack<Node> goalNodesStack = new Stack<Node>(goalNodes);
 
-                    while (goalNodes.Count > 0)
+                    while (goalNodesStack.Count > 0)
                     {
                         goal = goalNodesStack.Pop();
 
@@ -620,8 +620,17 @@ namespace CirculationToolkit.Entities
         private void SetDirective(Tuple<Node, List<int>> directive)
         {
             Next = directive.Item1;
-            List<int> path = directive.Item2;          
+            List<int> path = directive.Item2;
 
+            if (State != "waiting")
+            {
+                //path = Shift(path, Age);
+            }
+
+            path.Reverse();
+            Stack = new Stack<int>(path);
+
+            path.Reverse();
             Paths.Add(path);
 
             for (int i = 0; i < path.Count; i++)
@@ -629,9 +638,6 @@ namespace CirculationToolkit.Entities
                 Floor.AddOccupancy(path[i], Age + i);
                 SetPosition((Point3d)Floor.GetGridIndexPoint(path[i]), Age + i);
             }
-
-            path.Reverse();
-            Stack = new Stack<int>(path);
 
             State = "active";
         }

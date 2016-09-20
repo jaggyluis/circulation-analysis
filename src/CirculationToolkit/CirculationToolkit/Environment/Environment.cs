@@ -12,6 +12,7 @@ namespace CirculationToolkit.Environment
     public class SimulationEnvironment
     {
         private double _resolution;
+        private int _generations;
 
         private Dictionary<string, List<Entity>> _entities =
             new Dictionary<string, List<Entity>>()
@@ -34,7 +35,7 @@ namespace CirculationToolkit.Environment
         /// </summary>
         public SimulationEnvironment()
         {
-            // Null constructor for GUI
+            _generations = 0;
         }
 
         /// <summary>
@@ -42,19 +43,20 @@ namespace CirculationToolkit.Environment
         /// </summary>
         /// <param name="resolution"></param>
         public SimulationEnvironment(double resolution)
+            : this()
         {
             Resolution = resolution;          
         }
 
         public SimulationEnvironment Duplicate()
         {
-            SimulationEnvironment duplicate = new SimulationEnvironment(Resolution);
+            SimulationEnvironment environment = new SimulationEnvironment(Resolution);
 
-            duplicate.Entities = Entities;
-            duplicate.NodeGraph = NodeGraph;
-            duplicate.NodeShortestPaths = NodeShortestPaths;
+            environment.Entities = Entities;
+            environment.NodeGraph = NodeGraph;
+            environment.NodeShortestPaths = NodeShortestPaths;
 
-            return duplicate;
+            return environment;
         }
 
         /// <summary>
@@ -69,7 +71,7 @@ namespace CirculationToolkit.Environment
                 Barriers.Count + "b, " +
                 Nodes.Count + "n, " +
                 Agents.Count + "a " +
-                "}";
+                "}" + " Generations Computed: " + Generations.ToString();
         }
 
         #region properties
@@ -185,6 +187,17 @@ namespace CirculationToolkit.Environment
             get
             {
                 return Entities["agent"];
+            }
+        }
+        public int Generations
+        {
+            get
+            {
+                return _generations;
+            }
+            set
+            {
+                _generations = value;
             }
         }
         #endregion
@@ -373,8 +386,32 @@ namespace CirculationToolkit.Environment
 
                     if (toNodeGridIndex != null && fromNodeGridIndex != null)
                     {
-                        List<int> path =
-                            floor.FloorGraph.ShortestPath((int)fromNodeGridIndex, (int)toNodeGridIndex);
+                        List<int> path;
+
+                        if (NodeShortestPaths.Keys.Contains(fromNode))
+                        {
+                            path = floor.FloorGraph.ShortestPath(
+                                (int)toNodeGridIndex,
+                                (int)fromNodeGridIndex,
+                                0,
+                                NodeShortestPaths[fromNode]);
+
+                            path.Reverse();
+                        }
+                        else if (NodeShortestPaths.Keys.Contains(toNode))
+                        {
+                            path = floor.FloorGraph.ShortestPath(
+                                (int)fromNodeGridIndex,
+                                (int)toNodeGridIndex,
+                                0,
+                                NodeShortestPaths[toNode]);                           
+                        }
+                        else
+                        {
+                            path = floor.FloorGraph.ShortestPath(
+                                (int)fromNodeGridIndex, 
+                                (int)toNodeGridIndex);
+                        }
 
                         return path;
                     }
@@ -452,6 +489,7 @@ namespace CirculationToolkit.Environment
                     {
                         int? nodeGridIndex = floor.GetPointGridIndex(node.Position);
 
+                        
                         if (nodeGridIndex != null)
                         {
                             Dictionary<int, int> paths =
@@ -459,6 +497,7 @@ namespace CirculationToolkit.Environment
 
                             SetNodeShortestPaths(node, paths);
                         }
+                        
 
                         if (node.Geometry != null)
                         {
@@ -576,13 +615,13 @@ namespace CirculationToolkit.Environment
         /// </summary>
         private bool Step()
         {
-            bool isComplete = false; // fix this later
+            bool isComplete = true;
 
             foreach (Agent agent in Agents)
             {
                 agent.Step();
 
-                if (!agent.IsComplete)
+                if (agent.IsActive)
                 {
                     isComplete = false;
                 }
@@ -596,21 +635,20 @@ namespace CirculationToolkit.Environment
         /// </summary>
         public void RunEnvironment()
         {
-            int generations = 0;
             bool isComplete = false;
 
             while (!isComplete)
             {
                 isComplete = Step();
 
-                if (generations >= 1000)
+                if (Generations >= 10000)
                 {
-                    // force the simulation to end after 1000 generations
+                    // force the simulation to end after 10000 generations
                     // as a precauction
                     break;
                 }
 
-                generations++;
+                Generations++;
             }
 
         }
