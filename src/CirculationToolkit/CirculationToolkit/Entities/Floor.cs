@@ -510,9 +510,9 @@ namespace CirculationToolkit.Entities
         /// This should be upadated to use a quad-tree
         /// </summary>
         /// <param name="barrier"></param>
-        public List<int> _AddBarrierMap(Barrier barrier)
+        public List<int> __AddBarrierMap(Barrier barrier)
         {
-            List<Point3d> points = barrier.Geometry.DivideEquidistant(GridSize).ToList();
+            List<Point3d> points = barrier.Geometry.DivideEquidistant(GridSize/2).ToList();
             List<int> indexes = new List<int>();
 
             for (var i=0; i<Grid.Count; i++)
@@ -556,7 +556,7 @@ namespace CirculationToolkit.Entities
         /// Temporary quick fix
         /// </summary>
         /// <param name="barrier"></param>
-        public List<int> AddBarrierMap(Barrier barrier)
+        public List<int> _AddBarrierMap(Barrier barrier)
         {
             List<int> indexes = new List<int>();
 
@@ -570,7 +570,39 @@ namespace CirculationToolkit.Entities
             }
 
             return indexes;
-        } 
+        }
+
+        public List<int> AddBarrierMap(Barrier barrier)
+        {
+            List<Point3d> points = barrier.Geometry.DivideEquidistant(GridSize / 2).ToList();
+            List<int> indexes = new List<int>();
+
+            for (var i = 0; i < Grid.Count; i++)
+            {
+                Bounds2d unitBounds = GetGridUnit(Grid[i]);
+
+                if (barrier.Bounds.Intersects(unitBounds))
+                {
+                    int count = 0;
+
+                    for (int j = 0; j < unitBounds.Points.Count; j++)
+                    {
+                        if (barrier.Geometry.Contains(unitBounds.Points[j]) == PointContainment.Inside)
+                        {
+                            count++;
+                        }
+                    }
+
+                    if (count > 2 || barrier.Geometry.Contains(Grid[i]) == PointContainment.Inside)
+                    {
+                        FloorGraph.AddBarrierMapNodeValue(i, double.MaxValue);
+                        indexes.Add(i);
+                    }
+                }
+            }
+
+            return indexes;
+        }
 
         /// <summary>
         /// Adds Occupancy at specific generations
