@@ -7,6 +7,7 @@ using CirculationToolkit.Graph;
 using CirculationToolkit.Geometry;
 using CirculationToolkit.Profiles;
 using Rhino.Geometry;
+using Rhino.Geometry.Intersect;
 
 
 namespace CirculationToolkit.Entities
@@ -510,12 +511,12 @@ namespace CirculationToolkit.Entities
         /// This should be upadated to use a quad-tree
         /// </summary>
         /// <param name="barrier"></param>
-        public List<int> __AddBarrierMap(Barrier barrier)
+        public List<int> _AddBarrierMap(Barrier barrier)
         {
             List<Point3d> points = barrier.Geometry.DivideEquidistant(GridSize/2).ToList();
             List<int> indexes = new List<int>();
 
-            for (var i=0; i<Grid.Count; i++)
+            for (int i=0; i<Grid.Count; i++)
             {
                 Bounds2d unitBounds = GetGridUnit(Grid[i]);
 
@@ -556,28 +557,12 @@ namespace CirculationToolkit.Entities
         /// Temporary quick fix
         /// </summary>
         /// <param name="barrier"></param>
-        public List<int> _AddBarrierMap(Barrier barrier)
-        {
-            List<int> indexes = new List<int>();
-
-            for (var i = 0; i < Grid.Count; i++)
-            {
-                if (barrier.Geometry.Contains(Grid[i]) == PointContainment.Inside)
-                {
-                    FloorGraph.AddBarrierMapNodeValue(i, double.MaxValue);
-                    indexes.Add(i);
-                }
-            }
-
-            return indexes;
-        }
-
-        public List<int> AddBarrierMap(Barrier barrier)
+        public List<int> __AddBarrierMap(Barrier barrier)
         {
             List<Point3d> points = barrier.Geometry.DivideEquidistant(GridSize / 2).ToList();
             List<int> indexes = new List<int>();
 
-            for (var i = 0; i < Grid.Count; i++)
+            for (int i = 0; i < Grid.Count; i++)
             {
                 Bounds2d unitBounds = GetGridUnit(Grid[i]);
 
@@ -599,6 +584,67 @@ namespace CirculationToolkit.Entities
                         indexes.Add(i);
                     }
                 }
+            }
+
+            return indexes;
+        }
+
+        public List<int> AddBarrierMap(Barrier barrier)
+        {
+            List<Point3d> points = barrier.Geometry.DivideEquidistant(GridSize / 2).ToList();
+            List<int> indexes = new List<int>();
+
+            for (int i = 0; i < Grid.Count; i++)
+            {
+                Bounds2d unitBounds = GetGridUnit(Grid[i]);
+
+                if (barrier.Bounds.Intersects(unitBounds))
+                {
+                    bool contains = false;
+
+                    
+                    for (int j = 0; j < unitBounds.Points.Count; j++)
+                    {
+                        if (barrier.Geometry.Contains(unitBounds.Points[j]) == PointContainment.Inside)
+                        {
+                            indexes.Add(i);
+                            contains = true;
+                            break;
+                        }
+                    }
+                    
+
+                    if (contains) continue;
+
+                    for (int k = 0; k < points.Count; k++)
+                    {
+                        if (unitBounds.Contains(points[k]))
+                        {
+                            indexes.Add(i);
+                            contains = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i< indexes.Count; i++)
+            {
+                List<int> edges = FloorGraph.Edges[indexes[i]].ToList();
+
+                for (int j = edges.Count-1; j>=0; j--)
+                {
+                    double tolerance = GridSize / 100;
+                    double overlapTolerance = tolerance;
+                    Polyline pline = new Polyline(new List<Point3d>() { Grid[indexes[i]], Grid[edges[j]] });
+                    CurveIntersections xsec = Intersection.CurveCurve(pline.ToNurbsCurve(), barrier.Geometry, tolerance, overlapTolerance);
+
+                    if (xsec.Count > 0)
+                    {
+                        FloorGraph.RemoveEdge(indexes[i], edges[j]);
+                    }
+                }
+
             }
 
             return indexes;

@@ -459,6 +459,18 @@ namespace CirculationToolkit.Environment
                         barrier.Indexes = floor.AddBarrierMap(barrier);
                     }
                 }
+
+                foreach (Node node in Nodes)
+                {
+                    Floor floor = GetFloor(node.GetAttribute("floor"));
+
+                    if (floor != null && node.Geometry != null)
+                    {
+                        Barrier barrier = new Barrier(new Profile("barrier"), node.Geometry);
+                        //node.Indexes = floor.AddBarrierMap(barrier);
+                    }
+                }
+
                 foreach (Floor floor in Floors)
                 {
                     floor.AddEdgeMap();
@@ -489,21 +501,13 @@ namespace CirculationToolkit.Environment
                     {
                         int? nodeGridIndex = floor.GetPointGridIndex(node.Position);
 
-                        
                         if (nodeGridIndex != null)
                         {
                             Dictionary<int, int> paths =
                                 floor.FloorGraph.Dijsktra((int)nodeGridIndex, (int)nodeGridIndex).Item2;
 
                             SetNodeShortestPaths(node, paths);
-                        }
-                        
-
-                        if (node.Geometry != null)
-                        {
-                            Barrier barrier = new Barrier(new Profile("barrier"), node.Geometry);
-                            node.Indexes = floor.AddBarrierMap(barrier);
-                        }
+                        }                       
                     }
                 }
 

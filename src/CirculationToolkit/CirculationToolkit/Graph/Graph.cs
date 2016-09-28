@@ -107,8 +107,32 @@ namespace CirculationToolkit.Graph
 
             if (!directed)
             {
-                Edges[n2].Add(n1);
-                Distances[new Tuple<NodeType, NodeType>(n2, n1)] = distance;
+                AddEdge(n2, n1, distance, true);
+            }
+        }
+
+        /// <summary>
+        /// Removes an edge from the Graph
+        /// </summary>
+        /// <param name="n1"></param>
+        /// <param name="n2"></param>
+        /// <param name="removeDirected"></param>
+        public void RemoveEdge(NodeType n1, NodeType n2, bool removeDirected=true)
+        {
+            Tuple<NodeType, NodeType> key;
+
+            if (Edges[n1].Contains(n2))
+            {
+                Edges[n1].Remove(n2);
+                key = new Tuple<NodeType, NodeType>(n1, n2);
+
+                if (Distances.ContainsKey(key)) {
+                    Distances.Remove(key);
+                }
+            }
+            if (removeDirected)
+            {
+                RemoveEdge(n2, n1, false);
             }
         }
 
