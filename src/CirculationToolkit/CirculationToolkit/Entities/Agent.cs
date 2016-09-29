@@ -550,9 +550,11 @@ namespace CirculationToolkit.Entities
 
             State = "init";
 
-            Visited.Add(Origin);
-            Position = Origin.Position;
-            Current = Origin;
+            Node origin = Origin;
+
+            Visited.Add(origin);
+            Position = origin.Position;
+            Current = origin;
             Age = 0;
 
             State = "waiting";

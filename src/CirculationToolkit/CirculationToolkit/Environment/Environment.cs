@@ -66,12 +66,11 @@ namespace CirculationToolkit.Environment
         public override string ToString()
         {
             return "Environment: " +
-                " { " +
-                Floors.Count + "f, " + 
-                Barriers.Count + "b, " +
-                Nodes.Count + "n, " +
-                Agents.Count + "a " +
-                "}" + " Generations Computed: " + Generations.ToString();
+                "{ floors: "                + Floors.Count +
+                ", barriers: "              + Barriers.Count +
+                ", nodes: "                 + Nodes.Count +
+                ", agents: "                + Agents.Count +
+                "} Generations Computed: "  + Generations.ToString();
         }
 
         #region properties
@@ -424,6 +423,38 @@ namespace CirculationToolkit.Environment
 
         #region main methods
         /// <summary>
+        /// Handles all processes needed to store shortest paths between nodes
+        /// </summary>
+        /// <returns></returns>
+        private bool BuildNodeShortestPaths()
+        {
+            if (Nodes.Count > 0)
+            {
+                foreach (Node node in Nodes)
+                {
+                    if (node.Floor != null && node.Floor.ContainsPoint(node.Position))
+                    {
+                        int? nodeGridIndex = node.Floor.GetPointGridIndex(node.Position);
+
+                        if (nodeGridIndex != null)
+                        {
+                            Dictionary<int, int> paths =
+                                node.Floor.FloorGraph.Dijsktra((int)nodeGridIndex, (int)nodeGridIndex).Item2;
+
+                            SetNodeShortestPaths(node, paths);
+                        }
+                    }
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Handles all processess needed to integrate Floors in the Environment
         /// </summary>
         private bool BuildFloors()
@@ -433,6 +464,27 @@ namespace CirculationToolkit.Environment
                 foreach (Floor floor in Floors)
                 {
                     floor.SetGrid(Resolution);
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Handles all processes needed to create the edge maps that affect shortest paths
+        /// </summary>
+        /// <returns></returns>
+        private bool BuildFloorBarrierMaps()
+        {
+            if (Floors.Count > 0)
+            {
+                foreach (Floor floor in Floors)
+                {
+                    floor.AddBarrierMap();
                 }
 
                 return true;
@@ -456,24 +508,8 @@ namespace CirculationToolkit.Environment
 
                     if (floor != null)
                     {
-                        barrier.Indexes = floor.AddBarrierMap(barrier);
+                        barrier.Indexes = floor.AddBarrier(barrier);
                     }
-                }
-
-                foreach (Node node in Nodes)
-                {
-                    Floor floor = GetFloor(node.GetAttribute("floor"));
-
-                    if (floor != null && node.Geometry != null)
-                    {
-                        Barrier barrier = new Barrier(new Profile("barrier"), node.Geometry);
-                        //node.Indexes = floor.AddBarrierMap(barrier);
-                    }
-                }
-
-                foreach (Floor floor in Floors)
-                {
-                    floor.AddEdgeMap();
                 }
 
                 return true;
@@ -484,6 +520,7 @@ namespace CirculationToolkit.Environment
             }
         }
 
+
         /// <summary>
         /// Handles all processes needed to integrate Nodes into the Environment
         /// </summary>
@@ -493,21 +530,16 @@ namespace CirculationToolkit.Environment
             {
                 foreach (Node node in Nodes)
                 {
-                    Floor floor = GetFloor(node.GetAttribute("floor"));
+                    Floor floor = GetFloor(node.GetAttribute("floor"));                   
 
-                    node.Init(floor);
-
-                    if (floor != null && floor.ContainsPoint(node.Position))
+                    if (floor != null)
                     {
-                        int? nodeGridIndex = floor.GetPointGridIndex(node.Position);
+                        node.Init(floor);
 
-                        if (nodeGridIndex != null)
+                        if (node.IsZone)
                         {
-                            Dictionary<int, int> paths =
-                                floor.FloorGraph.Dijsktra((int)nodeGridIndex, (int)nodeGridIndex).Item2;
-
-                            SetNodeShortestPaths(node, paths);
-                        }                       
+                            floor.AddZone(node);
+                        }
                     }
                 }
 
@@ -517,7 +549,6 @@ namespace CirculationToolkit.Environment
             {
                 return false;
             }
-
         }
 
         /// <summary>
@@ -606,10 +637,12 @@ namespace CirculationToolkit.Environment
         public bool BuildEnvironment()
         {
             if (!BuildFloors()) { return false; }
-            if (!BuildBarriers()) { };
-            if (!BuildNodes()) { return false; };
+            if (!BuildBarriers()) { }
+            if (!BuildNodes()) { }
+            if (!BuildFloorBarrierMaps()) { }
+            if (!BuildNodeShortestPaths()) { }
             if (!BuildTemplates()) { }
-            if (!BuildAgents()) { return false; };
+            if (!BuildAgents()) { }
 
             return true;
         }

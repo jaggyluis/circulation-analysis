@@ -28,7 +28,7 @@ namespace CirculationToolkit.Components.Settings
             pManager.AddTextParameter("Path Nodes", "N", "The name of the Nodes to move to", GH_ParamAccess.list);
             pManager.AddNumberParameter("Node Propensities", "P", "The likelyhood of an Agent to visit this node (0 to 1)", GH_ParamAccess.list);
             pManager.AddIntervalParameter("Distribution Interval", "I", "The Agent Entity spawning distribution", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Count", "C", "The number of Agents to generate. The default is 1", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Agent Count", "C", "The number of Agents to generate. The default is 1", GH_ParamAccess.item);
 
             pManager[0].Optional = true;
             pManager[1].Optional = true;
@@ -55,7 +55,7 @@ namespace CirculationToolkit.Components.Settings
             Interval ival = new Interval(0,1);
             int count = 1;
 
-            if (!DA.GetDataList(0, nodes)) { return; }
+            if (!DA.GetDataList(0, nodes)) { }
             if (!DA.GetDataList(1, values)) { values.Add(1); }
             if (!DA.GetData(2, ref ival)) {  }
             if (!DA.GetData(3, ref count)) {  }
@@ -87,7 +87,8 @@ namespace CirculationToolkit.Components.Settings
                 propensities[node] = value;    
             }
 
-            AgentProfile profile = new AgentProfile(null, attributes, propensities, distribution, count);
+
+            AgentProfile profile = new AgentProfile(null, attributes, propensities, distribution, count);         
 
             DA.SetData(0, profile);
         }

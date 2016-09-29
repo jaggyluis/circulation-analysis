@@ -13,15 +13,23 @@ X do not default to original choice when capacity is met
 
 X fix all constructors
 
+!!!!! convert everything to pline when imported
+
 Agent
 - freezes when agent does not have a node type that it is on
 - what happens if a path is not possible?
 - add queuing time propensity
 
+Agent Settings:
+X make sure it outputs non null even with just count input
+X Count should be called AgentCount
+X All profile / settings objects should have toString methods
+
 Environment
 - getter and setter methods should be generalized to entity rather than type
 - write all warning messages
 - implement simulation distribution - environment settings?
+- Environment Resolution should not be below 1
 
 Node
 - finish recursive search for points not on mesh
@@ -32,4 +40,4 @@ X zone density per generation / total
 X maybe remove zones from search similar to barriers?
 
 Optimization:
-- can shortest path be precalculated?
+X can shortest path be precalculated?

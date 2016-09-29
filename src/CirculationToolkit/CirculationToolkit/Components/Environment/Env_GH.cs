@@ -26,7 +26,7 @@ namespace CirculationToolkit.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddParameter(new Entity_Param(), "Entities", "E", "Environment Entities", GH_ParamAccess.tree);
-            pManager.AddNumberParameter("Resolution", "R", "Environment Resolution", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Resolution", "R", "Environment Resolution. This must be above 1 for simulations to be accurate.", GH_ParamAccess.item);
             pManager.AddBooleanParameter("Run", "R", "Run the simulation", GH_ParamAccess.item);
 
             pManager[2].Optional = true;
@@ -54,7 +54,12 @@ namespace CirculationToolkit.Components
             if (!DA.GetData(1, ref resolution)) { return; } ;
             if (!DA.GetData(2, ref run)) { return; };
 
-            if (resolution <= 0) { return;  }
+            if (resolution < 1) {
+
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Resolution below threshold - setting resolution to 1");
+
+                resolution = 1;               
+            }
 
             SimulationEnvironment env = new SimulationEnvironment(resolution);
 

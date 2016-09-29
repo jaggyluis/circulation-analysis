@@ -455,38 +455,96 @@ namespace CirculationToolkit.Entities
 
         #region FloorGraph methods
         /// <summary>
-        /// Tests a Floor point for edge conditions
+        /// Updates the edge index connections in the FloorGraph
+        /// </summary>
+        /// <param name="gridIndexes"></param>
+        /// <param name="geometry"></param>
+        private void SetEdgeIndexes(List<int> gridIndexes, Curve geometry, bool isBarrier=false)
+        {
+            for (int i = 0; i < gridIndexes.Count; i++)
+            {
+                List<int> edges = FloorGraph.Edges[gridIndexes[i]].ToList();
+
+                for (int j = edges.Count - 1; j >= 0; j--)
+                {
+                    double tolerance = GridSize / 100;
+                    double overlapTolerance = tolerance;
+                    Polyline pline = new Polyline(new List<Point3d>() { Grid[gridIndexes[i]], Grid[edges[j]] });
+                    CurveIntersections xsec = Intersection.CurveCurve(pline.ToNurbsCurve(), geometry, tolerance, overlapTolerance);
+
+                    if (xsec.Count > 0)
+                    {
+                        FloorGraph.RemoveEdge(gridIndexes[i], edges[j]);
+                    }
+
+                    if (isBarrier)
+                    {
+                        Bounds2d unitBounds = GetGridUnit(Grid[edges[j]]);
+                        bool contains = true;
+
+                        for (int k=0; k<unitBounds.Points.Count; k++)
+                        {
+                            if (geometry.Contains(unitBounds.Points[k]) == PointContainment.Outside)
+                            {
+                                contains = false;
+                                break;
+                            }
+                        }
+
+                        if (contains)
+                        {
+                            FloorGraph.RemoveNodeReferences(edges[j]);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns the list of edge indexes from geometry
+        /// </summary>
+        /// <param name="geometry"></param>
+        /// <returns></returns>
+        private List<int> GetEdgeIndexes(Curve geometry)
+        {
+            List<Point3d> points = geometry.DivideEquidistant(GridSize / 2).ToList();
+            List<int> indexes = new List<int>();
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                int? gridIndex = GetPointGridIndex(points[i]);
+
+                if (gridIndex != null && !indexes.Contains((int)gridIndex))
+                {
+                    indexes.Add((int)gridIndex);
+                }
+            }
+
+            return indexes;
+        }
+
+        /// <summary>
+        /// Tests a Floor point for edge index conditions
         /// </summary>
         /// <param name="pt"></param>
         /// <returns></returns>
-        protected bool IsEdgeVertex(int testIndex)
+        private bool IsEdgeIndex(int testIndex)
         {
-            List<double> barrierValues = new List<double>();
-
-            foreach(int nodeIndex in FloorGraph.Edges[testIndex])
-            {
-                barrierValues.Add(FloorGraph.GetBarrierMapNodeValue(nodeIndex));
-            }
-            if (barrierValues.Count != 8 || barrierValues.Contains(double.MaxValue))
-            {
-                return true;
-            }
-
-            return false;
+            return FloorGraph.Edges[testIndex].Count != 8;
         }
 
         /// <summary>
         /// Creates the Weighted Floor edges for Agent Decisions
         /// </summary>
-        public void AddEdgeMap()
+        private void AddEdgeWeights()
         {
-            for (var i=0; i<Grid.Count; i++)
+            for (var i = 0; i < Grid.Count; i++)
             {
                 if (FloorGraph.GetBarrierMapNodeValue(i) != double.MaxValue)
                 {
                     List<int> keys = new List<int> { i };
                     int maxSearchDepth = 5;
-                    Dictionary<int, int?> search = FloorGraph.ShallowSearch(keys, IsEdgeVertex, maxDepth: maxSearchDepth);
+                    Dictionary<int, int?> search = FloorGraph.ShallowSearch(keys, IsEdgeIndex, maxDepth: maxSearchDepth);
                     List<int> values = new List<int>();
 
                     foreach (int? v in search.Values)
@@ -507,145 +565,57 @@ namespace CirculationToolkit.Entities
         }
 
         /// <summary>
+        /// Creates the Updated FloorGraph for Agent Decisions
+        /// </summary>
+        public void AddBarrierMap()
+        {
+            SetEdgeIndexes(GetEdgeIndexes(Geometry), Geometry);
+            AddEdgeWeights();
+        }
+
+        /// <summary>
         /// Adds Barrier Entities to the floor
         /// This should be upadated to use a quad-tree
         /// </summary>
         /// <param name="barrier"></param>
-        public List<int> _AddBarrierMap(Barrier barrier)
+        public List<int> AddBarrier(Barrier barrier)
         {
-            List<Point3d> points = barrier.Geometry.DivideEquidistant(GridSize/2).ToList();
-            List<int> indexes = new List<int>();
+            List<int> indexes = GetEdgeIndexes(barrier.Geometry);
 
-            for (int i=0; i<Grid.Count; i++)
-            {
-                Bounds2d unitBounds = GetGridUnit(Grid[i]);
-
-                if (barrier.Bounds.Intersects(unitBounds))
-                {
-                    bool contains = false;
-                    
-                    for (int j = 0; j < unitBounds.Points.Count; j++)
-                    {
-                        if (barrier.Geometry.Contains(unitBounds.Points[j]) == PointContainment.Inside)
-                        {
-                            FloorGraph.AddBarrierMapNodeValue(i, double.MaxValue);
-                            indexes.Add(i);
-                            contains = true;
-                            break;
-                        }
-                    }
-
-                    if (contains) continue;
-                                     
-                    for (int k = 0; k < points.Count; k++)
-                    {
-                        if (unitBounds.Contains(points[k]))
-                        {
-                            FloorGraph.AddBarrierMapNodeValue(i, double.MaxValue);
-                            indexes.Add(i);
-                            contains = true;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return indexes;        
-        }
-
-        /// <summary>
-        /// Temporary quick fix
-        /// </summary>
-        /// <param name="barrier"></param>
-        public List<int> __AddBarrierMap(Barrier barrier)
-        {
-            List<Point3d> points = barrier.Geometry.DivideEquidistant(GridSize / 2).ToList();
-            List<int> indexes = new List<int>();
-
-            for (int i = 0; i < Grid.Count; i++)
-            {
-                Bounds2d unitBounds = GetGridUnit(Grid[i]);
-
-                if (barrier.Bounds.Intersects(unitBounds))
-                {
-                    int count = 0;
-
-                    for (int j = 0; j < unitBounds.Points.Count; j++)
-                    {
-                        if (barrier.Geometry.Contains(unitBounds.Points[j]) == PointContainment.Inside)
-                        {
-                            count++;
-                        }
-                    }
-
-                    if (count > 2 || barrier.Geometry.Contains(Grid[i]) == PointContainment.Inside)
-                    {
-                        FloorGraph.AddBarrierMapNodeValue(i, double.MaxValue);
-                        indexes.Add(i);
-                    }
-                }
-            }
+            SetEdgeIndexes(indexes, barrier.Geometry, true);
 
             return indexes;
         }
 
-        public List<int> AddBarrierMap(Barrier barrier)
+        /// <summary>
+        /// Adds Node Enitity Zones to the floor
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public List<int> AddZone(Node node)
         {
-            List<Point3d> points = barrier.Geometry.DivideEquidistant(GridSize / 2).ToList();
             List<int> indexes = new List<int>();
 
+            Bounds2d zoneBounds = new Bounds2d(node.Geometry);
+            
             for (int i = 0; i < Grid.Count; i++)
             {
                 Bounds2d unitBounds = GetGridUnit(Grid[i]);
 
-                if (barrier.Bounds.Intersects(unitBounds))
+                if (zoneBounds.Intersects(unitBounds))
                 {
-                    bool contains = false;
-
-                    
                     for (int j = 0; j < unitBounds.Points.Count; j++)
                     {
-                        if (barrier.Geometry.Contains(unitBounds.Points[j]) == PointContainment.Inside)
+                        if (node.Geometry.Contains(unitBounds.Points[j]) == PointContainment.Inside)
                         {
                             indexes.Add(i);
-                            contains = true;
                             break;
                         }
-                    }
-                    
-
-                    if (contains) continue;
-
-                    for (int k = 0; k < points.Count; k++)
-                    {
-                        if (unitBounds.Contains(points[k]))
-                        {
-                            indexes.Add(i);
-                            contains = true;
-                            break;
-                        }
-                    }
+                    }                 
                 }
             }
 
-            for (int i = 0; i< indexes.Count; i++)
-            {
-                List<int> edges = FloorGraph.Edges[indexes[i]].ToList();
-
-                for (int j = edges.Count-1; j>=0; j--)
-                {
-                    double tolerance = GridSize / 100;
-                    double overlapTolerance = tolerance;
-                    Polyline pline = new Polyline(new List<Point3d>() { Grid[indexes[i]], Grid[edges[j]] });
-                    CurveIntersections xsec = Intersection.CurveCurve(pline.ToNurbsCurve(), barrier.Geometry, tolerance, overlapTolerance);
-
-                    if (xsec.Count > 0)
-                    {
-                        FloorGraph.RemoveEdge(indexes[i], edges[j]);
-                    }
-                }
-
-            }
+            SetEdgeIndexes(GetEdgeIndexes(node.Geometry), node.Geometry, true);
 
             return indexes;
         }

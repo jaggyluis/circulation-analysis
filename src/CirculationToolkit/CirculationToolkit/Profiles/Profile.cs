@@ -62,6 +62,15 @@ namespace CirculationToolkit.Profiles
         {
             return new Profile(Name, Type, Attributes);
         }
+
+        /// <summary>
+        /// To String method
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "Entity Profile: " + Type;
+        }
         #endregion
 
         #region properties

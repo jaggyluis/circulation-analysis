@@ -93,6 +93,9 @@ namespace CirculationToolkit.Entities
             return count;
         }
 
+        /// <summary>
+        /// Returns the Node's Geometry if is has any
+        /// </summary>
         public Curve Geometry
         {
             get
@@ -107,6 +110,17 @@ namespace CirculationToolkit.Entities
                 {
                     return null;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Returns whether this node is a Zone
+        /// </summary>
+        public bool IsZone
+        {
+            get
+            {
+                return Geometry != null;
             }
         }
 

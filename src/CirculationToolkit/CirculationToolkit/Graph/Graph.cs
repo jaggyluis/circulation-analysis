@@ -91,6 +91,36 @@ namespace CirculationToolkit.Graph
         }
 
         /// <summary>
+        /// Removes a Node and all occurances of that Node from the Graph
+        /// </summary>
+        /// <param name="node"></param>
+        public void RemoveNode(NodeType node)
+        {
+            if (Nodes.Contains(node))
+            {
+                Nodes.Remove(node);
+            }
+
+            RemoveNodeReferences(node);
+        }
+
+        /// <summary>
+        /// Removes all occurances of this node in the Edges and Distances of the Graph
+        /// </summary>
+        public void RemoveNodeReferences(NodeType node)
+        {
+            if (Edges.ContainsKey(node))
+            {
+                List<NodeType> edges = Edges[node].ToList();
+
+                for (int i = edges.Count - 1; i >= 0; i--)
+                {
+                    RemoveEdge(node, edges[i], false);
+                }
+            }
+        }
+
+        /// <summary>
         /// Adds and edge to the Graph
         /// </summary>
         /// <param name="n1"></param>
