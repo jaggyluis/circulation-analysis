@@ -5,6 +5,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using CirculationToolkit.Environment;
 using Grasshopper.Kernel.Data;
+using CirculationToolkit.Exceptions;
 
 namespace CirculationToolkit.Components
 {
@@ -68,15 +69,38 @@ namespace CirculationToolkit.Components
                 env.AddEntity(g.Value.Duplicate());
             }
 
-            if (env.BuildEnvironment())
+            try
             {
-                if (run)
+                if (env.BuildEnvironment())
                 {
-                    env.RunEnvironment();
-                }
+                    if (run)
+                    {
+                        try
+                        {
+                            env.RunEnvironment();
+                        }
+                        catch (MaxStepReachedException e)
+                        {
+                            AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, e.Message);
+                        }
+                    }
 
-                DA.SetData(0, env);
-            }         
+                    DA.SetData(0, env);
+                }
+            }
+            catch (FloorNotFoundException e)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, e.Message);
+            }
+            catch (NodePathNotPossibleException e)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, e.Message);
+            }
+            catch (NodeNotOnFloorException e)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, e.Message);
+            }
+      
         }
 
         /// <summary>

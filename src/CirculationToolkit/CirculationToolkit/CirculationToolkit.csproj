@@ -79,11 +79,16 @@
     <Compile Include="Entities\Floor.cs" />
     <Compile Include="Entities\Node.cs" />
     <Compile Include="Entities\Template.cs" />
+    <Compile Include="Exceptions\FloorNotFoundException.cs" />
+    <Compile Include="Exceptions\MaxStepReachedException.cs" />
+    <Compile Include="Exceptions\NodeNotOnFloorException.cs" />
+    <Compile Include="Exceptions\NodePathNotPossibleException.cs" />
     <Compile Include="Geometry\Interval.cs" />
     <Compile Include="Graph\FloorGraph.cs" />
     <Compile Include="Graph\SearchGraph.cs" />
     <Compile Include="Profiles\AgentProfile.cs" />
     <Compile Include="Environment\Environment.cs" />
+    <Compile Include="Profiles\EnvironmentProfile.cs" />
     <Compile Include="Profiles\NodeProfile.cs" />
     <Compile Include="ToolkitInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

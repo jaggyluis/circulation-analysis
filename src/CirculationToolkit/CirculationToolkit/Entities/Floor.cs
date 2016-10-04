@@ -604,14 +604,10 @@ namespace CirculationToolkit.Entities
 
                 if (zoneBounds.Intersects(unitBounds))
                 {
-                    for (int j = 0; j < unitBounds.Points.Count; j++)
+                    if (node.Geometry.Contains(Grid[i]) == PointContainment.Inside)
                     {
-                        if (node.Geometry.Contains(unitBounds.Points[j]) == PointContainment.Inside)
-                        {
-                            indexes.Add(i);
-                            break;
-                        }
-                    }                 
+                        indexes.Add(i);
+                    }              
                 }
             }
 

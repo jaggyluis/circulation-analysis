@@ -1,4 +1,5 @@
 ﻿using CirculationToolkit.Entities;
+using CirculationToolkit.Exceptions;
 using CirculationToolkit.Graph;
 using CirculationToolkit.Profiles;
 using Rhino.Geometry;
@@ -387,32 +388,39 @@ namespace CirculationToolkit.Environment
                     {
                         List<int> path;
 
-                        if (NodeShortestPaths.Keys.Contains(fromNode))
+                        try
                         {
-                            path = floor.FloorGraph.ShortestPath(
-                                (int)toNodeGridIndex,
-                                (int)fromNodeGridIndex,
-                                0,
-                                NodeShortestPaths[fromNode]);
+                            if (NodeShortestPaths.Keys.Contains(fromNode))
+                            {
+                                path = floor.FloorGraph.ShortestPath(
+                                    (int)toNodeGridIndex,
+                                    (int)fromNodeGridIndex,
+                                    0,
+                                    NodeShortestPaths[fromNode]);
 
-                            path.Reverse();
-                        }
-                        else if (NodeShortestPaths.Keys.Contains(toNode))
-                        {
-                            path = floor.FloorGraph.ShortestPath(
-                                (int)fromNodeGridIndex,
-                                (int)toNodeGridIndex,
-                                0,
-                                NodeShortestPaths[toNode]);                           
-                        }
-                        else
-                        {
-                            path = floor.FloorGraph.ShortestPath(
-                                (int)fromNodeGridIndex, 
-                                (int)toNodeGridIndex);
-                        }
+                                path.Reverse();
+                            }
+                            else if (NodeShortestPaths.Keys.Contains(toNode))
+                            {
+                                path = floor.FloorGraph.ShortestPath(
+                                    (int)fromNodeGridIndex,
+                                    (int)toNodeGridIndex,
+                                    0,
+                                    NodeShortestPaths[toNode]);
+                            }
+                            else
+                            {
+                                path = floor.FloorGraph.ShortestPath(
+                                    (int)fromNodeGridIndex,
+                                    (int)toNodeGridIndex);
+                            }
 
-                        return path;
+                            return path;
+                        }
+                        catch (KeyNotFoundException e)
+                        {
+                            throw new NodePathNotPossibleException("Path not possible - " + fromNode + " to " + toNode, e);
+                        }                 
                     }
                 }
             }
@@ -536,9 +544,14 @@ namespace CirculationToolkit.Environment
                     {
                         node.Init(floor);
 
+                        if (node.GridIndex == null)
+                        {
+                            throw new NodeNotOnFloorException(node + " was flagged as not on a Floor");
+                        }
+
                         if (node.IsZone)
                         {
-                            floor.AddZone(node);
+                            node.Indexes = floor.AddZone(node);
                         }
                     }
                 }
@@ -576,15 +589,23 @@ namespace CirculationToolkit.Environment
                                     Node fromNode = fromNodes[i];
                                     Node toNode = toNodes[j];
 
-                                    List<int> path = GetNodeShortestPath(fromNode, toNode);
-                                    NodeGraph.AddEdge(fromNode, toNode, path);
-
-                                    if (!directed)
+                                    try
                                     {
-                                        List<int> reversedPath = new List<int>(path);
-                                        reversedPath.Reverse();
-                                        NodeGraph.AddEdge(toNode, fromNode, reversedPath);
+                                        List<int> path = GetNodeShortestPath(fromNode, toNode);
+                                        NodeGraph.AddEdge(fromNode, toNode, path);
+
+                                        if (!directed)
+                                        {
+                                            List<int> reversedPath = new List<int>(path);
+                                            reversedPath.Reverse();
+                                            NodeGraph.AddEdge(toNode, fromNode, reversedPath);
+                                        }
                                     }
+                                    catch (NodePathNotPossibleException e)
+                                    {
+                                        throw e;
+                                    }
+
                                 }
                             }
                         }
@@ -601,8 +622,15 @@ namespace CirculationToolkit.Environment
                     {
                         if (!fromNode.Equals(toNode))
                         {
-                            List<int> path = GetNodeShortestPath(fromNode, toNode);
-                            NodeGraph.AddEdge(fromNode, toNode, path);
+                            try
+                            {
+                                List<int> path = GetNodeShortestPath(fromNode, toNode);
+                                NodeGraph.AddEdge(fromNode, toNode, path);
+                            }
+                            catch (NodePathNotPossibleException e)
+                            {
+                                throw e;
+                            }
                         }
                     }
                 }
@@ -636,12 +664,47 @@ namespace CirculationToolkit.Environment
         /// </summary>
         public bool BuildEnvironment()
         {
-            if (!BuildFloors()) { return false; }
+
+            ///
+            /// Try to build the floors return a warning if 
+            /// no floors are found
+            if (!BuildFloors())
+            {
+                throw new FloorNotFoundException("Environment needs at least one floor");
+            }
+
+
             if (!BuildBarriers()) { }
-            if (!BuildNodes()) { }
+
+            ///
+            /// Try to build the nodes on the Floor
+            /// and return a warning if a node is not on the floor
+            /// 
+            try
+            {
+                if (!BuildNodes()) { }
+            }
+            catch (NodeNotOnFloorException e)
+            {
+                throw e;
+            }
+            
             if (!BuildFloorBarrierMaps()) { }
             if (!BuildNodeShortestPaths()) { }
-            if (!BuildTemplates()) { }
+            
+            ///
+            /// Try to build the connections between nodes
+            /// and return an warning if a path is not possible
+            /// 
+            try
+            {
+                if (!BuildTemplates()) { }
+            }
+            catch (NodePathNotPossibleException e)
+            {
+                throw e;
+            }
+            
             if (!BuildAgents()) { }
 
             return true;
@@ -678,11 +741,13 @@ namespace CirculationToolkit.Environment
             {
                 isComplete = Step();
 
-                if (Generations >= 10000)
+                if (Generations >= 100000)
                 {
-                    // force the simulation to end after 10000 generations
-                    // as a precauction
-                    break;
+                    ///
+                    /// force the simulation to end after 100000 generations
+                    /// as a precauction. This should maybe be set.
+                    ///
+                    throw new MaxStepReachedException("Maximum step count reached - " + Generations);
                 }
 
                 Generations++;

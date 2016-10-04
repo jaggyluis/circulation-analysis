@@ -495,7 +495,7 @@ namespace CirculationToolkit.Entities
                         Tuple<Node, Node> key = new Tuple<Node, Node>(position, goal);
 
                         int pathCount = Environment.NodeGraph.Distances[key].Count;
-                        int goalCount = goal.Count(Age + pathCount);
+                        int goalCount = goal.Count(Age + pathCount) + 1;
                         int goalCapacity = goal.Capacity;
 
                         if (goalCount < goalCapacity)
@@ -510,7 +510,18 @@ namespace CirculationToolkit.Entities
                             }
                             else
                             {
-                                continue;
+                                if (goalNodes.Count > 0)
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    goal = Destination;
+
+                                    ToggleComplete();
+
+                                    break;
+                                }
                             }
                         }
                     }

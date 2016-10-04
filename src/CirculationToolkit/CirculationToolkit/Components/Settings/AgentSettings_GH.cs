@@ -27,6 +27,7 @@ namespace CirculationToolkit.Components.Settings
         {
             pManager.AddTextParameter("Path Nodes", "N", "The name of the Nodes to move to", GH_ParamAccess.list);
             pManager.AddNumberParameter("Node Propensities", "P", "The likelyhood of an Agent to visit this node (0 to 1)", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Queuing Propensity", "Q", "The likelyhood of an Agent to choose a node with many Agents at it (0 to 1)", GH_ParamAccess.item);
             pManager.AddIntervalParameter("Distribution Interval", "I", "The Agent Entity spawning distribution", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Agent Count", "C", "The number of Agents to generate. The default is 1", GH_ParamAccess.item);
 
@@ -34,6 +35,7 @@ namespace CirculationToolkit.Components.Settings
             pManager[1].Optional = true;
             pManager[2].Optional = true;
             pManager[3].Optional = true;
+            pManager[4].Optional = true;
         }
 
         /// <summary>
@@ -52,13 +54,15 @@ namespace CirculationToolkit.Components.Settings
         {
             List<string> nodes = new List<string>();
             List<double> values = new List<double>();
+            double queuing = 0;
             Interval ival = new Interval(0,1);
             int count = 1;
 
             if (!DA.GetDataList(0, nodes)) { }
             if (!DA.GetDataList(1, values)) { values.Add(1); }
-            if (!DA.GetData(2, ref ival)) {  }
-            if (!DA.GetData(3, ref count)) {  }
+            if (!DA.GetData(2, ref queuing)) { }
+            if (!DA.GetData(3, ref ival)) {  }
+            if (!DA.GetData(4, ref count)) {  }
 
             nodes.Reverse();
             values.Reverse();
@@ -69,6 +73,8 @@ namespace CirculationToolkit.Components.Settings
             Tuple<int, int> distribution = new Tuple<int, int>((int)ival.T0, (int)ival.T1);
             Dictionary<string, double> propensities = new Dictionary<string, double>();
             Dictionary<string, string> attributes = new Dictionary<string, string>(); // this could be added to later
+
+            propensities.Add("queuing", queuing);
 
             while (nodeStack.Count > 0)
             {
@@ -86,7 +92,6 @@ namespace CirculationToolkit.Components.Settings
 
                 propensities[node] = value;    
             }
-
 
             AgentProfile profile = new AgentProfile(null, attributes, propensities, distribution, count);         
 

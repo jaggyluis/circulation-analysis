@@ -73,6 +73,7 @@ namespace CirculationToolkit.Components.Settings
             }
 
             NodeProfile profile = new NodeProfile(null, attributes, distribution, capacity);
+
             profile.Geometry = geometry;
 
             DA.SetData(0, profile);

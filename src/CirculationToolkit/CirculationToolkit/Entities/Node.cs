@@ -74,6 +74,17 @@ namespace CirculationToolkit.Entities
             }
         }
 
+        /// <summary>
+        /// Returns the Grid idex of the Node position on the current FLoor
+        /// </summary>
+        public int? GridIndex
+        {
+            get
+            {
+                return Floor.GetPointGridIndex(Position);
+            }
+        }
+
         #endregion
 
         #region utility methods

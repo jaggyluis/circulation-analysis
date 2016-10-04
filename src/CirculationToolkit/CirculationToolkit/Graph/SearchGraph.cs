@@ -252,8 +252,15 @@ namespace CirculationToolkit.Graph
             };
             while (!goal.Equals(initial))
             {
-                route.Add(path[goal]);
-                goal = path[goal];
+                try
+                {
+                    route.Add(path[goal]);
+                    goal = path[goal];
+                }
+                catch (KeyNotFoundException e)
+                {
+                    throw e;
+                }
             }
             route.Reverse();
 
