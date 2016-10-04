@@ -214,155 +214,95 @@ namespace CirculationToolkit.Environment
         }
 
         /// <summary>
-        /// Returns a mapped dictionary of all Agent Entities by name
+        /// Returns a mapped dictionary of type T entities by their names
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        private Dictionary<string, List<Agent>> GetAgentDictByName()
+        private Dictionary<string, List<T>> GetEntityDictByName<T>()
         {
-            Dictionary<string, List<Agent>> agentDict = new Dictionary<string, List<Agent>>();
+            string type = typeof(T).Name.ToLower();
+            Dictionary<string, List<T>> entityDict = new Dictionary<string, List<T>>();            
 
-            foreach(Agent agent in Agents)
+            foreach(Entity entity in Entities[type])
             {
-                if (!agentDict.ContainsKey(agent.Name))
+                if (!entityDict.ContainsKey(entity.Name))
                 {
-                    agentDict[agent.Name] = new List<Agent>();
+                    entityDict[entity.Name] = new List<T>();
                 }
-                agentDict[agent.Name].Add(agent);
-            }
 
-            return agentDict;
+                entityDict[entity.Name].Add((T)Convert.ChangeType(entity, typeof(T)));
+            }           
+
+            return entityDict;
         }
 
         /// <summary>
-        /// Returns a list of Agent Entities by name
+        /// Returns a mapped dictionary of type T Entities by their positions
         /// </summary>
-        /// <param name="name"></param>
+        /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public List<Agent> GetAgents(string name)
+        private Dictionary<Point3d, List<T>> GetEntityDictByPosition<T>()
         {
-            Dictionary<string, List<Agent>> agentDict = GetAgentDictByName();
+            string type = typeof(T).Name.ToLower();
+            Dictionary<Point3d, List<T>> entityDict = new Dictionary<Point3d, List<T>>();
 
-            if (agentDict.ContainsKey(name))
+            foreach (Entity entity in Entities[type])
             {
-                return agentDict[name];
-            }
-
-            return new List<Agent>();
-        }
-               
-        /// <summary>
-        /// Returns a mapped dictionary of all Floor Entities by name
-        /// </summary>
-        /// <returns></returns>
-        private Dictionary<string, Floor> GetFloorDictByName()
-        {
-            Dictionary<string, Floor> floorDict = new Dictionary<string, Floor>();
-
-            foreach(Floor floor in Floors)
-            {
-                floorDict[floor.Name] = floor;
-            }
-
-            return floorDict;
-        }
-
-        /// <summary>
-        /// Returns a Floor Entity by name
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public Floor GetFloor(string name)
-        {
-            Dictionary<string, Floor> floorDict = GetFloorDictByName();
-
-            if (floorDict.ContainsKey(name))
-            {
-                return floorDict[name];
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Returns a mapped Dictionary of all Node Entities by name
-        /// </summary>
-        /// <returns></returns>
-        private Dictionary<string, List<Node>> GetNodeDictByName()
-        {
-            Dictionary<string, List<Node>> nodeDict = new Dictionary<string, List<Node>>();
-
-            foreach (Node node in Nodes)
-            {
-                if (!nodeDict.ContainsKey(node.Name))
+                if (!entityDict.ContainsKey(entity.Position))
                 {
-                    nodeDict[node.Name] = new List<Node>();
+                    entityDict[entity.Position] = new List<T>();
                 }
-                nodeDict[node.Name].Add(node);
+
+                entityDict[entity.Position].Add((T)Convert.ChangeType(entity, typeof(T)));
             }
 
-            return nodeDict;
+            return entityDict;
         }
 
         /// <summary>
-        /// Returns a mapped Dictionary of all Node Entities by position
+        /// Returns a list of type T Entities matching a name property
         /// </summary>
-        /// <returns></returns>
-        private Dictionary<Point3d, List<Node>> GetNodeDictByPosition()
-        {
-            Dictionary<Point3d, List<Node>> nodeDict = new Dictionary<Point3d, List<Node>>();
-
-            foreach (Node node in Nodes)
-            {
-                if (!nodeDict.ContainsKey(node.Position))
-                {
-                    nodeDict[node.Position] = new List<Node>();
-                }
-                nodeDict[node.Position].Add(node);
-            }
-
-            return nodeDict;
-        }
-
-        /// <summary>
-        /// Returns a Node Entity by name
-        /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="name"></param>
         /// <returns></returns>
-        public List<Node> GetNodes(string name)
+        public List<T> GetEntities<T>(string name)
         {
-            Dictionary<string, List<Node>> nodeDict = GetNodeDictByName();
+            Dictionary<string, List<T>> entityDict = GetEntityDictByName<T>();
 
-            if (nodeDict.ContainsKey(name))
+            if (entityDict.ContainsKey(name))
             {
-                return nodeDict[name];
+                return entityDict[name];
             }
 
-            return null;
+            return new List<T>();
         }
 
         /// <summary>
-        /// Returns a Node Entity by position
+        /// Returns a list of type T Entities matching a position property
         /// </summary>
-        /// <param name="name"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="position"></param>
         /// <returns></returns>
-        public List<Node> GetNodes(Point3d position)
+        public List<T> GetEntities<T>(Point3d position)
         {
-            Dictionary<Point3d, List<Node>> nodeDict = GetNodeDictByPosition();
+            Dictionary<Point3d, List<T>> entityDict = GetEntityDictByPosition<T>();
 
-            if (nodeDict.ContainsKey(position))
+            if (entityDict.ContainsKey(position))
             {
-                return nodeDict[position];
+                return entityDict[position];
             }
 
-            return null;
+            return new List<T>();
         }
+        #endregion
 
+        #region main methods
         /// <summary>
         /// Stores a list of all shortest paths to this node
         /// </summary>
         /// <param name="node"></param>
         /// <param name="path"></param>
-        private void SetNodeShortestPaths(Node node, Dictionary<int,int> path)
+        private void SetNodeShortestPaths(Node node, Dictionary<int, int> path)
         {
             NodeShortestPaths[node] = path;
         }
@@ -420,16 +360,13 @@ namespace CirculationToolkit.Environment
                         catch (KeyNotFoundException e)
                         {
                             throw new NodePathNotPossibleException("Path not possible - " + fromNode + " to " + toNode, e);
-                        }                 
+                        }
                     }
                 }
             }
 
             return null;
         }
-        #endregion
-
-        #region main methods
         /// <summary>
         /// Handles all processes needed to store shortest paths between nodes
         /// </summary>
@@ -512,7 +449,10 @@ namespace CirculationToolkit.Environment
             {
                 foreach (Barrier barrier in Barriers)
                 {
-                    Floor floor = GetFloor(barrier.Floor);
+                    ///
+                    /// Not good
+                    /// 
+                    Floor floor = GetEntities<Floor>(barrier.Floor)[0];
 
                     if (floor != null)
                     {
@@ -538,7 +478,10 @@ namespace CirculationToolkit.Environment
             {
                 foreach (Node node in Nodes)
                 {
-                    Floor floor = GetFloor(node.GetAttribute("floor"));                   
+                    ///
+                    /// Not good
+                    /// 
+                    Floor floor = GetEntities<Floor>(node.GetAttribute("floor"))[0];                   
 
                     if (floor != null)
                     {
@@ -577,8 +520,8 @@ namespace CirculationToolkit.Environment
 
                     foreach (Tuple<Point3d, Point3d> edge in template.Edges)
                     {
-                        List<Node> fromNodes = GetNodes(edge.Item1);
-                        List<Node> toNodes = GetNodes(edge.Item2);
+                        List<Node> fromNodes = GetEntities<Node>(edge.Item1);
+                        List<Node> toNodes = GetEntities<Node>(edge.Item2);
 
                         if (fromNodes.Count != 0 && toNodes.Count != 0)
                         {                           
