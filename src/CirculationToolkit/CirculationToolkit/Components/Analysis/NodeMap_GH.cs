@@ -63,9 +63,9 @@ namespace CirculationToolkit.Components.Analysis
             List<Mesh> outMeshes = new List<Mesh>();
             List<double> outValues = new List<double>();
 
-            if (envGoo.Value.GetNodes(nodeName).Count != 0)
+            if (envGoo.Value.GetEntities<Node>(nodeName).Count != 0)
             {
-                List<Node> nodes = envGoo.Value.GetNodes(nodeName);      
+                List<Node> nodes = envGoo.Value.GetEntities<Node>(nodeName);      
 
                 if (nodes.Count > 0)
                 {

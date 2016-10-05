@@ -79,6 +79,7 @@
     <Compile Include="Entities\Floor.cs" />
     <Compile Include="Entities\Node.cs" />
     <Compile Include="Entities\Template.cs" />
+    <Compile Include="Exceptions\EntityNameNotUniqueException.cs" />
     <Compile Include="Exceptions\FloorNotFoundException.cs" />
     <Compile Include="Exceptions\MaxStepReachedException.cs" />
     <Compile Include="Exceptions\NodeNotOnFloorException.cs" />

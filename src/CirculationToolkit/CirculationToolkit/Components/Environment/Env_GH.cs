@@ -100,6 +100,10 @@ namespace CirculationToolkit.Components
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, e.Message);
             }
+            catch (EntityNameNotUniquException e)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, e.Message);
+            }
       
         }
 

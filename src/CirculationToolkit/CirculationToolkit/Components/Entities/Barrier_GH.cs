@@ -47,8 +47,8 @@ namespace CirculationToolkit.Components
             Curve boundary = null;
             string floorName = null;
 
-            DA.GetData(0, ref boundary);
-            DA.GetData(1, ref floorName);
+            if (!DA.GetData(0, ref boundary)) { return; }
+            if (!DA.GetData(1, ref floorName)) { return; }
 
             Profile profile = new Profile("barrier");
             profile.SetAttribute("floor", floorName);

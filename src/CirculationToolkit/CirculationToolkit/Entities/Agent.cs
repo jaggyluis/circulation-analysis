@@ -85,7 +85,7 @@ namespace CirculationToolkit.Entities
         {
             get
             {
-                List<Node> origins = Environment.GetNodes(GetAttribute("origin"));
+                List<Node> origins = Environment.GetEntities<Node>(GetAttribute("origin"));
                 Random random = new Random(Guid.NewGuid().GetHashCode());
 
                 if (origins.Count != 0)
@@ -106,7 +106,7 @@ namespace CirculationToolkit.Entities
         {
             get
             {
-                List<Node> destinations = Environment.GetNodes(GetAttribute("destination"));
+                List<Node> destinations = Environment.GetEntities<Node>(GetAttribute("destination"));
                 Random random = new Random(Guid.NewGuid().GetHashCode());
 
                 if (destinations.Count != 0)
@@ -498,7 +498,7 @@ namespace CirculationToolkit.Entities
                         int goalCount = goal.Count(Age + pathCount) + 1;
                         int goalCapacity = goal.Capacity;
 
-                        if (goalCount < goalCapacity)
+                        if (goalCount < (goalCapacity / 2))
                         {
                             break;
                         }
@@ -510,7 +510,7 @@ namespace CirculationToolkit.Entities
                             }
                             else
                             {
-                                if (goalNodes.Count > 0)
+                                if (goalNodesStack.Count > 0)
                                 {
                                     continue;
                                 }

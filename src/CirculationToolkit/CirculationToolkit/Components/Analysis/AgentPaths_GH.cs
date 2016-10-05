@@ -52,7 +52,7 @@ namespace CirculationToolkit.Components.Analysis
             if (!DA.GetData(0, ref envGoo)) { return; }
             if (!DA.GetData(1, ref agentName)) { return; }
 
-            List<Agent> agents = envGoo.Value.GetAgents(agentName);
+            List<Agent> agents = envGoo.Value.GetEntities<Agent>(agentName);
 
             DataTree<int> pathTree = new DataTree<int>();
             DataTree<string> logTree = new DataTree<string>();

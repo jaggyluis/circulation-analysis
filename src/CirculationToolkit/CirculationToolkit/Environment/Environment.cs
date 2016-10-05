@@ -6,6 +6,7 @@ using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace CirculationToolkit.Environment
@@ -214,47 +215,28 @@ namespace CirculationToolkit.Environment
         }
 
         /// <summary>
-        /// Returns a mapped dictionary of type T entities by their names
+        /// Returns a mapped dictionary of type T entities by their property
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        private Dictionary<string, List<T>> GetEntityDictByName<T>()
+        private Dictionary<PropertyType, List<EntityType>> GetEntityDictByProperty<EntityType, PropertyType>(string propertyName)
         {
-            string type = typeof(T).Name.ToLower();
-            Dictionary<string, List<T>> entityDict = new Dictionary<string, List<T>>();            
+            Type type = typeof(EntityType);
+            string typeName = type.Name.ToLower();
 
-            foreach(Entity entity in Entities[type])
+            Dictionary<PropertyType, List<EntityType>> entityDict = new Dictionary<PropertyType, List<EntityType>>();            
+
+            foreach(Entity entity in Entities[typeName])
             {
-                if (!entityDict.ContainsKey(entity.Name))
+                PropertyType value = (PropertyType)Convert.ChangeType(type.GetProperty(propertyName).GetValue(entity, null), typeof(PropertyType));
+
+                if (!entityDict.ContainsKey(value))
                 {
-                    entityDict[entity.Name] = new List<T>();
+                    entityDict[value] = new List<EntityType>();
                 }
 
-                entityDict[entity.Name].Add((T)Convert.ChangeType(entity, typeof(T)));
+                entityDict[value].Add((EntityType)Convert.ChangeType(entity, typeof(EntityType)));
             }           
-
-            return entityDict;
-        }
-
-        /// <summary>
-        /// Returns a mapped dictionary of type T Entities by their positions
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        private Dictionary<Point3d, List<T>> GetEntityDictByPosition<T>()
-        {
-            string type = typeof(T).Name.ToLower();
-            Dictionary<Point3d, List<T>> entityDict = new Dictionary<Point3d, List<T>>();
-
-            foreach (Entity entity in Entities[type])
-            {
-                if (!entityDict.ContainsKey(entity.Position))
-                {
-                    entityDict[entity.Position] = new List<T>();
-                }
-
-                entityDict[entity.Position].Add((T)Convert.ChangeType(entity, typeof(T)));
-            }
 
             return entityDict;
         }
@@ -265,16 +247,16 @@ namespace CirculationToolkit.Environment
         /// <typeparam name="T"></typeparam>
         /// <param name="name"></param>
         /// <returns></returns>
-        public List<T> GetEntities<T>(string name)
+        public List<EntityType> GetEntities<EntityType>(string name)
         {
-            Dictionary<string, List<T>> entityDict = GetEntityDictByName<T>();
+            Dictionary<string, List<EntityType>> entityDict = GetEntityDictByProperty<EntityType, string>("Name");
 
             if (entityDict.ContainsKey(name))
             {
                 return entityDict[name];
             }
 
-            return new List<T>();
+            return new List<EntityType>();
         }
 
         /// <summary>
@@ -283,16 +265,16 @@ namespace CirculationToolkit.Environment
         /// <typeparam name="T"></typeparam>
         /// <param name="position"></param>
         /// <returns></returns>
-        public List<T> GetEntities<T>(Point3d position)
+        public List<EntityType> GetEntities<EntityType>(Point3d position)
         {
-            Dictionary<Point3d, List<T>> entityDict = GetEntityDictByPosition<T>();
+            Dictionary<Point3d, List<EntityType>> entityDict = GetEntityDictByProperty<EntityType, Point3d>("Position");
 
             if (entityDict.ContainsKey(position))
             {
                 return entityDict[position];
             }
 
-            return new List<T>();
+            return new List<EntityType>();
         }
         #endregion
 
@@ -449,14 +431,20 @@ namespace CirculationToolkit.Environment
             {
                 foreach (Barrier barrier in Barriers)
                 {
-                    ///
-                    /// Not good
-                    /// 
-                    Floor floor = GetEntities<Floor>(barrier.Floor)[0];
+                    string floorName = barrier.Floor;
+                    List<Floor> floors = GetEntities<Floor>(floorName);
 
-                    if (floor != null)
+                    if (floors.Count > 1)
                     {
-                        barrier.Indexes = floor.AddBarrier(barrier);
+                        throw new EntityNameNotUniquException("Muliple Floor Entities with same name detected:" + floorName);
+                    }
+                    else if  (floors.Count == 0)
+                    {
+                        throw new FloorNotFoundException("Barrier Entity floor not found: " + floorName);
+                    }
+                    else if (floors.Count == 1)
+                    {
+                        barrier.Indexes = floors[0].AddBarrier(barrier);
                     }
                 }
 
@@ -478,14 +466,20 @@ namespace CirculationToolkit.Environment
             {
                 foreach (Node node in Nodes)
                 {
-                    ///
-                    /// Not good
-                    /// 
-                    Floor floor = GetEntities<Floor>(node.GetAttribute("floor"))[0];                   
+                    string floorName = node.GetAttribute("floor");
+                    List<Floor> floors = GetEntities<Floor>(floorName);
 
-                    if (floor != null)
+                    if (floors.Count > 1)
                     {
-                        node.Init(floor);
+                        throw new EntityNameNotUniquException("Muliple Floor Entities with same name detected:" + floorName);
+                    }
+                    else if (floors.Count == 0)
+                    {
+                        throw new FloorNotFoundException("Node Entity floor not found: " + floorName);
+                    }
+                    else if (floors.Count == 1)
+                    {
+                        node.Init(floors[0]);
 
                         if (node.GridIndex == null)
                         {
@@ -494,7 +488,7 @@ namespace CirculationToolkit.Environment
 
                         if (node.IsZone)
                         {
-                            node.Indexes = floor.AddZone(node);
+                            node.Indexes = floors[0].AddZone(node);
                         }
                     }
                 }

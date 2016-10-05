@@ -23,7 +23,7 @@ X Count should be called AgentCount
 X All profile / settings objects should have toString methods
 
 Environment
-- getter and setter methods should be generalized to entity rather than type
+X getter and setter methods should be generalized to entity rather than type
 X write all warning messages
 - implement simulation distribution - environment settings?
 X Environment Resolution should not be below 1

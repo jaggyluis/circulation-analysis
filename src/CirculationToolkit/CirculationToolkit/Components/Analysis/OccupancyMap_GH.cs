@@ -54,9 +54,11 @@ namespace CirculationToolkit.Components.Analysis
             if (!DA.GetData(1, ref floorName)) { return; }
             if (!DA.GetData(2, ref gen)) { gen = -1; }
 
-            if (envGoo.Value.GetFloor(floorName) != null)
+            List<Floor> floors = envGoo.Value.GetEntities<Floor>(floorName);
+
+            if (floors.Count == 1)
             {
-                Floor floor = envGoo.Value.GetFloor(floorName);
+                Floor floor = floors[0];
                 
                 //
                 // All of this should be implemeted as Floor methods
@@ -114,6 +116,14 @@ namespace CirculationToolkit.Components.Analysis
                     DA.SetData(0, floor.Mesh);
                     DA.SetDataList(1, values);
                 }
+            }
+            else if (floors.Count == 0)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Floor not found: " + floorName);
+            }
+            else if (floors.Count > 1)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Floor name not unique: " + floorName);
             }
         }
 
