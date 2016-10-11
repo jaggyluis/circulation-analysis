@@ -79,10 +79,8 @@ namespace CirculationToolkit.Components
                         {
                             env.RunEnvironment(delegate() {
                                
-                                DA.SetData(0, env);
-                                ExpireDownStreamObjects();
-
-                                
+                                //DA.SetData(0, env);
+                                //ExpireDownStreamObjects();                              
 
                                 return true;
                             });
