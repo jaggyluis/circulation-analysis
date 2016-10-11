@@ -49,7 +49,7 @@ namespace CirculationToolkit.Components
         {
             GH_Structure<Entity_Goo> entityGoos = new GH_Structure<Entity_Goo>();
             double resolution = default(double);
-            bool run = false;
+            bool run = false;          
 
             if (!DA.GetDataTree(0, out entityGoos)) { return; };
             if (!DA.GetData(1, ref resolution)) { return; } ;
@@ -62,7 +62,7 @@ namespace CirculationToolkit.Components
                 resolution = 1;               
             }
 
-            SimulationEnvironment env = new SimulationEnvironment(resolution);
+            SimulationEnvironment env = new SimulationEnvironment(resolution);   
 
             foreach (Entity_Goo g in entityGoos.AllData(true))
             {
@@ -77,7 +77,15 @@ namespace CirculationToolkit.Components
                     {
                         try
                         {
-                            env.RunEnvironment();
+                            env.RunEnvironment(delegate() {
+                               
+                                DA.SetData(0, env);
+                                ExpireDownStreamObjects();
+
+                                
+
+                                return true;
+                            });
                         }
                         catch (MaxStepReachedException e)
                         {
@@ -105,6 +113,11 @@ namespace CirculationToolkit.Components
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, e.Message);
             }
       
+        }
+
+        protected override void ExpireDownStreamObjects()
+        {
+            base.ExpireDownStreamObjects();
         }
 
         /// <summary>

@@ -27,6 +27,8 @@ X getter and setter methods should be generalized to entity rather than type
 X write all warning messages
 - implement simulation distribution - environment settings?
 X Environment Resolution should not be below 1
+- create an environment primitive type so that environments can be internalized
+- add a better mechanism for building agents that does not use the environment, so that multiple types can be tested
 
 Node
 X points not on mesh

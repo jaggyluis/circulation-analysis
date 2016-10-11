@@ -670,13 +670,14 @@ namespace CirculationToolkit.Environment
         /// <summary>
         /// Runs the Environment
         /// </summary>
-        public void RunEnvironment()
+        public bool RunEnvironment(Func<bool> iterFunc)
         {
             bool isComplete = false;
 
             while (!isComplete)
             {
                 isComplete = Step();
+                Generations++;
 
                 if (Generations >= 100000)
                 {
@@ -685,10 +686,12 @@ namespace CirculationToolkit.Environment
                     /// as a precauction. This should maybe be set.
                     ///
                     throw new MaxStepReachedException("Maximum step count reached - " + Generations);
-                }
+                }                        
 
-                Generations++;
+                iterFunc();
             }
+
+            return isComplete;
 
         }
         #endregion

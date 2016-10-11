@@ -67,7 +67,7 @@ namespace CirculationToolkit.Components
             {
                 if (run)
                 {
-                    env.RunEnvironment();
+                    //env.RunEnvironment();
                 }
 
                 DA.SetData(0, env);
