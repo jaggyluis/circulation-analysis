@@ -49,7 +49,7 @@ namespace CirculationToolkit.Components
         {
             get
             {
-                return GH_Exposure.hidden;
+                return GH_Exposure.secondary;
             }
         }
 

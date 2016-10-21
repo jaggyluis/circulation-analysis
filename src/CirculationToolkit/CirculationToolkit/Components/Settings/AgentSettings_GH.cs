@@ -25,8 +25,9 @@ namespace CirculationToolkit.Components.Settings
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("Path Nodes", "N", "The name of the Nodes to move to", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Node Propensities", "P", "The likelyhood of an Agent to visit this node (0 to 1)", GH_ParamAccess.list);
+            pManager.AddTextParameter("Visit Nodes", "N", "The name of the Nodes to visit", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Visit Node Propensities", "P", "The likelyhood of an Agent to visit each node (0 to 1)", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Visit Node Count", "V", "The number of times the Agent should visit each node", GH_ParamAccess.list);
             pManager.AddNumberParameter("Queuing Propensity", "Q", "The likelyhood of an Agent to choose a node with many Agents at it (0 to 1)", GH_ParamAccess.item);
             pManager.AddIntervalParameter("Distribution Interval", "I", "The Agent Entity spawning distribution", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Agent Count", "C", "The number of Agents to generate. The default is 1", GH_ParamAccess.item);
@@ -36,6 +37,7 @@ namespace CirculationToolkit.Components.Settings
             pManager[2].Optional = true;
             pManager[3].Optional = true;
             pManager[4].Optional = true;
+            pManager[5].Optional = true;
         }
 
         /// <summary>
@@ -53,25 +55,30 @@ namespace CirculationToolkit.Components.Settings
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             List<string> nodes = new List<string>();
-            List<double> values = new List<double>();
+            List<double> propensityValues = new List<double>();
+            List<int> visitValues = new List<int>();
             double queuing = 0;
             Interval ival = new Interval(0,1);
             int count = 1;
 
             if (!DA.GetDataList(0, nodes)) { }
-            if (!DA.GetDataList(1, values)) { values.Add(1); }
-            if (!DA.GetData(2, ref queuing)) { }
-            if (!DA.GetData(3, ref ival)) {  }
-            if (!DA.GetData(4, ref count)) {  }
+            if (!DA.GetDataList(1, propensityValues)) { propensityValues.Add(1); }
+            if (!DA.GetDataList(2, visitValues)) { visitValues.Add(1); }
+            if (!DA.GetData(3, ref queuing)) { }
+            if (!DA.GetData(4, ref ival)) {  }
+            if (!DA.GetData(5, ref count)) {  }
 
             nodes.Reverse();
-            values.Reverse();
+            propensityValues.Reverse();
+            visitValues.Reverse();
 
             Stack<string> nodeStack = new Stack<string>(nodes);
-            Stack<double> valueStack = new Stack<double>(values);
+            Stack<double> propensityValueStack = new Stack<double>(propensityValues);
+            Stack<int> visitValueStack = new Stack<int>(visitValues);
 
             Tuple<int, int> distribution = new Tuple<int, int>((int)ival.T0, (int)ival.T1);
             Dictionary<string, double> propensities = new Dictionary<string, double>();
+            Dictionary<string, int> visits = new Dictionary<string, int>();
             Dictionary<string, string> attributes = new Dictionary<string, string>(); // this could be added to later
 
             propensities.Add("queuing", queuing);
@@ -79,21 +86,32 @@ namespace CirculationToolkit.Components.Settings
             while (nodeStack.Count > 0)
             {
                 string node = nodeStack.Pop();
-                double value;
+                double propensity;
+                int visit;
 
-                if (valueStack.Count > 1)
+                if (propensityValueStack.Count > 1)
                 {
-                    value = valueStack.Pop();
+                    propensity = propensityValueStack.Pop();
                 }
                 else
                 {
-                    value = valueStack.Peek();
+                    propensity = propensityValueStack.Peek();
                 }
 
-                propensities[node] = value;    
+                if (visitValueStack.Count > 1)
+                {
+                    visit = visitValueStack.Pop();
+                }
+                else
+                {
+                    visit = visitValueStack.Peek();
+                }
+
+                propensities[node] = propensity;
+                visits[node] = visit; 
             }
 
-            AgentProfile profile = new AgentProfile(null, attributes, propensities, distribution, count);         
+            AgentProfile profile = new AgentProfile(null, attributes, propensities, visits, distribution, count);         
 
             DA.SetData(0, profile);
         }

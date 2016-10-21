@@ -12,6 +12,7 @@ namespace CirculationToolkit.Profiles
     public class AgentProfile : Profile
     {
         private Dictionary<string, double> _propensities;
+        private Dictionary<string, int> _visits;
         private Tuple<int, int> _distribution;
         private int _count;
 
@@ -20,10 +21,11 @@ namespace CirculationToolkit.Profiles
         /// AgentProfile Constructors for Agent Entities that 
         /// extend the Profile class with Agent methods
         /// </summary>
-        public AgentProfile(string name, Dictionary<string, string> attributes, Dictionary<string, double> propensities, Tuple<int, int> distribution, int count)
+        public AgentProfile(string name, Dictionary<string, string> attributes, Dictionary<string, double> propensities, Dictionary<string, int> visits, Tuple<int, int> distribution, int count)
             : base("agent", name, attributes)
         {
             _propensities = propensities;
+            _visits = visits;
             _distribution = distribution;
             _count = count;
         }
@@ -34,7 +36,7 @@ namespace CirculationToolkit.Profiles
         /// </summary>
         /// <param name="name"></param>
         public AgentProfile(string name)
-            : this(name, new Dictionary<string, string>(),  new Dictionary<string, double>(), new Tuple<int, int>(0, 1), 1)
+            : this(name, new Dictionary<string, string>(),  new Dictionary<string, double>(), new Dictionary<string, int>(), new Tuple<int, int>(0, 1), 1)
         {
         }
         #endregion
@@ -81,6 +83,22 @@ namespace CirculationToolkit.Profiles
                 return _distribution;
             }
         }
+
+        /// <summary>
+        /// Returns the number of visits per node in this Agent's journey
+        /// </summary>
+        public Dictionary<string, int> Visits
+        {
+            get
+            {
+                return _visits;
+            }
+
+            set
+            {
+                _visits = value;
+            }
+        }
         #endregion
 
         #region utility methods
@@ -107,6 +125,31 @@ namespace CirculationToolkit.Profiles
         public void AddPropensity(string type, double value)
         {
             Propensities[type] = value;
+        }
+
+        /// <summary>
+        /// Return the number of visits an agent should make to a specific Node
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public int GetVisit(string type)
+        {
+            if (Visits.ContainsKey(type))
+            {
+                return Visits[type];
+            }
+
+            return 0;
+        }
+
+        /// <summary>
+        /// Add a number of visits to a Node that this Agent should make
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="num"></param>
+        public void AddVisit(string type, int num)
+        {
+            Visits[type] = num;
         }
         #endregion
 

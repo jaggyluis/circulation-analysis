@@ -21,6 +21,7 @@ Agent Settings:
 X make sure it outputs non null even with just count input
 X Count should be called AgentCount
 X All profile / settings objects should have toString methods
+- add node visit counts
 
 Environment
 X getter and setter methods should be generalized to entity rather than type

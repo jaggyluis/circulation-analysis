@@ -338,9 +338,17 @@ namespace CirculationToolkit.Entities
         /// <returns></returns>
         public double GetPropensity(string type)
         {
-            AgentProfile profile = (AgentProfile)Profile;
+            return ((AgentProfile)Profile).GetPropensity(type);
+        }
 
-            return profile.GetPropensity(type);
+        /// <summary>
+        /// Returns the number of visits the agent should make to a Node
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public int GetVisits(string type)
+        {
+            return ((AgentProfile)Profile).GetVisit(type);
         }
 
         /// <summary>
@@ -448,25 +456,53 @@ namespace CirculationToolkit.Entities
 
             int positionIndex = (int)Floor.GetPointGridIndex(position.Position);
             List<string> visitedTypes = Visited.Select(node => node.Name).ToList();
+            List<string> remainingTypes = new List<string>();
 
             for (int i=goalNodes.Count-1; i>=0; i--)
-            {              
-                if (visitedTypes.Contains(goalNodes[i].Name))
+            {
+
+                int visits = GetVisits(goalNodes[i].Name);
+                int count = 0;
+
+                for (int j=0; j<visitedTypes.Count; j++)
+                {
+                    if (visitedTypes[j] == goalNodes[i].Name)
+                    {
+                        count++;
+                    }
+                }
+                     
+                if (count >= visits)
                 {
                     goalNodes.RemoveAt(i);
+                }
+                else
+                {
+                    if (!remainingTypes.Contains(goalNodes[i].Name))
+                    {
+                        remainingTypes.Add(goalNodes[i].Name);
+                    }             
                 }
             }
 
             if (goalNodes.Count > 0)
             {
                 Random random = new Random();
+
+                for (int i = remainingTypes.Count - 1; i >=0; i--)
+                {
+                    double rand = random.NextDouble();
+                    double prop = GetPropensity(remainingTypes[i]);
+
+                    if (rand > prop)
+                    {
+                        remainingTypes.RemoveAt(i);
+                    }
+                }
                 
                 for (int i = goalNodes.Count - 1; i >= 0; i--)
                 {
-                    double rand = random.NextDouble();
-                    double prop = GetPropensity(goalNodes[i].Name);
-
-                    if (rand > prop)
+                    if (!remainingTypes.Contains(goalNodes[i].Name))
                     {
                         goalNodes.RemoveAt(i);
                     }
